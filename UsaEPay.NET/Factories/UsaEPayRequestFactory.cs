@@ -289,6 +289,84 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        public static UsaEPayRequest CreditVoidRequest(string tranKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "creditvoid",
+                TransactionKey = tranKey
+            };
+        }
 
+        public static UsaEPayRequest PostPaymentRequest(decimal amount, string authCode, string cardHolder, string cardNumber, string expiration, int cvc)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "cc:postauth",
+                Amount = amount,
+                CreditCard = new CreditCard
+                {
+                    Number = cardNumber,
+                    Expiration = expiration,
+                    Cvc = cvc,
+                    CardHolder = cardHolder
+                }
+            };
+        }
+
+        public static UsaEPayRequest VoidPaymentRequest (string transactionKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "void",
+                TransactionKey = transactionKey
+            };
+        }
+
+        public static UsaEPayRequest ReleaseFundsRequest (string transactionKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "cc:void:release",
+                TransactionKey = transactionKey
+            };
+        }
+
+        public static UsaEPayRequest UnvoidRequest(string transactionKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "unvoid",
+                TransactionKey = transactionKey
+            };
+        }
+
+        public static UsaEPayRequest TokenizeCardRequest(string cardHolder, string creditCardNumber, string expiration, int cvc)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "cc:save",
+
+                CreditCard = new CreditCard
+                {
+                    Number = creditCardNumber,
+                    Cvc = cvc,
+                    Expiration = expiration,
+                    CardHolder = cardHolder
+                },
+            };
+        }
     }
 }

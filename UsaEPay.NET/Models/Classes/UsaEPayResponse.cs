@@ -50,6 +50,11 @@ namespace UsaEPay.NET.Models.Classes
         [JsonProperty("creditcard")]
         public CreditCard CreditCard { get; set; }
         /// <summary>
+        /// Object containing saved/tokenized credit card information
+        /// </summary>
+        [JsonProperty("savedcard")]
+        public SavedCard SavedCard { get; set; }
+        /// <summary>
         /// Custom Invoice Number to easily retrieve sale details.
         /// </summary>
         [JsonProperty("invoice")]
@@ -115,6 +120,25 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("entry_mode")]
         public string EntryMode { get; set; }
+    }
+
+    public partial class SavedCard
+    {
+        /// <summary>
+        /// The brand of the card (visa, mastercard, amex)
+        /// </summary>
+        [JsonProperty("string")]
+        public string Type { get; set; }
+        /// <summary>
+        /// Unique key for the card. This is the token.
+        /// </summary>
+        [JsonProperty("key")]
+        public string Key { get; set; }
+        /// <summary>
+        /// Masked credit card data.
+        /// </summary>
+        [JsonProperty("number")]
+        public string Number { get; set; }
     }
 
     public class AVS

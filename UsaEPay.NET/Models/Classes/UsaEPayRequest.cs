@@ -26,6 +26,11 @@ namespace UsaEPay.NET.Models.Classes
         [JsonProperty("trankey", NullValueHandling = NullValueHandling.Ignore)]
         public string TransactionKey { get; set; }
         /// <summary>
+        /// Authorization code received from processor for posting a payment
+        /// </summary>
+        [JsonProperty("authcode", NullValueHandling = NullValueHandling.Ignore)]
+        public string AuthCode { get; set; }
+        /// <summary>
         /// Custom Invoice Number to easily retrieve sale details.
         /// </summary>
         [JsonProperty("invoice", NullValueHandling = NullValueHandling.Ignore)] 
