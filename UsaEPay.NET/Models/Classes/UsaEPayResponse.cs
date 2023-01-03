@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace UsaEPay.NET.Models.Classes
 {
@@ -74,6 +75,16 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("batch")]
         public Batch Batch { get; set; }
+        /// <summary>
+        /// Credit card bin detail. This will only be included if the return_bin flag is passed through.
+        /// </summary>
+        [JsonProperty("bin")]
+        public Bin Bin { get; set; }
+        /// <summary>
+        /// Credit card fraud detail. This will only be included if the return_fraud flag is passed through.
+        /// </summary>
+        [JsonProperty("fraud")]
+        public Fraud Fraud { get; set; }
         /// <summary>
         /// Amount authorized
         /// </summary>
@@ -192,6 +203,83 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("sequence")]
         public string Sequence { get; set; }
+    }
+
+    public class Bin
+    {
+        /// <summary>
+        /// Six digit credit card bin.
+        /// </summary>
+        [JsonProperty("bin")]
+        public string CardBin { get; set; }
+        /// <summary>
+        /// Masked credit card number.
+        /// </summary>
+        [JsonProperty("number")]
+        public string Number { get; set; }
+        /// <summary>
+        /// Card brand type (Visa, MasterCard, Discover, etc.)
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        /// <summary>
+        /// Card Issuer
+        /// </summary>
+        [JsonProperty("issuer")]
+        public string Issuer { get; set; }
+        /// <summary>
+        /// Card issuing bank.
+        /// </summary>
+        [JsonProperty("bank")]
+        public string Bank { get; set; }
+        /// <summary>
+        /// Country abbreviation of issuing bank.
+        /// </summary>
+        [JsonProperty("country")]
+        public string Country { get; set; }
+        /// <summary>
+        /// Country name of issuing bank.
+        /// </summary>
+        [JsonProperty("country_name")]
+        public string CountryName { get; set; }
+        /// <summary>
+        /// Country code of issuing bank.
+        /// </summary>
+        [JsonProperty("country_iso")]
+        public string CountryISO { get; set; }
+        /// <summary>
+        /// Bank location information
+        /// </summary>
+        [JsonProperty("location")]
+        public string Location { get; set; }
+        /// <summary>
+        /// Bank contact information
+        /// </summary>
+        [JsonProperty("phone")]
+        public string Phone { get; set; }
+        /// <summary>
+        /// Category level code returned from card brand.
+        /// </summary>
+        /// <see href="https://help.usaepay.info/developer/reference/cardlevelcodes/"/>
+        [JsonProperty("category")]
+        public string Category { get; set; }
+        /// <summary>
+        /// Bin info source.
+        /// </summary>
+        [JsonProperty("data_source")]
+        public string DataSource { get; set; }
+}
+
+    public class Fraud
+    {
+        /// <summary>
+        /// Denotes if a card is blocked and how it has been blocked. Possible options are:
+        /// <para>none: Card has not been blocked.</para>
+        /// <para>merchant: Card has been blocked on merchant level.</para>
+        /// <para>global: Card has been added to global block list.</para>
+        /// </summary>
+        [JsonProperty("card_blocked")]
+        public string CardBlocked { get; set; }
     }
 
     public class Receipts

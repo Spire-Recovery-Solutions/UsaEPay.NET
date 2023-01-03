@@ -229,7 +229,7 @@ namespace UsaEPay.NET.Factories
                 }
             };
         }
-        public static UsaEPayRequest CreditCardRefundRequest(decimal amount, string cardHolder, int cvc, string expiration, string cardNumber)
+        public static UsaEPayRequest CreditCardRefundRequest(decimal amount, string cardHolder, string cardNumber, string expiration, int cvc)
         {
             return new UsaEPayRequest
             {
@@ -247,7 +247,7 @@ namespace UsaEPay.NET.Factories
             };
         }
 
-        public static UsaEPayRequest CheckRefundRequest(decimal amount, string accountHolder, string accountNumber, string routingNumber, string checkNumber, string accountType)
+        public static UsaEPayRequest CheckRefundRequest(decimal amount, string accountHolder, string accountNumber, string routingNumber, string accountType, string checkNumber)
         {
             return new UsaEPayRequest
             {
@@ -366,6 +366,22 @@ namespace UsaEPay.NET.Factories
                     Expiration = expiration,
                     CardHolder = cardHolder
                 },
+            };
+        }
+
+        public static UsaEPayGetRequest RetrieveTransactionDetailsRequest(string transactionId)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"transactions/{transactionId}"
+            };
+        }
+
+        public static UsaEPayGetRequest RetrieveTokenDetailsRequest(string tokenId)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"tokens/{tokenId}"
             };
         }
     }
