@@ -15,7 +15,10 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-
+        
+    - name: Navigate to Project Directory
+      run: cd UsaEPay.NET
+      
     - name: Build and Test
       run: |
         dotnet restore
