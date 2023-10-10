@@ -11,7 +11,7 @@ namespace UsaEPay.NET.Tests
         public void Setup()
         {
             // TODO: Read these settings in from local configs
-            _client = new UsaEPayClient("v2", "_V87Qtb513Cd3vabM7RC0TbtJWeSo8p7", "123456", "abcdefghijklmnop", true);
+            _client = new UsaEPayClient("", "", "", "", true);
         }
 
         [Test]
