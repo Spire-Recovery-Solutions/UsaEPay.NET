@@ -1,0 +1,29 @@
+name: Publish to NuGet
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Build and Test
+      run: |
+        dotnet restore
+        dotnet build --configuration Release --no-restore
+        dotnet test --no-restore --verbosity normal
+
+    - name: Pack
+      run: dotnet pack --configuration Release --no-restore --output nupkg
+
+    - name: Push to NuGet
+      run: dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
