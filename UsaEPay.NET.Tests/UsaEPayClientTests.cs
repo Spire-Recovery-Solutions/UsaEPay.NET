@@ -141,6 +141,17 @@ namespace UsaEPay.NET.Tests
 
         [Test]
         [TestCase("")]
+        public async Task TestCapture(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.CaptureRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
         public async Task TestReleaseFunds(string transactionKey)
         {
             var request = UsaEPayRequestFactory.ReleaseFundsRequest(transactionKey);
