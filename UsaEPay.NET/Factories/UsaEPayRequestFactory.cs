@@ -300,6 +300,17 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        public static UsaEPayRequest CaptureErrorRequest(string tranKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "cc:capture:error",
+                TransactionKey = tranKey
+            };
+        }
+
         public static UsaEPayRequest CreditVoidRequest(string tranKey)
         {
             return new UsaEPayRequest

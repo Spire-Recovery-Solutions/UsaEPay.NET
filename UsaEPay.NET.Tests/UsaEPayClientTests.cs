@@ -11,7 +11,7 @@ namespace UsaEPay.NET.Tests
         public void Setup()
         {
             // TODO: Read these settings in from local configs
-            _client = new UsaEPayClient("", "", "", "", true);
+            _client = new UsaEPayClient("v2", "_V87Qtb513Cd3vabM7RC0TbtJWeSo8p7", "123456", "abcdefghijklmnop", true);
         }
 
         [Test]
@@ -142,6 +142,17 @@ namespace UsaEPay.NET.Tests
         [Test]
         [TestCase("")]
         public async Task TestCapture(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.CaptureErrorRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestCaptureError(string transactionKey)
         {
             var request = UsaEPayRequestFactory.CaptureRequest(transactionKey);
 
