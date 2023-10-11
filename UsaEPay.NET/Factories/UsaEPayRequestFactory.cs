@@ -289,7 +289,7 @@ namespace UsaEPay.NET.Factories
             };
         }
 
-        public static UsaEPayRequest CaptureRequest(string tranKey)
+        public static UsaEPayRequest CapturePaymentRequest(string tranKey)
         {
             return new UsaEPayRequest
             {
@@ -300,7 +300,29 @@ namespace UsaEPay.NET.Factories
             };
         }
 
-        public static UsaEPayRequest CaptureErrorRequest(string tranKey)
+        public static UsaEPayRequest CapturePaymentReauthRequest(string tranKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "cc:capture:reauth",
+                TransactionKey = tranKey
+            };
+        }
+
+        public static UsaEPayRequest CapturePaymentOverrideRequest(string tranKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "cc:capture:override",
+                TransactionKey = tranKey
+            };
+        }
+
+        public static UsaEPayRequest CapturePaymentErrorRequest(string tranKey)
         {
             return new UsaEPayRequest
             {

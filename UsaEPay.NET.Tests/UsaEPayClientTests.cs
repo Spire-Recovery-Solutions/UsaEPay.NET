@@ -11,7 +11,7 @@ namespace UsaEPay.NET.Tests
         public void Setup()
         {
             // TODO: Read these settings in from local configs
-            _client = new UsaEPayClient("", "", "", "", true);
+            _client = new UsaEPayClient("v2", "_V87Qtb513Cd3vabM7RC0TbtJWeSo8p7", "123456", "abcdefghijklmnop", true);
         }
 
         [Test]
@@ -141,9 +141,9 @@ namespace UsaEPay.NET.Tests
 
         [Test]
         [TestCase("")]
-        public async Task TestCapture(string transactionKey)
+        public async Task TestCapturePayment(string transactionKey)
         {
-            var request = UsaEPayRequestFactory.CaptureErrorRequest(transactionKey);
+            var request = UsaEPayRequestFactory.CapturePaymentRequest(transactionKey);
 
             var response = await _client.SendRequest(request);
 
@@ -152,9 +152,31 @@ namespace UsaEPay.NET.Tests
 
         [Test]
         [TestCase("")]
-        public async Task TestCaptureError(string transactionKey)
+        public async Task TestCapturePaymentError(string transactionKey)
         {
-            var request = UsaEPayRequestFactory.CaptureRequest(transactionKey);
+            var request = UsaEPayRequestFactory.CapturePaymentErrorRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestCapturePaymentReauth(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.CapturePaymentReauthRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestCapturePaymentOverride(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.CapturePaymentOverrideRequest(transactionKey);
 
             var response = await _client.SendRequest(request);
 
