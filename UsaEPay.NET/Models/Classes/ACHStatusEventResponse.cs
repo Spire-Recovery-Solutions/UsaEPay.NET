@@ -1,35 +1,11 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
+using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Classes
 {
-    public class ACHStatusEventResponse : IUsaEPayResponse
+    public class ACHStatusEventResponse : BaseEventResponse
     {
-        /// <summary>
-        /// Object type. This will always be transaction.
-        /// </summary>
-        public string Type { get; set; }
-
-        /// <summary>
-        /// The timestamp indicating when the event was triggered.
-        /// </summary>
-        public DateTime EventTriggered { get; set; }
-
-        /// <summary>
-        /// Describes the type of the event, e.g., "ach.voided."
-        /// </summary>
-        public string EventType { get; set; }
-
-        /// <summary>
-        /// The body of the ACH event. Contains detailed information about the event,
-        /// such as merchant details, transaction object, and changes in values.
-        /// </summary>
-        public EventBody? EventBody { get; set; }
-
-        /// <summary>
-        /// Unique identifier for the event.
-        /// </summary>
-        public string EventId { get; set; }
 
         /// <summary>
         /// Merchant information which triggered the event.
@@ -112,6 +88,7 @@ namespace UsaEPay.NET.Models.Classes
             /// Gets or sets the date when the transaction was settled (if applicable).
             /// </summary>
             [JsonProperty("settled", NullValueHandling = NullValueHandling.Ignore)]
+            [JsonConverter(typeof(ParseStringToDateTimeConvertor))]
             public DateTime? Settled { get; set; }
         }
 
@@ -130,6 +107,7 @@ namespace UsaEPay.NET.Models.Classes
             /// Gets or sets the date when the transaction was settled (if applicable).
             /// </summary>
             [JsonProperty("settled", NullValueHandling = NullValueHandling.Ignore)]
+            [JsonConverter(typeof(ParseStringToDateTimeConvertor))]
             public DateTime? Settled { get; set; }
         }
 
