@@ -226,6 +226,28 @@ namespace UsaEPay.NET.Tests
         }
 
         [Test]
+        [TestCase("")]
+        public async Task TestAdjustPayment(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.AdjustPaymentRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestAdjustPaymentRefund(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(transactionKey, 10);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
         public async Task TestTokenizeCard()
         {
             var request = UsaEPayRequestFactory.TokenizeCardRequest("John Doe", "4000100011112224", "0924", 123);

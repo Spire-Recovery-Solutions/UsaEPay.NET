@@ -395,6 +395,29 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        public static UsaEPayRequest AdjustPaymentRequest(string tranKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "cc:adjust",
+                TransactionKey = tranKey
+            };
+        }
+
+        public static UsaEPayRequest AdjustPaymentRefundRequest(string transKey, decimal amount)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "transactions",
+                RequestType = RestSharp.Method.Post,
+                Command = "cc:refund:adjust",
+                TransactionKey = transKey,
+                Amount = amount
+            };
+        }
+
         public static UsaEPayRequest TokenizeCardRequest(string cardHolder, string creditCardNumber, string expiration, int cvc)
         {
             return new UsaEPayRequest
