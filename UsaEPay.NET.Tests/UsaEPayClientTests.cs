@@ -1,5 +1,4 @@
 using UsaEPay.NET.Factories;
-using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET.Tests
 {
@@ -133,6 +132,50 @@ namespace UsaEPay.NET.Tests
         public async Task TestVoidPayment(string transactionKey)
         {
             var request = UsaEPayRequestFactory.VoidPaymentRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestCapturePayment(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.CapturePaymentRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestCapturePaymentError(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.CapturePaymentErrorRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestCapturePaymentReauth(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.CapturePaymentReauthRequest(transactionKey);
+
+            var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestCapturePaymentOverride(string transactionKey)
+        {
+            var request = UsaEPayRequestFactory.CapturePaymentOverrideRequest(transactionKey);
 
             var response = await _client.SendRequest(request);
 
