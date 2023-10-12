@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
+    <UserSecretsId>4cc5d884-60c2-4ffd-ac59-49bf3f54b1ca</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

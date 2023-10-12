@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using UsaEPay.NET.Factories;
 
 namespace UsaEPay.NET.Tests
@@ -5,12 +6,26 @@ namespace UsaEPay.NET.Tests
     public class UsaEPayClientTests
     {
         private UsaEPayClient _client;
+        private IConfiguration _config;
+        string apiUrl = string.Empty;
+        string apiKey = string.Empty;
+        string apiPin = string.Empty;
+        string randomSeed = string.Empty;
 
         [SetUp]
         public void Setup()
         {
-            // TODO: Read these settings in from local configs
-            _client = new UsaEPayClient("", "", "", "", true);
+            _config = new ConfigurationBuilder()
+                          .AddEnvironmentVariables()
+                          .AddUserSecrets<UsaEPayClientTests>()
+                          .Build();
+
+            apiUrl = _config["ApiUrl"];
+            apiKey = _config["ApiKey"];
+            apiPin = _config["ApiPin"];
+            randomSeed = _config["RandomSeed"];
+
+            _client = new UsaEPayClient(apiUrl, apiKey, apiPin, randomSeed, true);  
         }
 
         [Test]
