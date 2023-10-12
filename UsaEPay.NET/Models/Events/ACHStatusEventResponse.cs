@@ -1,87 +1,59 @@
 ﻿using Newtonsoft.Json;
 using UsaEPay.NET.Converter;
 
-namespace UsaEPay.NET.Models.Classes
+namespace UsaEPay.NET.Models.Events
 {
-    public partial class ACHStatusEvenResponse
+    public partial class ACHStatusEvenResponse : BaseEventResponse
     {
-        /// <summary>
-        /// Object type. This will always be transaction.
-        /// </summary>
-        [JsonProperty("type")]
-        public string Type { get; set; }
-
-        /// <summary>
-        /// The timestamp indicating when the event was triggered.
-        /// </summary>
-        [JsonProperty("event_triggered")]
-        public DateTimeOffset EventTriggered { get; set; }
-
-        /// <summary>
-        /// Describes the type of the event, e.g., "ach.voided."
-        /// </summary>
-        [JsonProperty("event_type")]
-        public string EventType { get; set; }
 
         /// <summary>
         /// The body of the ACH event. Contains detailed information about the event,
         /// such as merchant details, transaction object, and changes in values.
         /// </summary>
         [JsonProperty("event_body")]
-        public EventBody EventBody { get; set; }
-
-        /// <summary>
-        /// Unique identifier for the event.
-        /// </summary>
-        [JsonProperty("event_id")]
-        public string EventId { get; set; }
+        public ACHEventBody EventBody { get; set; }
     }
 
     /// <summary>
     /// Represents the body of an ACH event.
     /// </summary>
-    public partial class EventBody
+    public partial class ACHEventBody : BaseEventBody
     {
-        /// <summary>
-        /// Gets or sets the merchant information triggering the event.
-        /// </summary>
-        [JsonProperty("merchant")]
-        public Merchant Merchant { get; set; }
 
         /// <summary>
         /// Gets or sets the transaction object related to the event.
         /// </summary>
         [JsonProperty("object")]
-        public Object Object { get; set; }
+        public ACHObject Object { get; set; }
 
         /// <summary>
         /// Gets or sets the changes in values during the update.
         /// </summary>
         [JsonProperty("changes")]
-        public Changes Changes { get; set; }
+        public ACHChanges Changes { get; set; }
     }
 
     /// <summary>
     /// Logs what fields changed during the update and displays the old and new values.
     /// </summary>
-    public partial class Changes
+    public partial class ACHChanges
     {
         /// <summary>
         /// Gets or sets the old values before the update.
         /// </summary>
         [JsonProperty("old")]
-        public ChangeDetails Old { get; set; }
+        public ACHChangeDetails Old { get; set; }
 
         /// <summary>
         /// Gets or sets the new values after the update.
         /// </summary>
         [JsonProperty("new")]
-        public ChangeDetails New { get; set; }
+        public ACHChangeDetails New { get; set; }
     }
     /// <summary>
     ///  Object containing old/new field values before ACH status was updated
     /// </summary>
-    public partial class ChangeDetails
+    public partial class ACHChangeDetails
     {
         /// <summary>
         /// Gets or sets the status before/after the update.
@@ -97,21 +69,9 @@ namespace UsaEPay.NET.Models.Classes
     }
 
     /// <summary>
-    /// Merchant information which triggered the event.
-    /// </summary>
-    public partial class Merchant
-    {
-        /// <summary>
-        /// Unique identifier for the merchant which triggered the event.
-        /// </summary>
-        [JsonProperty("merch_key")]
-        public string MerchKey { get; set; }
-    }
-
-    /// <summary>
     /// Transaction object related to the event.
     /// </summary>
-    public partial class Object
+    public partial class ACHObject
     {
         /// <summary>
         /// This object type will always be transaction.
@@ -142,7 +102,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Object which holds all check information
         /// </summary>
         [JsonProperty("check")]
-        public Check Check { get; set; }
+        public ACHCheck Check { get; set; }
 
         /// <summary>
         /// transaction URI.
@@ -154,7 +114,7 @@ namespace UsaEPay.NET.Models.Classes
     /// <summary>
     /// Represents check information associated with the ACH event.
     /// </summary>
-    public partial class Check
+    public partial class ACHCheck
     {
         /// <summary>
         /// Gets or sets the tracking code for the check.
