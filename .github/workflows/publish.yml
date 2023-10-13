@@ -16,11 +16,19 @@ jobs:
       with:
         dotnet-version: 6.0.x
         
-    - name: Build and Test
+    - name: Build
       run: |
         cd UsaEPay.NET
         dotnet restore
         dotnet build --configuration Release --no-restore
+
+    - name: Test
+      run: |
+        cd UsaEPay.NET.Tests
+        dotnet test
+      env:
+        API_KEY: ${{ secrets.API_KEY }}
+        API_PIN: ${{ secrets.API_PIN }}
 
     - name: Pack
       run: |
