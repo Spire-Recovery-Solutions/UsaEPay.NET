@@ -458,5 +458,12 @@ namespace UsaEPay.NET.Factories
                 Endpoint = $"batches"
             };
         }
+        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(long openedge, long openedlt)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches?openedge={openedge}&openedlt={openedlt}"
+            };
+        }
     }
 }

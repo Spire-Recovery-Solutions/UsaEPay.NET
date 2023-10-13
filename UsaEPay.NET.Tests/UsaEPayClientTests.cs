@@ -281,5 +281,16 @@ namespace UsaEPay.NET.Tests
 
             Assert.That(response, Is.Not.Null);
         }
+
+        [Test]
+        [TestCase(20171003, 20171004)]
+        public async Task TestBatchListByDate(long openedge, long openedlt)
+        {
+            var request = UsaEPayRequestFactory.RetrieveBatchListByDateRequest(openedge, openedlt);
+
+            var response = await _client.SendRequest<UsaEPayBatchListResponse>(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
     }
 }
