@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using UsaEPay.NET.Factories;
+using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET.Tests
 {
@@ -25,7 +26,7 @@ namespace UsaEPay.NET.Tests
             apiPin = _config["ApiPin"];
             randomSeed = _config["RandomSeed"];
 
-            _client = new UsaEPayClient(apiUrl, apiKey, apiPin, randomSeed, true);  
+            _client = new UsaEPayClient(apiUrl, apiKey, apiPin, randomSeed, true);
         }
 
         [Test]
@@ -268,6 +269,15 @@ namespace UsaEPay.NET.Tests
             var request = UsaEPayRequestFactory.TokenizeCardRequest("John Doe", "4000100011112224", "0924", 123);
 
             var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+        [Test]
+        public async Task TestBatchList()
+        {
+            var request = UsaEPayRequestFactory.RetrieveBatchListRequest();
+
+            var response = await _client.SendRequest<UsaEPayBatchListResponse>(request);
 
             Assert.That(response, Is.Not.Null);
         }
