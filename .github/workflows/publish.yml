@@ -29,6 +29,8 @@ jobs:
       env:
         API_KEY: ${{ secrets.API_KEY }}
         API_PIN: ${{ secrets.API_PIN }}
+        API_URL: ${{ secrets.API_URL }}
+        RANDOM_SEED: ${{ secrets.RANDOM_SEED }}
 
     - name: Pack
       run: |
