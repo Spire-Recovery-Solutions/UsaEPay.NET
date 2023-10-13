@@ -451,5 +451,21 @@ namespace UsaEPay.NET.Factories
                 Endpoint = $"tokens/{tokenId}"
             };
         }
+
+        public static UsaEPayGetRequest RetrieveSpecificBatchRequest(string batchKey)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches/{batchKey}"
+            };
+        }
+
+        public static UsaEPayGetRequest RetrieveCurrentBatchRequest()
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches/current"
+            };
+        }
     }
 }

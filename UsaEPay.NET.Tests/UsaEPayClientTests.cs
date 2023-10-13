@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using UsaEPay.NET.Factories;
+using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET.Tests
 {
@@ -268,6 +269,27 @@ namespace UsaEPay.NET.Tests
             var request = UsaEPayRequestFactory.TokenizeCardRequest("John Doe", "4000100011112224", "0924", 123);
 
             var response = await _client.SendRequest(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        [TestCase("")]
+        public async Task TestRetrieveSpecificBatch(string batchKey)
+        {
+            var request = UsaEPayRequestFactory.RetrieveSpecificBatchRequest(batchKey);
+
+            var response = await _client.SendRequest<Batch>(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
+
+        [Test]
+        public async Task TestRetrieveCurrentBatch()
+        {
+            var request = UsaEPayRequestFactory.RetrieveCurrentBatchRequest();
+
+            var response = await _client.SendRequest<Batch>(request);
 
             Assert.That(response, Is.Not.Null);
         }
