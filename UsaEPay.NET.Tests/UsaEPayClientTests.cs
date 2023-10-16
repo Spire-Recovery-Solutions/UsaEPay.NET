@@ -15,6 +15,7 @@ namespace UsaEPay.NET.Tests
         private string _token = string.Empty;
         private string _tranKey = string.Empty;
         private string _tranCheckKey = string.Empty;
+        private string _batchKey = string.Empty;
 
         [SetUp]
         public void Setup()
@@ -292,8 +293,13 @@ namespace UsaEPay.NET.Tests
             var request = UsaEPayRequestFactory.RetrieveBatchListRequest();
 
             var response = await _client.SendRequest<UsaEPayBatchListResponse>(request);
+            if(response.Data != null)
+            {
+                var batchItem = response.Data.First();
+                _batchKey = batchItem.Key;
+            }
 
-            Assert.That(response, Is.Not.Null);
+            Assert.That(response.Data, Is.Not.Null);
         }
 
         [Test]
@@ -309,24 +315,25 @@ namespace UsaEPay.NET.Tests
         }
 
         [Test]
-        [TestCase("")]
-        public async Task TestRetrieveSpecificBatch(string batchKey)
+        [Order(27)]
+        public async Task TestRetrieveSpecificBatch()
         {
-            var request = UsaEPayRequestFactory.RetrieveSpecificBatchRequest(batchKey);
+            var request = UsaEPayRequestFactory.RetrieveSpecificBatchRequest(_batchKey);
 
             var response = await _client.SendRequest<Batch>(request);
 
-            Assert.That(response, Is.Not.Null);
+            Assert.That(response.Status, Is.EqualTo("open"));
         }
 
         [Test]
+        [Order(28)]
         public async Task TestRetrieveCurrentBatch()
         {
             var request = UsaEPayRequestFactory.RetrieveCurrentBatchRequest();
 
             var response = await _client.SendRequest<Batch>(request);
 
-            Assert.That(response, Is.Not.Null);
+            Assert.That(response.Status, Is.EqualTo("open"));
         }
     }
 }
