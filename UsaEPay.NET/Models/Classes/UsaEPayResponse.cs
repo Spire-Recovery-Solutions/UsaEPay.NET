@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Classes
 {
@@ -336,7 +337,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("data_source")]
         public string DataSource { get; set; }
-}
+    }
 
     public class Fraud
     {
@@ -362,5 +363,35 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("merchant")]
         public string Merchant { get; set; }
+    }
+    public partial class UsaEPayBatchListResponse : IUsaEPayResponse
+    {
+        /// <summary>
+        /// Object type. This will always be transaction.
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        /// <summary>
+        /// The maximum amount of batches that will be included.
+        /// </summary>
+        [JsonProperty("limit")]
+        public long Limit { get; set; }
+        /// <summary>
+        /// The number of batches skipped from the results.
+        /// </summary>
+        [JsonProperty("offset")]
+        public long Offset { get; set; }
+        /// <summary>
+        /// An array of batches matching the search.
+        /// </summary>
+        [JsonProperty("data")]
+        public Batch[] Data { get; set; }
+        /// <summary>
+        /// The total amount of batches, including filtering results.
+        /// </summary>
+        [JsonProperty("total")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long Total { get; set; }
+        
     }
 }
