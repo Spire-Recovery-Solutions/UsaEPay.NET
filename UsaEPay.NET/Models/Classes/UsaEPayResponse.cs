@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Classes
@@ -21,6 +20,11 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("refnum")]
         public string ReferenceNumber { get; set; }
+        /// <summary>
+        /// Unique transaction reference number.
+        /// </summary>
+        [JsonProperty("trantype_code")]
+        public string TrantypeCode { get; set; }
         /// <summary>
         /// Reference number returned from the check processor. This will not be returned by all ACH processors.
         /// </summary>
@@ -46,6 +50,16 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("authcode")]
         public string AuthCode { get; set; }
+        /// <summary>
+        /// Status code
+        /// </summary>
+        [JsonProperty("status_code")]
+        public string StatusCode { get; set; }
+        /// <summary>
+        /// Description of the status 
+        /// </summary>
+        [JsonProperty("status")]
+        public string Status { get; set; }
         /// <summary>
         /// Object holding credit card information
         /// </summary>
@@ -76,6 +90,37 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("batch")]
         public Batch Batch { get; set; }
+        /// <summary>
+        /// Amount needed for transaction.
+        /// </summary>
+        [JsonProperty("amount")]
+        public string Amount { get; set; }
+        /// <summary>
+        /// Amount details needed for transaction.
+        /// </summary>
+        [JsonProperty("amount_detail")]
+        public AmountDetail AmountDetail { get; set; }
+        /// <summary>
+        /// Merchant assigned order identifier.
+        /// </summary>
+        [JsonProperty("orderid")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long Orderid { get; set; }
+        /// <summary>
+        /// Description for the transaction
+        /// </summary>
+        [JsonProperty("description")]
+        public string Description { get; set; }
+        /// <summary>
+        /// Private comment details only visible to the merchant.
+        /// </summary>
+        [JsonProperty("comments")]
+        public string Comments { get; set; }
+        /// <summary>
+        /// Object which holds the customer's billing address information.
+        /// </summary>
+        [JsonProperty("billing_address")]
+        public Address BillingAddress { get; set; }
         /// <summary>
         /// Credit card bin detail. This will only be included if the return_bin flag is passed through.
         /// </summary>
@@ -334,6 +379,35 @@ namespace UsaEPay.NET.Models.Classes
         [JsonProperty("total")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Total { get; set; }
-        
+    }
+    public partial class UsaEPayBatchTransactionResponse : IUsaEPayResponse
+    {
+        /// <summary>
+        /// Object type. This will always be transaction.
+        /// </summary>
+        [JsonProperty("type")]
+        public string Type { get; set; }
+        /// <summary>
+        /// The maximum amount of batches that will be included.
+        /// </summary>
+        [JsonProperty("limit")]
+        public long Limit { get; set; }
+        /// <summary>
+        /// The number of batches skipped from the results.
+        /// </summary>
+        [JsonProperty("offset")]
+        public long Offset { get; set; }
+        /// <summary>
+        /// An array of batches matching the search.
+        /// </summary>
+        [JsonProperty("data")]
+        public UsaEPayResponse[] Data { get; set; }
+        /// <summary>
+        /// The total amount of batches, including filtering results.
+        /// </summary>
+        [JsonProperty("total")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long Total { get; set; }
+
     }
 }

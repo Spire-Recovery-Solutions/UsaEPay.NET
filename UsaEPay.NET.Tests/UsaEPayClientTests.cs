@@ -15,6 +15,7 @@ namespace UsaEPay.NET.Tests
         private string _token = string.Empty;
         private string _tranKey = string.Empty;
         private string _tranCheckKey = string.Empty;
+        private string _batchKey = string.Empty;
 
         [SetUp]
         public void Setup()
@@ -292,8 +293,13 @@ namespace UsaEPay.NET.Tests
             var request = UsaEPayRequestFactory.RetrieveBatchListRequest();
 
             var response = await _client.SendRequest<UsaEPayBatchListResponse>(request);
+            if (response.Data != null)
+            {
+                var batchItem = response.Data.First();
+                _batchKey = batchItem.Key;
+            }
 
-            Assert.That(response, Is.Not.Null);
+            Assert.That(response.Data, Is.Not.Null);
         }
 
         [Test]
@@ -304,8 +310,29 @@ namespace UsaEPay.NET.Tests
             var request = UsaEPayRequestFactory.RetrieveBatchListByDateRequest(openedAfter, openedBefore);
 
             var response = await _client.SendRequest<UsaEPayBatchListResponse>(request);
+            
+            Assert.That(response.Data, Is.Not.Null);
+        }
+        [Test]
+        [Order(27)]
+        public async Task TestRetrieveCurrentBatchTransactions()
+        {
+            var request = UsaEPayRequestFactory.RetrieveCurrentBatchTransactionsRequest();
 
-            Assert.That(response, Is.Not.Null);
+            var response = await _client.SendRequest<UsaEPayBatchTransactionResponse>(request);
+
+            Assert.That(response.Data, Is.Not.Null);
+        }
+
+        [Test]
+        [Order(28)]
+        public async Task TestRetrieveBatchTransactionsById()
+        {
+            var request = UsaEPayRequestFactory.RetrieveBatchTransactionsByIdRequest(_batchKey);
+
+            var response = await _client.SendRequest<UsaEPayBatchTransactionResponse>(request);
+
+            Assert.That(response.Data, Is.Not.Null);
         }
     }
 }
