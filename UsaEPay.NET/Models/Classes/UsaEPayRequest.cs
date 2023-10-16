@@ -13,12 +13,12 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// This must be set to sale for a credit or debit card sale (Required)
         /// </summary>
-        [JsonProperty("command", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("command", NullValueHandling = NullValueHandling.Ignore)]
         public string Command { get; set; }
         /// <summary>
         /// One time use token provided by Client JS Library
         /// </summary>
-        [JsonProperty("payment_key", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("payment_key", NullValueHandling = NullValueHandling.Ignore)]
         public string PaymentKey { get; set; }
         /// <summary>
         /// Unique gateway generated transaction key, for the transaction you are referencing with this QuickSale
@@ -33,32 +33,32 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Custom Invoice Number to easily retrieve sale details.
         /// </summary>
-        [JsonProperty("invoice", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("invoice", NullValueHandling = NullValueHandling.Ignore)]
         public string Invoice { get; set; }
         /// <summary>
         /// Customer's purchase order number. Required for level 3 processing.
         /// </summary>
-        [JsonProperty("ponum", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("ponum", NullValueHandling = NullValueHandling.Ignore)]
         public string Ponum { get; set; }
         /// <summary>
         /// Merchant assigned order identifier.
         /// </summary>
-        [JsonProperty("orderid", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("orderid", NullValueHandling = NullValueHandling.Ignore)]
         public string OrderId { get; set; }
         /// <summary>
         /// Public description of the transaction.
         /// </summary>
-        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
         /// <summary>
         /// Private comment details only visible to the merchant.
         /// </summary>
-        [JsonProperty("comments", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("comments", NullValueHandling = NullValueHandling.Ignore)]
         public string Comments { get; set; }
         /// <summary>
         /// Customer's email address
         /// </summary>
-        [JsonProperty("email", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("email", NullValueHandling = NullValueHandling.Ignore)]
         public string Email { get; set; }
         /// <summary>
         /// If set, this parameter will send an email receipt to the customer's email.
@@ -413,12 +413,12 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// This is the product’s Stock Keeping Unit number.
         /// </summary>
-        [JsonProperty("sku", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("sku", NullValueHandling = NullValueHandling.Ignore)]
         public string StockKeepingUnitNumber { get; set; }
         /// <summary>
         /// Denotes if line item is taxable.
         /// </summary>
-        [JsonProperty("taxable", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("taxable", NullValueHandling = NullValueHandling.Ignore)]
         public bool Taxable { get; set; }
         /// <summary>
         /// Tax amount that should be applied to line item price.
@@ -429,12 +429,12 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Tax percentage that should be applied to line item amount.
         /// </summary>
-        [JsonProperty("tax_rate", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("tax_rate", NullValueHandling = NullValueHandling.Ignore)]
         public string TaxRate { get; set; }
         /// <summary>
         /// Discount percentage that should be applied to line item amount.
         /// </summary>
-        [JsonProperty("discount_rate", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("discount_rate", NullValueHandling = NullValueHandling.Ignore)]
         public string DiscountRate { get; set; }
         /// <summary>
         /// Discount amount that should be applied to line item amount.
@@ -450,12 +450,12 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Commodity code for product.
         /// </summary>
-        [JsonProperty("commodity_code", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("commodity_code", NullValueHandling = NullValueHandling.Ignore)]
         public string CommodityCode { get; set; }
         /// <summary>
         /// Unit of measure (Required for Level 3 processing)
         /// </summary>
-        [JsonProperty("um", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("um", NullValueHandling = NullValueHandling.Ignore)]
         public string UnitMeasure { get; set; }
     }
 
@@ -492,12 +492,13 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("secure_collection", NullValueHandling = NullValueHandling.Ignore)]
         [JsonConverter(typeof(ParseStringToLongConverter))]
+
         public long? SecureCollection { get; set; }
         /// <summary>
         /// This flag indicates either that merchant is about to store the card data for future use or that the current transaction is being run using data from a card stored in the merchant’s system. When the card is being stored this flag indicates what the intended future use will be. Options are available at the provided link.
         /// </summary>
         /// <see href="https://help.usaepay.info/api/rest/?#stored-credential"/>
-        [JsonProperty("stored_credential", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("stored_credential", NullValueHandling = NullValueHandling.Ignore)]
         public string StoredCredential { get; set; }
     }
 }

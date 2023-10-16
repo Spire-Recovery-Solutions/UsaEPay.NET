@@ -1,15 +1,16 @@
-﻿using System;
+﻿using UsaEPay.NET.Models.Classes;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET.Factories
 {
     public static class UsaEPayRequestFactory
     {
-        public static UsaEPayRequest CreditCardSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string country, string phone, string creditCardNumber, string expiration, int cvc, string invoice, string clientIP, Dictionary<string, string> customFields) {
+        /// <summary>
+        /// Processing a credit/debit card sale uses the sale command. 
+        /// An example of this transaction type is shown here with custom fields.
+        /// </summary>
+        public static UsaEPayRequest CreditCardSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string country, string phone, string creditCardNumber, string expiration, int cvc, string invoice, string clientIP, Dictionary<string, string> customFields)
+        {
             return new UsaEPayRequest
             {
                 Endpoint = "transactions",
@@ -38,9 +39,13 @@ namespace UsaEPay.NET.Factories
                 Invoice = invoice,
                 ClientIP = clientIP,
                 CustomFields = customFields
-            }; 
+            };
         }
 
+        /// <summary>
+        /// Processing a credit/debit card sale uses the sale command. 
+        /// An example of this transaction type is shown here without custom fields.
+        /// </summary>
         public static UsaEPayRequest CreditCardSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string creditCardNumber, string expiration, int cvc)
         {
             return new UsaEPayRequest
@@ -69,6 +74,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for processing a check sale transaction with custom fields.
+        /// </summary>
         public static UsaEPayRequest CheckSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string country, string phone, string routing, string account, string accountType, string checkNumber, string invoice, string clientIP, Dictionary<string, string> customFields)
         {
             return new UsaEPayRequest
@@ -102,7 +110,11 @@ namespace UsaEPay.NET.Factories
             };
         }
 
-        public static UsaEPayRequest CheckSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string routing, string account, string accountType, string checkNumber) {
+        /// <summary>
+        /// Creates a simplified request for processing a sale through a checking or savings account without custom fields.
+        /// </summary>
+        public static UsaEPayRequest CheckSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string routing, string account, string accountType, string checkNumber)
+        {
             return new UsaEPayRequest
             {
                 Endpoint = "transactions",
@@ -128,6 +140,10 @@ namespace UsaEPay.NET.Factories
                 }
             };
         }
+
+        /// <summary>
+        /// Creates a request which process a sale using a token with custom fields in the place of a credit card number 
+        /// </summary>
         public static UsaEPayRequest TokenSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string country, string phone, string token, int cvc, string invoice, string clientIP, Dictionary<string, string> customFields)
         {
             return new UsaEPayRequest
@@ -159,6 +175,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a simplified request for processing a tokenized credit card sale transaction without custom fields.
+        /// </summary>
         public static UsaEPayRequest TokenSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string token, int cvc)
         {
             return new UsaEPayRequest
@@ -184,17 +203,28 @@ namespace UsaEPay.NET.Factories
                 }
             };
         }
-        public static UsaEPayRequest PaymentKeySaleRequest(decimal amount, string paymentKey) { 
+
+        /// <summary>
+        /// Creates a request for processing a sale with a payment_key in place of a card number. 
+        /// The payment_key is a one time use token. To create a reusable token, set the save_card flag to true.
+        /// </summary>
+        public static UsaEPayRequest PaymentKeySaleRequest(decimal amount, string paymentKey)
+        {
             return new UsaEPayRequest
             {
                 Endpoint = "transactions",
                 RequestType = RestSharp.Method.Post,
-                Command = "sale",
+                Command = "cc:sale",
                 Amount = amount,
                 PaymentKey = paymentKey
-            }; 
+            };
         }
-        public static UsaEPayRequest CashSaleRequest(decimal amount) {
+
+        /// <summary>
+        /// Creates a request for logging a cash sale transaction.
+        /// </summary>
+        public static UsaEPayRequest CashSaleRequest(decimal amount)
+        {
             return new UsaEPayRequest
             {
                 Endpoint = "transactions",
@@ -203,7 +233,13 @@ namespace UsaEPay.NET.Factories
                 Amount = amount
             };
         }
-        public static UsaEPayRequest QuickSaleRequest(decimal amount, string transactionKey) {
+
+        /// <summary>
+        /// Creates a request for processing a quick sale transaction.
+        /// This works for Credit Card, Token, and Check transactions.
+        /// </summary>
+        public static UsaEPayRequest QuickSaleRequest(decimal amount, string transactionKey)
+        {
             return new UsaEPayRequest
             {
                 Endpoint = "transactions",
@@ -213,7 +249,12 @@ namespace UsaEPay.NET.Factories
                 Amount = amount
             };
         }
-        public static UsaEPayRequest AuthOnlySaleRequest(decimal amount, string cardHolder, string cardNumber, string expiration, int cvc) {
+
+        /// <summary>
+        /// Creates a request for processing a credit/debit card authorization without capturing funds.
+        /// </summary>
+        public static UsaEPayRequest AuthOnlySaleRequest(decimal amount, string cardHolder, string cardNumber, string expiration, int cvc)
+        {
             return new UsaEPayRequest
             {
                 Endpoint = "transactions",
@@ -229,6 +270,10 @@ namespace UsaEPay.NET.Factories
                 }
             };
         }
+
+        /// <summary>
+        /// Creates a request for processing a credit card refund.
+        /// </summary>
         public static UsaEPayRequest CreditCardRefundRequest(decimal amount, string cardHolder, string cardNumber, string expiration, int cvc)
         {
             return new UsaEPayRequest
@@ -247,6 +292,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for processing a check refund.
+        /// </summary>
         public static UsaEPayRequest CheckRefundRequest(decimal amount, string accountHolder, string accountNumber, string routingNumber, string accountType, string checkNumber)
         {
             return new UsaEPayRequest
@@ -266,6 +314,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for processing a cash refund transaction.
+        /// </summary>
         public static UsaEPayRequest CashRefundRequest(decimal amount)
         {
             return new UsaEPayRequest
@@ -277,6 +328,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for processing a quick refund transaction.
+        /// </summary>
         public static UsaEPayRequest QuickRefundRequest(decimal amount, string tranKey)
         {
             return new UsaEPayRequest
@@ -289,6 +343,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for capturing a pre-authorized credit card payment.
+        /// </summary>
         public static UsaEPayRequest CapturePaymentRequest(string tranKey)
         {
             return new UsaEPayRequest
@@ -300,6 +357,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for capturing, reauthorizing, and overriding a payment.
+        /// </summary>
         public static UsaEPayRequest CapturePaymentReauthRequest(string tranKey)
         {
             return new UsaEPayRequest
@@ -311,6 +371,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for capturing a payment with an override.
+        /// </summary>
         public static UsaEPayRequest CapturePaymentOverrideRequest(string tranKey)
         {
             return new UsaEPayRequest
@@ -322,6 +385,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for capturing a payment with an error.
+        /// </summary>
         public static UsaEPayRequest CapturePaymentErrorRequest(string tranKey)
         {
             return new UsaEPayRequest
@@ -333,6 +399,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for voiding a credit card payment.
+        /// </summary>
         public static UsaEPayRequest CreditVoidRequest(string tranKey)
         {
             return new UsaEPayRequest
@@ -344,6 +413,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for posting an authorized credit card payment.
+        /// </summary>
         public static UsaEPayRequest PostPaymentRequest(decimal amount, string authCode, string cardHolder, string cardNumber, string expiration, int cvc)
         {
             return new UsaEPayRequest
@@ -362,7 +434,10 @@ namespace UsaEPay.NET.Factories
             };
         }
 
-        public static UsaEPayRequest VoidPaymentRequest (string transactionKey)
+        /// <summary>
+        /// Creates a request for voiding a payment transaction.
+        /// </summary>
+        public static UsaEPayRequest VoidPaymentRequest(string transactionKey)
         {
             return new UsaEPayRequest
             {
@@ -373,7 +448,10 @@ namespace UsaEPay.NET.Factories
             };
         }
 
-        public static UsaEPayRequest ReleaseFundsRequest (string transactionKey)
+        /// <summary>
+        /// Creates a request for releasing funds from a voided credit card transaction.
+        /// </summary>
+        public static UsaEPayRequest ReleaseFundsRequest(string transactionKey)
         {
             return new UsaEPayRequest
             {
@@ -384,6 +462,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for unvoiding a transaction.
+        /// </summary>
         public static UsaEPayRequest UnvoidRequest(string transactionKey)
         {
             return new UsaEPayRequest
@@ -395,6 +476,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for adjusting a payment transaction.
+        /// </summary>
         public static UsaEPayRequest AdjustPaymentRequest(string tranKey)
         {
             return new UsaEPayRequest
@@ -406,6 +490,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for adjusting a refunded credit card payment.
+        /// </summary>
         public static UsaEPayRequest AdjustPaymentRefundRequest(string transKey, decimal amount)
         {
             return new UsaEPayRequest
@@ -418,6 +505,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for tokenizing a credit card for later use.
+        /// </summary>
         public static UsaEPayRequest TokenizeCardRequest(string cardHolder, string creditCardNumber, string expiration, int cvc)
         {
             return new UsaEPayRequest
@@ -436,6 +526,9 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for retrieving details of a specific transaction.
+        /// </summary>
         public static UsaEPayGetRequest RetrieveTransactionDetailsRequest(string transactionId)
         {
             return new UsaEPayGetRequest
@@ -444,11 +537,36 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for retrieving details of a specific token.
+        /// </summary>
         public static UsaEPayGetRequest RetrieveTokenDetailsRequest(string tokenId)
         {
             return new UsaEPayGetRequest
             {
                 Endpoint = $"tokens/{tokenId}"
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for retrieving a list of batches.
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveBatchListRequest()
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches"
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for retrieving a filtered list of batches by date.
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(long openBefore, long openAfter)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches?openedge={openBefore}&openedlt={openAfter}"
             };
         }
     }
