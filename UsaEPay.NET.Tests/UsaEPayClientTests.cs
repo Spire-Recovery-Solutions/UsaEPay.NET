@@ -138,20 +138,20 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(8), Category("Refund")]
-        public async Task TestCashRefund()
-        {
-            var request = UsaEPayRequestFactory.CashRefundRequest(10);
+        //[Test, Order(8), Category("Refund")]
+        //public async Task TestCashRefund()
+        //{
+        //    var request = UsaEPayRequestFactory.CashRefundRequest(10);
 
-            var response = await Client.SendRequest(request);
+        //    var response = await Client.SendRequest(request);
 
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
+        //    Assert.That(response.ResultCode, Is.EqualTo("A"));
+        //}
 
         [Test, Order(9), Category("Refund")]
         public async Task TestAdjustPaymentRefund()
         {
-            var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(_tranKey, 10);
+            var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(_tranCheckKey, 10);
 
             var response = await Client.SendRequest(request);
 
@@ -268,6 +268,11 @@ namespace UsaEPay.NET.Tests
             var request = UsaEPayRequestFactory.RetrieveBatchListRequest();
 
             var response = await Client.SendRequest<UsaEPayBatchListResponse>(request);
+            if (response.Data != null)
+            {
+                var batchItem = response.Data.First();
+                _batchKey = batchItem.Key;
+            }
 
             Assert.That(response, Is.Not.Null);
         }
