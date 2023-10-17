@@ -547,7 +547,24 @@ namespace UsaEPay.NET.Factories
                 Endpoint = $"tokens/{tokenId}"
             };
         }
+        /// <summary>
+        /// Creates a request for retrieving a specific batch by batchKey.
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveSpecificBatchRequest(string batchKey)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches/{batchKey}"
+            };
+        }
 
+        public static UsaEPayGetRequest RetrieveCurrentBatchRequest()
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches/current"
+            };
+        }
         /// <summary>
         /// Creates a request for retrieving a list of batches.
         /// </summary>
