@@ -525,6 +525,17 @@ namespace UsaEPay.NET.Factories
                 },
             };
         }
+        /// <summary>
+        /// Creates a request for closing a current batch
+        /// </summary>
+        public static UsaEPayRequest CloseCurrentBatchRequest()
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = "batches/current/close",
+                RequestType = RestSharp.Method.Post
+            };
+        }
 
         /// <summary>
         /// Creates a request for retrieving details of a specific transaction.
