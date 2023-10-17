@@ -250,11 +250,6 @@ namespace UsaEPay.NET.Models.Classes
         [JsonProperty("opened")]
         public DateTimeOffset Opened { get; set; }
         /// <summary>
-        /// Status of Batch (eg. Closing)
-        /// </summary>
-        [JsonProperty("status")]
-        public string Status { get; set; }
-        /// <summary>
         /// Date and time the batch was closed. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>
         [JsonProperty("closed")]

@@ -3,7 +3,7 @@ using UsaEPay.NET.Factories;
 using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET.Tests
-{  
+{
     public class Shared
     {
         public static UsaEPayClient Client;
@@ -46,7 +46,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(2)]
+        [Test, Order(2), Category("Token")]
         public async Task TestTokenSale()
         {
             var request = UsaEPayRequestFactory.TokenSaleRequest(10, "John", "Doe", "555 Test Street", "", "Testington", "OK", "33242", Token, 123);
@@ -258,14 +258,8 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
     }
-
+    
     [Order(3)]
-    public class BulkTransaction : Shared
-    {
-
-    }
-
-    [Order(4)]
     public class Batch : Shared
     {
         [Test, Order(1), Category("BatchList")]
@@ -308,6 +302,16 @@ namespace UsaEPay.NET.Tests
 
             Assert.That(response.Status, Is.EqualTo("open"));
         }
+
+        [Test, Order(5), Category("CloseCurrentBatch")]
+        public async Task TestCloseCurrentBatch()
+        {
+            var request = UsaEPayRequestFactory.CloseCurrentBatchRequest();
+
+            var response = await Client.SendRequest<Models.Classes.Batch>(request);
+            
+            Assert.That(response.Status, Is.EqualTo("closing"));
+        }
     }
 
     //[Test]
@@ -315,6 +319,16 @@ namespace UsaEPay.NET.Tests
     //public async Task TestPostPayment() 
     //{
     //    var request = UsaEPayRequestFactory.PostPaymentRequest(10, "AUTH_CODE", "John Doe", "4000100011112224", "0924", 123);
+
+    //    var response = await _client.SendRequest(request);
+
+    //    Assert.That(response.ResultCode, Is.EqualTo("A"));
+    //}
+    //[Test]
+    //[Order(29)]
+    //public async Task TestCashRefund()
+    //{
+    //    var request = UsaEPayRequestFactory.CashRefundRequest(10);
 
     //    var response = await _client.SendRequest(request);
 
