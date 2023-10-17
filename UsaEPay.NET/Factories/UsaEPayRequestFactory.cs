@@ -586,5 +586,27 @@ namespace UsaEPay.NET.Factories
                 Endpoint = $"batches?openedge={openBefore}&openedlt={openAfter}"
             };
         }
+
+        /// <summary>
+        /// Creates a request for retrieving batch transactions by batchId
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveBatchTransactionsByIdRequest(string batchId)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches/{batchId}/transactions"
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for retrieving current batch transactions
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveCurrentBatchTransactionsRequest()
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"batches/current/transactions"
+            };
+        }
     }
 }
