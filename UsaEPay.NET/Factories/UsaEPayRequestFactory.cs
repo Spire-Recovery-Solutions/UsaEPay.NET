@@ -9,35 +9,35 @@ namespace UsaEPay.NET.Factories
         /// Processing a credit/debit card sale uses the sale command. 
         /// An example of this transaction type is shown here with custom fields.
         /// </summary>
-        public static UsaEPayRequest CreditCardSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string country, string phone, string creditCardNumber, string expiration, int cvc, string invoice, string clientIP, Dictionary<string, string> customFields)
+        public static UsaEPayRequest CreditCardSaleRequestWithCustomFields(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:sale",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.TransactionSale,
+                Amount = tranParams.Amount,
                 CreditCard = new CreditCard
                 {
-                    Number = creditCardNumber,
-                    Cvc = cvc,
-                    Expiration = expiration,
-                    CardHolder = $"{firstName} {lastName}"
+                    Number = tranParams.CardNumber,
+                    Cvc = tranParams.Cvc,
+                    Expiration = tranParams.Expiration,
+                    CardHolder = $"{tranParams.FirstName} {tranParams.LastName}"
                 },
                 BillingAddress = new Address
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Street = address,
-                    Street2 = address2,
-                    City = city,
-                    State = state,
-                    PostalCode = zip,
-                    Country = country,
-                    Phone = phone,
+                    FirstName = tranParams.FirstName,
+                    LastName = tranParams.LastName,
+                    Street = tranParams.Address,
+                    Street2 = tranParams.Address2,
+                    City = tranParams.City,
+                    State = tranParams.State,
+                    PostalCode = tranParams.Zip,
+                    Country = tranParams.Country,
+                    Phone = tranParams.Phone,
                 },
-                Invoice = invoice,
-                ClientIP = clientIP,
+                Invoice = tranParams.Invoice,
+                ClientIP = tranParams.ClientIP,
                 CustomFields = customFields
             };
         }
@@ -46,30 +46,30 @@ namespace UsaEPay.NET.Factories
         /// Processing a credit/debit card sale uses the sale command. 
         /// An example of this transaction type is shown here without custom fields.
         /// </summary>
-        public static UsaEPayRequest CreditCardSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string creditCardNumber, string expiration, int cvc)
+        public static UsaEPayRequest CreditCardSaleRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:sale",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.TransactionSale,
+                Amount = tranParams.Amount,
                 CreditCard = new CreditCard
                 {
-                    Number = creditCardNumber,
-                    Cvc = cvc,
-                    Expiration = expiration,
-                    CardHolder = $"{firstName} {lastName}"
+                    Number = tranParams.CardNumber,
+                    Cvc = tranParams.Cvc,
+                    Expiration = tranParams.Expiration,
+                    CardHolder = $"{tranParams.FirstName} {tranParams.LastName}"
                 },
                 BillingAddress = new Address
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Street = address,
-                    Street2 = address2,
-                    City = city,
-                    State = state,
-                    PostalCode = zip
+                    FirstName = tranParams.FirstName,
+                    LastName = tranParams.LastName,
+                    Street = tranParams.Address,
+                    Street2 = tranParams.Address2,
+                    City = tranParams.City,
+                    State = tranParams.State,
+                    PostalCode = tranParams.Zip
                 }
             };
         }
@@ -77,35 +77,35 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a check sale transaction with custom fields.
         /// </summary>
-        public static UsaEPayRequest CheckSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string country, string phone, string routing, string account, string accountType, string checkNumber, string invoice, string clientIP, Dictionary<string, string> customFields)
+        public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams,Dictionary<string, string> customFields)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "check:sale",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.CheckSale,
+                Amount = tranParams.Amount,
                 Check = new Check
                 {
-                    Number = checkNumber,
-                    AccountType = accountType,
-                    Account = account,
-                    Routing = routing,
+                    Number = tranParams.CheckNumber,
+                    AccountType = tranParams.AccountType,
+                    Account = tranParams.Account,
+                    Routing = tranParams.Routing,
                 },
                 BillingAddress = new Address
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Street = address,
-                    Street2 = address2,
-                    City = city,
-                    State = state,
-                    PostalCode = zip,
-                    Country = country,
-                    Phone = phone,
+                    FirstName = tranParams.FirstName,
+                    LastName = tranParams.LastName,
+                    Street = tranParams.Address,
+                    Street2 = tranParams.Address2,
+                    City = tranParams.City,
+                    State = tranParams.State,
+                    PostalCode = tranParams.Zip,
+                    Country = tranParams.Country,
+                    Phone = tranParams.Phone,
                 },
-                Invoice = invoice,
-                ClientIP = clientIP,
+                Invoice = tranParams.Invoice,
+                ClientIP = tranParams.ClientIP,
                 CustomFields = customFields
             };
         }
@@ -113,30 +113,30 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a simplified request for processing a sale through a checking or savings account without custom fields.
         /// </summary>
-        public static UsaEPayRequest CheckSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string routing, string account, string accountType, string checkNumber)
+        public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "check:sale",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.CheckSale,
+                Amount = tranParams.Amount,
                 Check = new Check
                 {
-                    Number = checkNumber,
-                    AccountType = accountType,
-                    Account = account,
-                    Routing = routing,
+                    Number = tranParams.CheckNumber,
+                    AccountType = tranParams.AccountType,
+                    Account = tranParams.Account,
+                    Routing = tranParams.Routing,
                 },
                 BillingAddress = new Address
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Street = address,
-                    Street2 = address2,
-                    City = city,
-                    State = state,
-                    PostalCode = zip
+                    FirstName = tranParams.FirstName,
+                    LastName = tranParams.LastName,
+                    Street = tranParams.Address,
+                    Street2 = tranParams.Address2,
+                    City = tranParams.City,
+                    State = tranParams.State,
+                    PostalCode = tranParams.Zip
                 }
             };
         }
@@ -144,33 +144,33 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request which process a sale using a token with custom fields in the place of a credit card number 
         /// </summary>
-        public static UsaEPayRequest TokenSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string country, string phone, string token, int cvc, string invoice, string clientIP, Dictionary<string, string> customFields)
+        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams, string token, Dictionary<string, string> customFields)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:sale",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.TransactionSale,
+                Amount = tranParams.Amount,
                 CreditCard = new CreditCard
                 {
                     Number = token,
-                    Cvc = cvc
+                    Cvc = tranParams.Cvc
                 },
                 BillingAddress = new Address
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Street = address,
-                    Street2 = address2,
-                    City = city,
-                    State = state,
-                    PostalCode = zip,
-                    Country = country,
-                    Phone = phone,
+                    FirstName = tranParams.FirstName,
+                    LastName = tranParams.LastName,
+                    Street = tranParams.Address,
+                    Street2 = tranParams.Address2,
+                    City = tranParams.City,
+                    State = tranParams.State,
+                    PostalCode = tranParams.Zip,
+                    Country = tranParams.Country,
+                    Phone = tranParams.Phone,
                 },
-                Invoice = invoice,
-                ClientIP = clientIP,
+                Invoice = tranParams.Invoice,
+                ClientIP = tranParams.ClientIP,
                 CustomFields = customFields
             };
         }
@@ -178,28 +178,28 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a simplified request for processing a tokenized credit card sale transaction without custom fields.
         /// </summary>
-        public static UsaEPayRequest TokenSaleRequest(decimal amount, string firstName, string lastName, string address, string address2, string city, string state, string zip, string token, int cvc)
+        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams, string token)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:sale",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.TransactionSale,
+                Amount = tranParams.Amount,
                 CreditCard = new CreditCard
                 {
                     Number = token,
-                    Cvc = cvc
+                    Cvc = tranParams.Cvc
                 },
                 BillingAddress = new Address
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Street = address,
-                    Street2 = address2,
-                    City = city,
-                    State = state,
-                    PostalCode = zip
+                    FirstName = tranParams.FirstName,
+                    LastName = tranParams.LastName,
+                    Street = tranParams.Address,
+                    Street2 = tranParams.Address2,
+                    City = tranParams.City,
+                    State = tranParams.State,
+                    PostalCode = tranParams.Zip
                 }
             };
         }
@@ -212,9 +212,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:sale",
+                Command = UsaEPayCommandTypes.TransactionSale,
                 Amount = amount,
                 PaymentKey = paymentKey
             };
@@ -227,9 +227,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cash:sale",
+                Command = UsaEPayCommandTypes.CashSale,
                 Amount = amount
             };
         }
@@ -242,10 +242,10 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 TransactionKey = transactionKey,
-                Command = "quicksale",
+                Command = UsaEPayCommandTypes.QuickSale,
                 Amount = amount
             };
         }
@@ -253,20 +253,20 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a credit/debit card authorization without capturing funds.
         /// </summary>
-        public static UsaEPayRequest AuthOnlySaleRequest(decimal amount, string cardHolder, string cardNumber, string expiration, int cvc)
+        public static UsaEPayRequest AuthOnlySaleRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "authonly",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.AuthOnlySale,
+                Amount = tranParams.Amount,
                 CreditCard = new CreditCard
                 {
-                    CardHolder = cardHolder,
-                    Number = cardNumber,
-                    Expiration = expiration,
-                    Cvc = cvc
+                    CardHolder = tranParams.CardHolder,
+                    Number = tranParams.CardNumber,
+                    Expiration = tranParams.Expiration,
+                    Cvc = tranParams.Cvc
                 }
             };
         }
@@ -274,20 +274,20 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a credit card refund.
         /// </summary>
-        public static UsaEPayRequest CreditCardRefundRequest(decimal amount, string cardHolder, string cardNumber, string expiration, int cvc)
+        public static UsaEPayRequest CreditCardRefundRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:credit",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.CreditCardRefund,
+                Amount = tranParams.Amount,
                 CreditCard = new CreditCard
                 {
-                    CardHolder = cardHolder,
-                    Number = cardNumber,
-                    Expiration = expiration,
-                    Cvc = cvc
+                    CardHolder = tranParams.CardHolder,
+                    Number = tranParams.CardNumber,
+                    Expiration = tranParams.Expiration,
+                    Cvc = tranParams.Cvc
                 }
             };
         }
@@ -295,21 +295,21 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a check refund.
         /// </summary>
-        public static UsaEPayRequest CheckRefundRequest(decimal amount, string accountHolder, string accountNumber, string routingNumber, string accountType, string checkNumber)
+        public static UsaEPayRequest CheckRefundRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "check:credit",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.CheckRefund,
+                Amount = tranParams.Amount,
                 Check = new Check
                 {
-                    AccountHolder = accountHolder,
-                    Number = checkNumber,
-                    Account = accountNumber,
-                    AccountType = accountType,
-                    Routing = routingNumber
+                    AccountHolder = tranParams.AccountHolder,
+                    Number = tranParams.CheckNumber,
+                    Account = tranParams.AccountNumber,
+                    AccountType = tranParams.AccountType,
+                    Routing = tranParams.Routing
                 }
             };
         }
@@ -321,9 +321,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cash:refund",
+                Command = UsaEPayCommandTypes.CashRefund,
                 Amount = amount
             };
         }
@@ -335,9 +335,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "quickrefund",
+                Command = UsaEPayCommandTypes.QuickRefund,
                 Amount = amount,
                 TransactionKey = tranKey
             };
@@ -350,9 +350,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:capture",
+                Command = UsaEPayCommandTypes.CapturePayment,
                 TransactionKey = tranKey
             };
         }
@@ -364,9 +364,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:capture:reauth",
+                Command = UsaEPayCommandTypes.CapturePaymentReauth,
                 TransactionKey = tranKey
             };
         }
@@ -378,9 +378,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:capture:override",
+                Command = UsaEPayCommandTypes.CapturePaymentOverride,
                 TransactionKey = tranKey
             };
         }
@@ -392,9 +392,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:capture:error",
+                Command = UsaEPayCommandTypes.CapturePaymentError,
                 TransactionKey = tranKey
             };
         }
@@ -406,9 +406,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "creditvoid",
+                Command = UsaEPayCommandTypes.CreditVoid,
                 TransactionKey = tranKey
             };
         }
@@ -416,20 +416,20 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for posting an authorized credit card payment.
         /// </summary>
-        public static UsaEPayRequest PostPaymentRequest(decimal amount, string authCode, string cardHolder, string cardNumber, string expiration, int cvc)
+        public static UsaEPayRequest PostPaymentRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:postauth",
-                Amount = amount,
+                Command = UsaEPayCommandTypes.PostPayment,
+                Amount = tranParams.Amount,
                 CreditCard = new CreditCard
                 {
-                    Number = cardNumber,
-                    Expiration = expiration,
-                    Cvc = cvc,
-                    CardHolder = cardHolder
+                    Number = tranParams.CardNumber,
+                    Expiration = tranParams.Expiration,
+                    Cvc = tranParams.Cvc,
+                    CardHolder = tranParams.CardHolder
                 }
             };
         }
@@ -441,9 +441,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "void",
+                Command = UsaEPayCommandTypes.VoidPayment,
                 TransactionKey = transactionKey
             };
         }
@@ -455,9 +455,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:void:release",
+                Command = UsaEPayCommandTypes.ReleaseFunds,
                 TransactionKey = transactionKey
             };
         }
@@ -469,9 +469,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "unvoid",
+                Command = UsaEPayCommandTypes.Unvoid,
                 TransactionKey = transactionKey
             };
         }
@@ -483,9 +483,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:adjust",
+                Command = UsaEPayCommandTypes.AdjustPayment,
                 TransactionKey = tranKey
             };
         }
@@ -497,9 +497,9 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:refund:adjust",
+                Command = UsaEPayCommandTypes.AdjustPaymentRefund,
                 TransactionKey = transKey,
                 Amount = amount
             };
@@ -508,20 +508,20 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for tokenizing a credit card for later use.
         /// </summary>
-        public static UsaEPayRequest TokenizeCardRequest(string cardHolder, string creditCardNumber, string expiration, int cvc)
+        public static UsaEPayRequest TokenizeCardRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
-                Endpoint = "transactions",
+                Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                Command = "cc:save",
+                Command = UsaEPayCommandTypes.TokenizeCard,
 
                 CreditCard = new CreditCard
                 {
-                    Number = creditCardNumber,
-                    Cvc = cvc,
-                    Expiration = expiration,
-                    CardHolder = cardHolder
+                    Number = tranParams.CardNumber,
+                    Cvc = tranParams.Cvc,
+                    Expiration = tranParams.Expiration,
+                    CardHolder = tranParams.CardHolder
                 },
             };
         }
@@ -532,7 +532,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayRequest
             {
-                Endpoint = "batches/current/close",
+                Endpoint = UsaEPayEndpoints.CloseCurrentBatch,
                 RequestType = RestSharp.Method.Post
             };
         }
@@ -544,7 +544,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"transactions/{transactionId}"
+                Endpoint = $"{UsaEPayEndpoints.Transactions}/{transactionId}"
             };
         }
 
@@ -555,7 +555,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"tokens/{tokenId}"
+                Endpoint = $"{UsaEPayEndpoints.Tokens}/{tokenId}"
             };
         }
         /// <summary>
@@ -565,7 +565,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"batches/{batchKey}"
+                Endpoint = $"{UsaEPayEndpoints.Batches}/{batchKey}"
             };
         }
 
@@ -573,7 +573,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"batches/current"
+                Endpoint = $"{UsaEPayEndpoints.CurrentBatch}"
             };
         }
         /// <summary>
@@ -583,7 +583,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"batches"
+                Endpoint = $"{UsaEPayEndpoints.Batches}"
             };
         }
 
@@ -594,7 +594,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"batches?openedge={openBefore}&openedlt={openAfter}"
+                Endpoint = $"{UsaEPayEndpoints.Batches}?openedge={openBefore}&openedlt={openAfter}"
             };
         }
 
@@ -605,7 +605,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"batches/{batchId}/transactions"
+                Endpoint = $"{UsaEPayEndpoints.Batches}/{batchId}/{UsaEPayEndpoints.Transactions}"
             };
         }
 
@@ -616,7 +616,7 @@ namespace UsaEPay.NET.Factories
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"batches/current/transactions"
+                Endpoint = $"{UsaEPayEndpoints.CurrentBatchTransactions}"
             };
         }
     }
