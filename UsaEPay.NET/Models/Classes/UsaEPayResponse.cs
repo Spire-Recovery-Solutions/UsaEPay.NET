@@ -182,7 +182,7 @@ namespace UsaEPay.NET.Models.Classes
         [JsonProperty("result")]
         public string Result { get; set; }
     }
-    public class Batch
+    public class Batch : IUsaEPayResponse
     {
         /// <summary>
         /// Denotes this object is a batch.
@@ -204,6 +204,11 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonProperty("opened")]
         public DateTimeOffset Opened { get; set; }
+        /// <summary>
+        /// Status of Batch (eg. Closing)
+        /// </summary>
+        [JsonProperty("status")]
+        public string Status { get; set; }
         /// <summary>
         /// Date and time the batch was closed. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>
