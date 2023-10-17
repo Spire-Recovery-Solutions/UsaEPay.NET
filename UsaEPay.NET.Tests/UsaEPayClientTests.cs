@@ -334,5 +334,27 @@ namespace UsaEPay.NET.Tests
 
             Assert.That(response.Data, Is.Not.Null);
         }
+
+        [Test]
+        [Order(27)]
+        public async Task TestRetrieveSpecificBatch()
+        {
+            var request = UsaEPayRequestFactory.RetrieveSpecificBatchRequest(_batchKey);
+
+            var response = await _client.SendRequest<Batch>(request);
+
+            Assert.That(response.Status, Is.EqualTo("open"));
+        }
+
+        [Test]
+        [Order(28)]
+        public async Task TestRetrieveCurrentBatch()
+        {
+            var request = UsaEPayRequestFactory.RetrieveCurrentBatchRequest();
+
+            var response = await _client.SendRequest<Batch>(request);
+
+            Assert.That(response.Status, Is.EqualTo("open"));
+        }
     }
 }

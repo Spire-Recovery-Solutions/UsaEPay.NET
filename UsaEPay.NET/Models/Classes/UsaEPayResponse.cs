@@ -227,7 +227,7 @@ namespace UsaEPay.NET.Models.Classes
         [JsonProperty("result")]
         public string Result { get; set; }
     }
-    public class Batch
+    public class Batch : IUsaEPayResponse
     {
         /// <summary>
         /// Denotes this object is a batch.
@@ -255,10 +255,68 @@ namespace UsaEPay.NET.Models.Classes
         [JsonProperty("closed")]
         public DateTimeOffset? Closed { get; set; }
         /// <summary>
+        /// Batch status. Options are: open, closed, and closing when the batch is in the process of closing.
+        /// </summary>
+        [JsonProperty("status")]
+        public string Status { get; set; }
+        /// <summary>
+        /// Date and time the batch is scheduled to be closed. Format will be, YYYY-MM-DD HH:MM:SS.
+        /// Only shows for open batches.
+        /// </summary>
+        [JsonProperty("scheduled")]
+        public string Scheduled { get; set; }
+        /// <summary>
         /// The batch sequence number. The first batch the merchant closes is 1, the second is 2, etc.
         /// </summary>
         [JsonProperty("sequence")]
         public string Sequence { get; set; }
+        /// <summary>
+        /// Total amount in dollars in the specific batch. This includes sales, voids, and refunds.
+        /// </summary>
+        [JsonProperty("total_amount")]
+        public double TotalAmount { get; set; }
+        /// <summary>
+        /// Total transaction count. This includes sales, voids, and refunds.
+        /// Only shows for open batches.
+        /// </summary>
+        [JsonProperty("total_count")]
+        public long TotalCount { get; set; }
+        /// <summary>
+        /// Total amount for sales in dollars in the specific batch. 
+        /// Only shows when batch contains this transaction type.
+        /// </summary>
+        [JsonProperty("sales_amount")]
+        public long SalesAmount { get; set; }
+        /// <summary>
+        /// Total transaction count. This includes sales only.
+        /// Only shows when batch contains this transaction type.
+        /// </summary>
+        [JsonProperty("sales_count")]
+        public long SalesCount { get; set; }
+        /// <summary>
+        /// Total amount for voids in dollars in the specific batch.
+        /// Only shows when batch contains this transaction type.
+        /// </summary>
+        [JsonProperty("voids_amount")]
+        public long VoidsAmount { get; set; }
+        /// <summary>
+        /// Total transaction count. This includes voids only.
+        /// Only shows when batch contains this transaction type.
+        /// </summary>
+        [JsonProperty("voids_count")]
+        public long VoidsCount { get; set; }
+        /// <summary>
+        /// Total amount for refunds in dollars in the specific batch. 
+        /// Only shows when batch contains this transaction type.
+        /// </summary>
+        [JsonProperty("refunds_amount")]
+        public double RefundsAmount { get; set; }
+        /// <summary>
+        /// Total transaction count. This includes refunds only.
+        /// Only shows when batch contains this transaction type.
+        /// </summary>
+        [JsonProperty("refunds_count")]
+        public long RefundsCount { get; set; }
     }
 
     public class Bin
