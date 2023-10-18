@@ -12,7 +12,7 @@ namespace UsaEPay.NET
         private readonly Authentication _authInfo;
 
         // TODO: Technically the apiUrl is also called apiKey on the dev dashboard... need to figure out what to do here with naming.
-        public UsaEPayClient(string apiUrl, string apiKey, string apiPin, string randomSeed, bool useSandbox = false)
+        public UsaEPayClient(string apiUrl, string apiKey, string apiPin, string randomSeed, bool useSandbox = false, int maxTimeout = 20000)
         {
             _authInfo = new Authentication(randomSeed, apiKey.Trim(), apiPin.Trim());
 
@@ -21,7 +21,7 @@ namespace UsaEPay.NET
 
             var restClientOptions = new RestClientOptions
             {
-                MaxTimeout = 20000,
+                MaxTimeout = maxTimeout,
                 ThrowOnDeserializationError = true,
                 ThrowOnAnyError = true,
                 BaseUrl = baseUrl
