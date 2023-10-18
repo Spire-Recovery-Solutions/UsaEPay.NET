@@ -7,11 +7,11 @@ namespace UsaEPay.NET.Factories
     {
         /// <summary>
         /// Processing a credit/debit card sale uses the sale command. 
-        /// An example of this transaction type is shown here with custom fields.
+        /// An example of this transaction type is shown here with or without custom fields.
         /// </summary>
-        public static UsaEPayRequest CreditCardSaleRequestWithCustomFields(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields)
+        public static UsaEPayRequest CreditCardSaleRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields = null)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
@@ -37,49 +37,21 @@ namespace UsaEPay.NET.Factories
                     Phone = tranParams.Phone,
                 },
                 Invoice = tranParams.Invoice,
-                ClientIP = tranParams.ClientIP,
-                CustomFields = customFields
+                ClientIP = tranParams.ClientIP
             };
-        }
-
-        /// <summary>
-        /// Processing a credit/debit card sale uses the sale command. 
-        /// An example of this transaction type is shown here without custom fields.
-        /// </summary>
-        public static UsaEPayRequest CreditCardSaleRequest(UsaEPayTransactionParams tranParams)
-        {
-            return new UsaEPayRequest
+            if (customFields != null)
             {
-                Endpoint = UsaEPayEndpoints.Transactions,
-                RequestType = RestSharp.Method.Post,
-                Command = UsaEPayCommandTypes.TransactionSale,
-                Amount = tranParams.Amount,
-                CreditCard = new CreditCard
-                {
-                    Number = tranParams.CardNumber,
-                    Cvc = tranParams.Cvc,
-                    Expiration = tranParams.Expiration,
-                    CardHolder = $"{tranParams.FirstName} {tranParams.LastName}"
-                },
-                BillingAddress = new Address
-                {
-                    FirstName = tranParams.FirstName,
-                    LastName = tranParams.LastName,
-                    Street = tranParams.Address,
-                    Street2 = tranParams.Address2,
-                    City = tranParams.City,
-                    State = tranParams.State,
-                    PostalCode = tranParams.Zip
-                }
-            };
+                request.CustomFields = customFields;
+            }
+            return request;
         }
 
         /// <summary>
-        /// Creates a request for processing a check sale transaction with custom fields.
+        /// Creates a request for processing a check sale transaction with or without custom fields.
         /// </summary>
-        public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams,Dictionary<string, string> customFields)
+        public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields = null)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
@@ -105,48 +77,21 @@ namespace UsaEPay.NET.Factories
                     Phone = tranParams.Phone,
                 },
                 Invoice = tranParams.Invoice,
-                ClientIP = tranParams.ClientIP,
-                CustomFields = customFields
+                ClientIP = tranParams.ClientIP
             };
-        }
-
-        /// <summary>
-        /// Creates a simplified request for processing a sale through a checking or savings account without custom fields.
-        /// </summary>
-        public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams)
-        {
-            return new UsaEPayRequest
+            if (customFields != null)
             {
-                Endpoint = UsaEPayEndpoints.Transactions,
-                RequestType = RestSharp.Method.Post,
-                Command = UsaEPayCommandTypes.CheckSale,
-                Amount = tranParams.Amount,
-                Check = new Check
-                {
-                    Number = tranParams.CheckNumber,
-                    AccountType = tranParams.AccountType,
-                    Account = tranParams.Account,
-                    Routing = tranParams.Routing,
-                },
-                BillingAddress = new Address
-                {
-                    FirstName = tranParams.FirstName,
-                    LastName = tranParams.LastName,
-                    Street = tranParams.Address,
-                    Street2 = tranParams.Address2,
-                    City = tranParams.City,
-                    State = tranParams.State,
-                    PostalCode = tranParams.Zip
-                }
-            };
+                request.CustomFields = customFields;
+            }
+            return request;
         }
 
         /// <summary>
-        /// Creates a request which process a sale using a token with custom fields in the place of a credit card number 
+        /// Creates a request which process a sale using a token with or without custom fields in the place of a credit card number 
         /// </summary>
-        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams, string token, Dictionary<string, string> customFields)
+        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams, string token, Dictionary<string, string> customFields = null)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
@@ -173,35 +118,12 @@ namespace UsaEPay.NET.Factories
                 ClientIP = tranParams.ClientIP,
                 CustomFields = customFields
             };
-        }
-
-        /// <summary>
-        /// Creates a simplified request for processing a tokenized credit card sale transaction without custom fields.
-        /// </summary>
-        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams, string token)
-        {
-            return new UsaEPayRequest
+            if (customFields != null)
             {
-                Endpoint = UsaEPayEndpoints.Transactions,
-                RequestType = RestSharp.Method.Post,
-                Command = UsaEPayCommandTypes.TransactionSale,
-                Amount = tranParams.Amount,
-                CreditCard = new CreditCard
-                {
-                    Number = token,
-                    Cvc = tranParams.Cvc
-                },
-                BillingAddress = new Address
-                {
-                    FirstName = tranParams.FirstName,
-                    LastName = tranParams.LastName,
-                    Street = tranParams.Address,
-                    Street2 = tranParams.Address2,
-                    City = tranParams.City,
-                    State = tranParams.State,
-                    PostalCode = tranParams.Zip
-                }
-            };
+                request.CustomFields = customFields;
+            }
+
+            return request;
         }
 
         /// <summary>
