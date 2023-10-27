@@ -37,18 +37,10 @@ namespace UsaEPay.NET
             restRequest.AddJsonBody(JsonConvert.SerializeObject(request));
             var response = await _restClient.ExecuteAsync(restRequest);
 
-            var content = response.Content;
-            return JsonConvert.DeserializeObject<T>(content);
+            var result = JsonConvert.DeserializeObject<T>(response.Content);
+            result.Timestamp = DateTimeOffset.Parse(response.Headers.FirstOrDefault(f => f.Name == "Date").Value.ToString());
+            return result;
         }
 
-        public async Task<UsaEPayResponse> SendRequest(IUsaEPayRequest request)
-        {
-            var restRequest = new RestRequest(request.Endpoint, request.RequestType);
-            restRequest.AddJsonBody(JsonConvert.SerializeObject(request));
-            var response = await _restClient.ExecuteAsync(restRequest);
-
-            var content = response.Content;
-            return JsonConvert.DeserializeObject<UsaEPayResponse>(content);
-        }
     }
 }
