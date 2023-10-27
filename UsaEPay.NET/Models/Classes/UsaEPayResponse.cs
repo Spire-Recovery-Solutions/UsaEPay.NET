@@ -5,6 +5,11 @@ namespace UsaEPay.NET.Models.Classes
 {
     public class UsaEPayResponse : IUsaEPayResponse
     {
+        
+        /// <summary>
+        /// Timestamp for transaction.
+        /// </summary>
+        public DateTimeOffset Timestamp { get; set; }
         /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>
@@ -230,6 +235,10 @@ namespace UsaEPay.NET.Models.Classes
     public class Batch : IUsaEPayResponse
     {
         /// <summary>
+        /// Timestamp for transaction.
+        /// </summary>
+        public DateTimeOffset Timestamp { get; set; }
+        /// <summary>
         /// Denotes this object is a batch.
         /// </summary>
         [JsonProperty("type")]
@@ -412,6 +421,10 @@ namespace UsaEPay.NET.Models.Classes
     public partial class UsaEPayBatchListResponse : IUsaEPayResponse
     {
         /// <summary>
+        /// Timestamp for transaction.
+        /// </summary>
+        public DateTimeOffset Timestamp { get; set; }
+        /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>
         [JsonProperty("type")]
@@ -440,6 +453,10 @@ namespace UsaEPay.NET.Models.Classes
     }
     public partial class UsaEPayBatchTransactionResponse : IUsaEPayResponse
     {
+        /// <summary>
+        /// Timestamp for transaction.
+        /// </summary>
+        public DateTimeOffset Timestamp { get; set; }
         /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>

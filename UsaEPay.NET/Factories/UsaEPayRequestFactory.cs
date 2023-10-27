@@ -22,7 +22,8 @@ namespace UsaEPay.NET.Factories
                     Number = tranParams.CardNumber,
                     Cvc = tranParams.Cvc,
                     Expiration = tranParams.Expiration,
-                    CardHolder = $"{tranParams.FirstName} {tranParams.LastName}"
+                    CardHolder = $"{tranParams.FirstName} {tranParams.LastName}",
+
                 },
                 BillingAddress = new Address
                 {
@@ -37,7 +38,8 @@ namespace UsaEPay.NET.Factories
                     Phone = tranParams.Phone,
                 },
                 Invoice = tranParams.Invoice,
-                ClientIP = tranParams.ClientIP
+                ClientIP = tranParams.ClientIP,
+                SaveCard = true
             };
             if (customFields != null)
             {
@@ -77,7 +79,8 @@ namespace UsaEPay.NET.Factories
                     Phone = tranParams.Phone,
                 },
                 Invoice = tranParams.Invoice,
-                ClientIP = tranParams.ClientIP
+                ClientIP = tranParams.ClientIP,
+                SaveCard = true
             };
             if (customFields != null)
             {
