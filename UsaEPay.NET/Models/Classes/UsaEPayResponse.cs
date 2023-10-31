@@ -189,7 +189,7 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// The brand of the card (visa, mastercard, amex)
         /// </summary>
-        [JsonProperty("string")]
+        [JsonProperty("type")]
         public string Type { get; set; }
         /// <summary>
         /// Unique key for the card. This is the token.
