@@ -199,8 +199,8 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Masked credit card data.
         /// </summary>
-        [JsonProperty("number")]
-        public string Number { get; set; }
+        [JsonProperty("cardnumber")]
+        public string CardNumber { get; set; }
     }
 
     public class AVS
