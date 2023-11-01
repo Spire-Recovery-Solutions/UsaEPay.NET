@@ -9,7 +9,8 @@ namespace UsaEPay.NET.Factories
         /// Processing a credit/debit card sale uses the sale command. 
         /// An example of this transaction type is shown here with or without custom fields.
         /// </summary>
-        public static UsaEPayRequest CreditCardSaleRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields = null)
+        public static UsaEPayRequest CreditCardSaleRequest(UsaEPayTransactionParams tranParams,
+            Dictionary<string, string> customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -17,6 +18,9 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.TransactionSale,
                 Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                Description = tranParams.Description,
+
                 CreditCard = new CreditCard
                 {
                     Number = tranParams.CardNumber,
@@ -43,13 +47,15 @@ namespace UsaEPay.NET.Factories
             {
                 request.CustomFields = customFields;
             }
+
             return request;
         }
 
         /// <summary>
         /// Creates a request for processing a check sale transaction with or without custom fields.
         /// </summary>
-        public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields = null)
+        public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams,
+            Dictionary<string, string> customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -57,6 +63,8 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CheckSale,
                 Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                Description = tranParams.Description,
                 Check = new Check
                 {
                     Number = tranParams.CheckNumber,
@@ -83,13 +91,15 @@ namespace UsaEPay.NET.Factories
             {
                 request.CustomFields = customFields;
             }
+
             return request;
         }
 
         /// <summary>
         /// Creates a request which process a sale using a token with or without custom fields in the place of a credit card number 
         /// </summary>
-        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams, string token, Dictionary<string, string> customFields = null)
+        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams, string token,
+            Dictionary<string, string> customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -97,6 +107,8 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.TransactionSale,
                 Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                Description = tranParams.Description,
                 CreditCard = new CreditCard
                 {
                     Number = token,
@@ -183,6 +195,8 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.AuthOnlySale,
                 Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                Description = tranParams.Description,
                 CreditCard = new CreditCard
                 {
                     CardHolder = tranParams.CardHolder,
@@ -204,6 +218,8 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CreditCardRefund,
                 Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                Description = tranParams.Description,
                 CreditCard = new CreditCard
                 {
                     CardHolder = tranParams.CardHolder,
@@ -225,6 +241,8 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CheckRefund,
                 Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                Description = tranParams.Description,
                 Check = new Check
                 {
                     AccountHolder = tranParams.AccountHolder,
@@ -346,6 +364,8 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.PostPayment,
                 Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                Description = tranParams.Description,
                 CreditCard = new CreditCard
                 {
                     Number = tranParams.CardNumber,
@@ -447,6 +467,7 @@ namespace UsaEPay.NET.Factories
                 },
             };
         }
+
         /// <summary>
         /// Creates a request for closing a current batch
         /// </summary>
@@ -480,6 +501,7 @@ namespace UsaEPay.NET.Factories
                 Endpoint = $"{UsaEPayEndpoints.Tokens}/{tokenId}"
             };
         }
+
         /// <summary>
         /// Creates a request for retrieving a specific batch by batchKey.
         /// </summary>
@@ -498,6 +520,7 @@ namespace UsaEPay.NET.Factories
                 Endpoint = $"{UsaEPayEndpoints.CurrentBatch}"
             };
         }
+
         /// <summary>
         /// Creates a request for retrieving a list of batches.
         /// </summary>
