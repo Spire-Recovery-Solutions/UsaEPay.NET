@@ -61,6 +61,12 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         public string Phone { get; set; }
 
+        
+        /// <summary>
+        /// Gets or sets the email address.
+        /// </summary>
+        public string Email { get; set; }
+
         /// <summary>
         /// Gets or sets the cardholder's name.
         /// </summary>
@@ -120,5 +126,10 @@ namespace UsaEPay.NET.Models.Classes
         /// Gets or sets the check number for check transactions.
         /// </summary>
         public string CheckNumber { get; set; }
+        
+        /// <summary>
+        /// Public description of the transaction 
+        /// </summary>
+        public string Description { get; set; }
     }
 }
