@@ -12,7 +12,6 @@ namespace UsaEPay.NET.Models
     {   /// <summary>
         /// Timestamp for transaction.
         /// </summary>
-        [JsonConverter(typeof(DateTimeOffsetToUtcMillisecondStringConverter))]
         public DateTimeOffset Timestamp { get; set; }
     }
 }
