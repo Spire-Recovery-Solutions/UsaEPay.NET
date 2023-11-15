@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Events
 {
@@ -70,6 +71,7 @@ namespace UsaEPay.NET.Models.Events
         /// Masked original card data including: number, expiration, type.
         /// </summary>
         [JsonPropertyName("original_card")]
+        [JsonConverter(typeof(DateTimeOffsetToUtcMillisecondStringConverter))]
         public CardOriginal OriginalCard { get; set; }
 
         /// <summary>
