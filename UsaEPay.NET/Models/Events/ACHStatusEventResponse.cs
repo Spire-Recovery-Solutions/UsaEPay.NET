@@ -3,7 +3,7 @@ using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Events
 {
-    public partial class ACHStatusEvenResponse : BaseEventResponse
+    public partial class ACHStatusEventResponse : BaseEventResponse
     {
 
         /// <summary>
@@ -65,7 +65,8 @@ namespace UsaEPay.NET.Models.Events
         /// Gets or sets the date when the transaction was settled (if applicable).
         /// </summary>
         [JsonPropertyName("processed")]
-        public DateTimeOffset Processed { get; set; }
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        public DateTimeOffset? Processed { get; set; }
     }
 
     /// <summary>
