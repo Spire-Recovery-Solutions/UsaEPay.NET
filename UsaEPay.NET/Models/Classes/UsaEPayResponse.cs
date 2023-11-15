@@ -251,19 +251,20 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// This is the unique batch identifier. This was originally used in the SOAP API.
         /// </summary>
-        [JsonPropertyName("batchrefnum")]
-        public string BatchReferenceNumber { get; set; }
+        //[jsonpropertyname("batchrefnum")]
+        //public int batchreferencenumber { get; set; }
         /// <summary>
         /// Date and time the batch was opened. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>
         [JsonPropertyName("opened")]
-        public DateTimeOffset Opened { get; set; }
+        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        public DateTimeOffset? Opened { get; set; }
         /// <summary>
         /// Date and time the batch was closed. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>
         [JsonPropertyName("closed")]
-
-        public DateTimeOffset Closed { get; set; }
+        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        public DateTimeOffset? Closed { get; set; }
         /// <summary>
         /// Batch status. Options are: open, closed, and closing when the batch is in the process of closing.
         /// </summary>
