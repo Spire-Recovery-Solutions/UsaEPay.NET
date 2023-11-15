@@ -8,6 +8,7 @@ using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 using UsaEPay.NET.Converter;
 using UsaEPay.NET.Models.Classes;
+using UsaEPay.NET.Models.Enumerations.Event;
 using UsaEPay.NET.Models.Events;
 
 namespace UsaEPay.NET.Models
@@ -54,6 +55,7 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(SettlementObject))]
     [JsonSerializable(typeof(TransactionEventResponse))]
     [JsonSerializable(typeof(TransactionEventBody))]
+    [JsonSerializable(typeof(EventType))]
     [JsonSerializable(typeof(IUsaEPayRequest))]
     [JsonSerializable(typeof(IUsaEPayResponse))]
     public partial class USAePaySerializerContext : JsonSerializerContext
