@@ -23,6 +23,6 @@ namespace UsaEPay.NET.Models.Events
         /// when the transaction is processed through the REST API.
         /// </summary>
         [JsonPropertyName("object")]
-        public UsaEPayResponse Object { get; set; }
+        public UsaEPayResponse Transaction { get; set; }
     }
 }
