@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Events
@@ -8,7 +8,7 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Gets or sets the body of the settlement event.
         /// </summary>
-        [JsonProperty("event_body")]
+        [JsonPropertyName("event_body")]
         public SettlementEventBody EventBody { get; set; }
     }
 
@@ -20,7 +20,7 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Gets or sets the details of the settlement event.
         /// </summary>
-        [JsonProperty("object")]
+        [JsonPropertyName("object")]
         public SettlementObject Object { get; set; }
     }
 
@@ -32,58 +32,58 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Object type. This will always be batch.
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
         /// <summary>
         /// This is the gateway generated unique identifier for the batch.
         /// </summary>
-        [JsonProperty("key")]
+        [JsonPropertyName("key")]
         public string Key { get; set; }
 
         /// <summary>
         /// The batch sequence number. The first batch the merchant closes is 1, the second is 2, etc.
         /// </summary>
-        [JsonProperty("batchnum")]
+        [JsonPropertyName("batchnum")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Batchnum { get; set; }
 
         /// <summary>
         /// This is the unique batch identifier. This was originally used in the SOAP API.
         /// </summary>
-        [JsonProperty("batchrefnum")]
+        [JsonPropertyName("batchrefnum")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Batchrefnum { get; set; }
 
         /// <summary>
         /// Response code that indicates if the batch was successfully closed.
         /// </summary>
-        [JsonProperty("response")]
+        [JsonPropertyName("response")]
         public string Response { get; set; }
 
         /// <summary>
         /// Total sales amount of the settlement batch.
         /// </summary>
-        [JsonProperty("totalsales")]
+        [JsonPropertyName("totalsales")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Totalsales { get; set; }
 
         /// <summary>
         /// Gets or sets the Total sales count in the settlement batch.
         /// </summary>
-        [JsonProperty("numsales")]
+        [JsonPropertyName("numsales")]
         public long Numsales { get; set; }
 
         /// <summary>
         /// Gets or sets the total credits amount of the settlement batch.
         /// </summary>
-        [JsonProperty("totalcredits")]
+        [JsonPropertyName("totalcredits")]
         public string Totalcredits { get; set; }
 
         /// <summary>
         /// Gets or sets the URI associated with the settlement batch.
         /// </summary>
-        [JsonProperty("uri")]
+        [JsonPropertyName("uri")]
         public string Uri { get; set; }
     }
 }

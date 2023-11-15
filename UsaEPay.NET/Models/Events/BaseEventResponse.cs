@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace UsaEPay.NET.Models.Events
 {
@@ -7,25 +7,25 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
         /// <summary>
         /// The timestamp indicating when the event was triggered.
         /// </summary>
-        [JsonProperty("event_triggered")]
+        [JsonPropertyName("event_triggered")]
         public DateTimeOffset EventTriggered { get; set; }
 
         /// <summary>
         /// Describes the type of the event.
         /// </summary>
-        [JsonProperty("event_type")]
+        [JsonPropertyName("event_type")]
         public string EventType { get; set; }
 
         /// <summary>
         /// Unique identifier for the event.
         /// </summary>
-        [JsonProperty("event_id")]
+        [JsonPropertyName("event_id")]
         public string EventId { get; set; }
     }
 
@@ -34,7 +34,7 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Merchant information which triggered the event.
         /// </summary>
-        [JsonProperty("merchant")]
+        [JsonPropertyName("merchant")]
         public Merchant Merchant { get; set; }
     }
 
@@ -46,7 +46,7 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Unique identifier for the merchant which triggered the event.
         /// </summary>
-        [JsonProperty("merch_key")]
+        [JsonPropertyName("merch_key")]
         public string MerchKey { get; set; }
     }
 }

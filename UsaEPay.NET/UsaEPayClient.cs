@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using RestSharp;
+﻿using RestSharp;
 using UsaEPay.NET.Models;
 using UsaEPay.NET.Models.Authentication;
 using UsaEPay.NET.Models.Classes;
@@ -34,11 +33,24 @@ namespace UsaEPay.NET
         public async Task<T?> SendRequest<T>(IUsaEPayRequest request) where T : IUsaEPayResponse
         {
             var restRequest = new RestRequest(request.Endpoint, request.RequestType);
-            restRequest.AddJsonBody(JsonConvert.SerializeObject(request));
+
+            // Use System.Text.Json for serialization
+            var requestBodyJson = System.Text.Json.JsonSerializer.Serialize(request, USAePaySerializerContext.Default.Options);
+
+            restRequest.AddJsonBody(requestBodyJson);
+
             var response = await _restClient.ExecuteAsync(restRequest);
 
-            var result = JsonConvert.DeserializeObject<T>(response.Content);
-            result.Timestamp = DateTimeOffset.Parse(response.Headers.FirstOrDefault(f => f.Name == "Date").Value.ToString());
+            var result = System.Text.Json.JsonSerializer.Deserialize<T>(response.Content, USAePaySerializerContext.Default.Options);
+
+            // Use TryGetValues to check if the "Date" header exists before accessing it
+            var dateHeader = response.Headers.FirstOrDefault(f => f.Name == "Date");
+            if (dateHeader != null && DateTimeOffset.TryParse(dateHeader.Value.ToString(), out var timestamp))
+            {
+                // Use explicit interface implementation for setting Timestamp property
+                ((IUsaEPayResponse)result).Timestamp = timestamp;
+            }
+
             return result;
         }
 

@@ -1,40 +1,26 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace UsaEPay.NET.Converter
 {
-    public class ParseStringToLongConverter : JsonConverter
+    public class ParseStringToLongConverter : JsonConverter<long>
     {
-        public override bool CanConvert(Type t) => t == typeof(long) || t == typeof(long?);
-
-        public override object ReadJson(JsonReader reader, Type t, object? existingValue, JsonSerializer serializer)
+        public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            long l;
-            if (Int64.TryParse(value, out l))
-            {
-                return l;
-            }
-            throw new Exception("Cannot unmarshal type long");
+            if (reader.TokenType == JsonTokenType.Null)
+                return 0; // or throw an exception if null should not be treated as a default value
+
+            var value = reader.GetString();
+            if (long.TryParse(value, out long result))
+                return result;
+
+            throw new JsonException($"Cannot convert '{value}' to {typeToConvert}.");
         }
 
-        public override void WriteJson(JsonWriter writer, object? untypedValue, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
         {
-            if (untypedValue == null)
-            {
-                serializer.Serialize(writer, null);
-                return;
-            }
-            var value = (long)untypedValue;
-            serializer.Serialize(writer, value.ToString());
-            return;
+            writer.WriteStringValue(value.ToString());
         }
-
-        public static readonly ParseStringToLongConverter Singleton = new ParseStringToLongConverter();
     }
 }

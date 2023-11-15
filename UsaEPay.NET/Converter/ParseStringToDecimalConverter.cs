@@ -1,40 +1,25 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace UsaEPay.NET.Converter
 {
-    public class ParseStringToDecimalConverter : JsonConverter
+    public class ParseStringToDecimalConverter : JsonConverter<decimal>
     {
-        public override bool CanConvert(Type t) => t == typeof(decimal) || t == typeof(decimal?);
-
-        public override object ReadJson(JsonReader reader, Type t, object? existingValue, JsonSerializer serializer)
+        public override decimal Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonToken.Null) return null;
-            var value = serializer.Deserialize<string>(reader);
-            decimal l;
-            if (decimal.TryParse(value, out l))
-            {
-                return l;
-            }
-            throw new Exception("Cannot unmarshal type decimal");
+            if (reader.TokenType == JsonTokenType.Null)
+                return 0;
+
+            if (reader.TokenType == JsonTokenType.String && decimal.TryParse(reader.GetString(), out var value))
+                return value;
+
+            throw new JsonException("Cannot convert to decimal");
         }
 
-        public override void WriteJson(JsonWriter writer, object? untypedValue, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, decimal value, JsonSerializerOptions options)
         {
-            if (untypedValue == null)
-            {
-                serializer.Serialize(writer, null);
-                return;
-            }
-            var value = (decimal)untypedValue;
-            serializer.Serialize(writer, value.ToString());
-            return;
+            writer.WriteStringValue(value.ToString());
         }
-
-        public static readonly ParseStringToDecimalConverter Singleton = new ParseStringToDecimalConverter();
     }
 }
