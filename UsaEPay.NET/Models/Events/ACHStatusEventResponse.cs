@@ -3,7 +3,7 @@ using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Events
 {
-    public partial class ACHStatusEvenResponse : BaseEventResponse
+    public partial class ACHStatusEventResponse : BaseEventResponse
     {
 
         /// <summary>
