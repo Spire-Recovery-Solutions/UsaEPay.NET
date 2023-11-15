@@ -50,7 +50,7 @@ namespace UsaEPay.NET.Models.Events
         /// Logs what fields changed during the update and displays the old and new values.
         /// </summary>
         [JsonPropertyName("cardaccount_closed")]
-        public object CardaccountClosed { get; set; }
+        public string CardaccountClosed { get; set; }
     }
 
     public partial class CardObject
@@ -85,6 +85,12 @@ namespace UsaEPay.NET.Models.Events
         /// </summary>
         [JsonPropertyName("status")]
         public string Status { get; set; }
+
+        /// <summary>
+        /// Readable card updater status.
+        /// </summary>
+        [JsonPropertyName("status_description")]
+        public string StatusDescription { get; set; }
 
         /// <summary>
         /// Object containing information about where the card update request was initiated.
