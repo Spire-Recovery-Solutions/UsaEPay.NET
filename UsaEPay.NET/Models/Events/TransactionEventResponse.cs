@@ -136,7 +136,8 @@ namespace UsaEPay.NET.Models.Events
         /// Applies to void, unvoid, adjust, and capture transactions.
         /// </summary>
         [JsonPropertyName("original_date")]
-        public DateTimeOffset OriginalDate { get; set; }
+        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        public DateTimeOffset? OriginalDate { get; set; }
     }
 
     /// <summary>
