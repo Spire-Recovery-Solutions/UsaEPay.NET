@@ -54,12 +54,6 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(SettlementObject))]
     [JsonSerializable(typeof(TransactionEventResponse))]
     [JsonSerializable(typeof(TransactionEventBody))]
-    [JsonSerializable(typeof(TransactionObject))]
-    [JsonSerializable(typeof(TransactionAmountDetail))]
-    [JsonSerializable(typeof(TransactionVerification))]
-    [JsonSerializable(typeof(TransactionBatch))]
-    [JsonSerializable(typeof(TransactionCreditcard))]
-    [JsonSerializable(typeof(TransactionReceipts))]
     [JsonSerializable(typeof(IUsaEPayRequest))]
     [JsonSerializable(typeof(IUsaEPayResponse))]
     public partial class USAePaySerializerContext : JsonSerializerContext
