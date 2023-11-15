@@ -8,14 +8,23 @@ namespace UsaEPay.NET.Converter
     {
         public override long Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.Null)
-                return 0; // or throw an exception if null should not be treated as a default value
+            switch (reader.TokenType)
+            {
+                case JsonTokenType.Null:
+                    return 0; // or throw an exception if null should not be treated as a default value
 
-            var value = reader.GetString();
-            if (long.TryParse(value, out long result))
-                return result;
+                case JsonTokenType.String:
+                    if (long.TryParse(reader.GetString(), out long result))
+                        return result;
+                    break;
 
-            throw new JsonException($"Cannot convert '{value}' to {typeToConvert}.");
+                case JsonTokenType.Number:
+                    if (reader.TryGetInt64(out result))
+                        return result;
+                    break;
+            }
+
+            throw new JsonException($"Cannot convert '{reader.GetString()}' to {typeToConvert}.");
         }
 
         public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)

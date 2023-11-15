@@ -252,7 +252,7 @@ namespace UsaEPay.NET.Models.Classes
         /// This is the unique batch identifier. This was originally used in the SOAP API.
         /// </summary>
         [JsonPropertyName("batchrefnum")]
-        public int BatchReferenceNumber { get; set; }
+        public string BatchReferenceNumber { get; set; }
         /// <summary>
         /// Date and time the batch was opened. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>

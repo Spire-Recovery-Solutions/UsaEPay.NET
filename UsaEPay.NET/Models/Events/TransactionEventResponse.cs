@@ -196,8 +196,7 @@ namespace UsaEPay.NET.Models.Events
         /// Gets or sets the batch reference number.
         /// </summary>
         [JsonPropertyName("batchrefnum")]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long Batchrefnum { get; set; }
+        public string Batchrefnum { get; set; }
 
         /// <summary>
         /// Gets or sets the sequence number within the batch.
