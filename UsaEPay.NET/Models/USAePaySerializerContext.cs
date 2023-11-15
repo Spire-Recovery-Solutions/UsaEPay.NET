@@ -62,8 +62,6 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(TransactionReceipts))]
     [JsonSerializable(typeof(IUsaEPayRequest))]
     [JsonSerializable(typeof(IUsaEPayResponse))]
-    [JsonSerializable(typeof(ParseStringToDecimalConverter))]
-    [JsonSerializable(typeof(ParseStringToLongConverter))]
     public partial class USAePaySerializerContext : JsonSerializerContext
     {
     }

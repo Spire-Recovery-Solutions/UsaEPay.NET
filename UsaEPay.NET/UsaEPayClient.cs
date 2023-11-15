@@ -35,7 +35,7 @@ namespace UsaEPay.NET
             var restRequest = new RestRequest(request.Endpoint, request.RequestType);
 
             // Use System.Text.Json for serialization
-            var requestBodyJson = System.Text.Json.JsonSerializer.Serialize(request, USAePaySerializerContext.Default.Options);
+            var requestBodyJson = System.Text.Json.JsonSerializer.Serialize(request, request.GetType(), USAePaySerializerContext.Default.Options);
 
             restRequest.AddJsonBody(requestBodyJson);
 
