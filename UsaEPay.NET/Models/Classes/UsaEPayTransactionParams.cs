@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Classes
 {
@@ -13,6 +14,7 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayTransactionParams
     {
         [JsonPropertyName("Amount")]
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
         public decimal Amount { get; set; }
 
         [JsonPropertyName("FirstName")]

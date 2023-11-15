@@ -290,30 +290,35 @@ namespace UsaEPay.NET.Models.Classes
         /// Only shows for open batches.
         /// </summary>
         [JsonPropertyName("total_count")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long TotalCount { get; set; }
         /// <summary>
         /// Total amount for sales in dollars in the specific batch. 
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("sales_amount")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long SalesAmount { get; set; }
         /// <summary>
         /// Total transaction count. This includes sales only.
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("sales_count")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long SalesCount { get; set; }
         /// <summary>
         /// Total amount for voids in dollars in the specific batch.
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("voids_amount")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long VoidsAmount { get; set; }
         /// <summary>
         /// Total transaction count. This includes voids only.
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("voids_count")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long VoidsCount { get; set; }
         /// <summary>
         /// Total amount for refunds in dollars in the specific batch. 
@@ -326,6 +331,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("refunds_count")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long RefundsCount { get; set; }
     }
 
@@ -434,11 +440,13 @@ namespace UsaEPay.NET.Models.Classes
         /// The maximum amount of batches that will be included.
         /// </summary>
         [JsonPropertyName("limit")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Limit { get; set; }
         /// <summary>
         /// The number of batches skipped from the results.
         /// </summary>
         [JsonPropertyName("offset")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Offset { get; set; }
         /// <summary>
         /// An array of batches matching the search.
@@ -467,11 +475,13 @@ namespace UsaEPay.NET.Models.Classes
         /// The maximum amount of batches that will be included.
         /// </summary>
         [JsonPropertyName("limit")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Limit { get; set; }
         /// <summary>
         /// The number of batches skipped from the results.
         /// </summary>
         [JsonPropertyName("offset")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Offset { get; set; }
         /// <summary>
         /// An array of batches matching the search.
