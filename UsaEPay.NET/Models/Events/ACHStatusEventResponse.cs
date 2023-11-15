@@ -65,7 +65,7 @@ namespace UsaEPay.NET.Models.Events
         /// Gets or sets the date when the transaction was settled (if applicable).
         /// </summary>
         [JsonPropertyName("processed")]
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Processed { get; set; }
     }
 

@@ -9,7 +9,7 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for transaction.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
         /// Object type. This will always be transaction.
@@ -238,7 +238,7 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for transaction.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
         /// Denotes this object is a batch.
@@ -259,13 +259,13 @@ namespace UsaEPay.NET.Models.Classes
         /// Date and time the batch was opened. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>
         [JsonPropertyName("opened")]
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Opened { get; set; }
         /// <summary>
         /// Date and time the batch was closed. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>
         [JsonPropertyName("closed")]
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Closed { get; set; }
         /// <summary>
         /// Batch status. Options are: open, closed, and closing when the batch is in the process of closing.
@@ -433,7 +433,7 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for transaction.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
         /// Object type. This will always be transaction.
@@ -469,7 +469,7 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for transaction.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
         /// Object type. This will always be transaction.

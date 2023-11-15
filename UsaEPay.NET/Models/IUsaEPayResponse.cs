@@ -12,7 +12,7 @@ namespace UsaEPay.NET.Models
     {   /// <summary>
         /// Timestamp for transaction.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
     }
 }

@@ -77,7 +77,7 @@ namespace UsaEPay.NET.Models.Events
         /// The date and time the card update was created. Formatting is "YYYY-MM-DD HH:MM:SS."
         /// </summary>
         [JsonPropertyName("added")]
-        [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Added { get; set; }
 
         /// <summary>

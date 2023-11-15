@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UsaEPay.NET.Converter
 {
-    public class USAePayStringToDatetimeOffsetConverter : JsonConverter<DateTimeOffset?>
+    public class USAePayStringToDateTimeOffsetConverter : JsonConverter<DateTimeOffset?>
     {
         public override DateTimeOffset? Read(ref Utf8JsonReader reader, Type typeToConvert,
             JsonSerializerOptions options)
