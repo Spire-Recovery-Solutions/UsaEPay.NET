@@ -265,7 +265,8 @@ namespace UsaEPay.NET.Models.Classes
         /// Date and time the batch was closed. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>
         [JsonPropertyName("closed")]
-        public DateTimeOffset? Closed { get; set; }
+        [JsonConverter(typeof(DateTimeOffsetToUtcMillisecondStringConverter))]
+        public DateTimeOffset Closed { get; set; }
         /// <summary>
         /// Batch status. Options are: open, closed, and closing when the batch is in the process of closing.
         /// </summary>

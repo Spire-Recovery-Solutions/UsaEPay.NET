@@ -66,7 +66,7 @@ namespace UsaEPay.NET.Models.Events
         /// </summary>
         [JsonPropertyName("processed")]
         [JsonConverter(typeof(DateTimeOffsetToUtcMillisecondStringConverter))]
-        public DateTimeOffset? Processed { get; set; }
+        public DateTimeOffset Processed { get; set; }
     }
 
     /// <summary>
