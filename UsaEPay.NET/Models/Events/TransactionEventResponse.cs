@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Events
@@ -8,7 +8,7 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Gets or sets the body of the transaction event.
         /// </summary>
-        [JsonProperty("event_body")]
+        [JsonPropertyName("event_body")]
         public TransactionEventBody EventBody { get; set; }
     }
 
@@ -21,7 +21,7 @@ namespace UsaEPay.NET.Models.Events
         /// Transaction object related to the event. Will be similar to the response 
         /// when the transaction is processed through the REST API.
         /// </summary>
-        [JsonProperty("object")]
+        [JsonPropertyName("object")]
         public TransactionObject Object { get; set; }
     }
 
@@ -33,43 +33,43 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
         /// <summary>
         /// Transaction Key. Unique gateway generated key.
         /// </summary>
-        [JsonProperty("key")]
+        [JsonPropertyName("key")]
         public string Key { get; set; }
 
         /// <summary>
         /// Unique transaction reference number.
         /// </summary>
-        [JsonProperty("refnum")]
+        [JsonPropertyName("refnum")]
         public long Refnum { get; set; }
 
         /// <summary>
         /// Amount authorized
         /// </summary>
-        [JsonProperty("auth_amount")]
+        [JsonPropertyName("auth_amount")]
         public string AuthAmount { get; set; }
 
         /// <summary>
         /// Total amount charged.
         /// </summary>
-        [JsonProperty("amount")]
+        [JsonPropertyName("amount")]
         public string Amount { get; set; }
 
         /// <summary>
         /// Object containing a more detailed breakdown of the amount.
         /// </summary>
-        [JsonProperty("amount_detail")]
+        [JsonPropertyName("amount_detail")]
         public TransactionAmountDetail AmountDetail { get; set; }
 
         /// <summary>
         /// Authorization code
         /// </summary>
-        [JsonProperty("authcode")]
+        [JsonPropertyName("authcode")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Authcode { get; set; }
 
@@ -78,64 +78,64 @@ namespace UsaEPay.NET.Models.Events
         /// A = Approved, P = Partial Approval, D = Declined, E = Error, 
         /// or V = Verification Required
         /// </summary>
-        [JsonProperty("result_code")]
+        [JsonPropertyName("result_code")]
         public string ResultCode { get; set; }
 
         /// <summary>
         /// Custom Invoice Number to easily retrieve sale details.
         ///  (25 chars max)
         /// </summary>
-        [JsonProperty("invoice")]
+        [JsonPropertyName("invoice")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Invoice { get; set; }
 
         /// <summary>
         /// The Address Verification System (AVS) result.
         /// </summary>
-        [JsonProperty("avs")]
+        [JsonPropertyName("avs")]
         public TransactionVerification Avs { get; set; }
 
         /// <summary>
         /// The Card Security Code (3-4 digit code) verification result.
         /// </summary>
-        [JsonProperty("cvc")]
+        [JsonPropertyName("cvc")]
         public TransactionVerification Cvc { get; set; }
 
         /// <summary>
         /// The transaction type.(e.g., Credit Card Sale).
         /// </summary>
-        [JsonProperty("trantype")]
+        [JsonPropertyName("trantype")]
         public string Trantype { get; set; }
 
         /// <summary>
         /// Object holding credit card information
         /// </summary>
-        [JsonProperty("creditcard")]
+        [JsonPropertyName("creditcard")]
         public TransactionCreditcard Creditcard { get; set; }
 
         /// <summary>
         /// Object which holds all Batch information.
         /// </summary>
-        [JsonProperty("batch")]
+        [JsonPropertyName("batch")]
         public TransactionBatch Batch { get; set; }
 
         /// <summary>
         ///  Object which holds all Receipt information.
         /// </summary>
-        [JsonProperty("receipts")]
+        [JsonPropertyName("receipts")]
         public TransactionReceipts Receipts { get; set; }
 
         /// <summary>
         /// Description of result code.
         /// </summary>
-        [JsonProperty("result")]
+        [JsonPropertyName("result")]
         public string Result { get; set; }
 
         /// <summary>
         /// The date the original transaction was run. 
         /// Applies to void, unvoid, adjust, and capture transactions.
         /// </summary>
-        [JsonProperty("original_date")]
+        [JsonPropertyName("original_date")]
         public DateTimeOffset OriginalDate { get; set; }
     }
 
@@ -147,25 +147,25 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Gets or sets the tax amount.
         /// </summary>
-        [JsonProperty("tax")]
+        [JsonPropertyName("tax")]
         public string Tax { get; set; }
 
         /// <summary>
         /// Gets or sets the discount amount.
         /// </summary>
-        [JsonProperty("discount")]
+        [JsonPropertyName("discount")]
         public string Discount { get; set; }
 
         /// <summary>
         /// Gets or sets the subtotal amount.
         /// </summary>
-        [JsonProperty("subtotal")]
+        [JsonPropertyName("subtotal")]
         public string Subtotal { get; set; }
 
         /// <summary>
         /// Gets or sets the duty amount.
         /// </summary>
-        [JsonProperty("duty")]
+        [JsonPropertyName("duty")]
         public string Duty { get; set; }
     }
 
@@ -177,13 +177,13 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Gets or sets the AVS result code.
         /// </summary>
-        [JsonProperty("result_code")]
+        [JsonPropertyName("result_code")]
         public string ResultCode { get; set; }
 
         /// <summary>
         /// Gets or sets the AVS result description.
         /// </summary>
-        [JsonProperty("result")]
+        [JsonPropertyName("result")]
         public string Result { get; set; }
     }
 
@@ -195,27 +195,26 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Gets or sets the batch reference number.
         /// </summary>
-        [JsonProperty("batchrefnum")]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long Batchrefnum { get; set; }
+        [JsonPropertyName("batchrefnum")]
+        public string Batchrefnum { get; set; }
 
         /// <summary>
         /// Gets or sets the sequence number within the batch.
         /// </summary>
-        [JsonProperty("sequence")]
+        [JsonPropertyName("sequence")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Sequence { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the batch.
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
         /// <summary>
         /// Gets or sets the key of the batch.
         /// </summary>
-        [JsonProperty("key")]
+        [JsonPropertyName("key")]
         public string Key { get; set; }
     }
 
@@ -227,25 +226,25 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Gets or sets the cardholder's name.
         /// </summary>
-        [JsonProperty("cardholder")]
+        [JsonPropertyName("cardholder")]
         public string Cardholder { get; set; }
 
         /// <summary>
         /// Gets or sets the entry mode for the credit card.
         /// </summary>
-        [JsonProperty("entry_mode")]
+        [JsonPropertyName("entry_mode")]
         public string EntryMode { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the credit card.
         /// </summary>
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
         /// <summary>
         /// Gets or sets the masked credit card number.
         /// </summary>
-        [JsonProperty("number")]
+        [JsonPropertyName("number")]
         public string Number { get; set; }
     }
 
@@ -257,13 +256,13 @@ namespace UsaEPay.NET.Models.Events
         /// <summary>
         /// Gets or sets the customer's receipt status.
         /// </summary>
-        [JsonProperty("customer")]
+        [JsonPropertyName("customer")]
         public string Customer { get; set; }
 
         /// <summary>
         /// Gets or sets the merchant's receipt status.
         /// </summary>
-        [JsonProperty("merchant")]
+        [JsonPropertyName("merchant")]
         public string Merchant { get; set; }
     }
 }
