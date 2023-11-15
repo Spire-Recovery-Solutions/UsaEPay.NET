@@ -10,7 +10,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Timestamp for transaction.
         /// </summary>
         [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
-        public DateTimeOffset Timestamp { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>
@@ -239,7 +239,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Timestamp for transaction.
         /// </summary>
         [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
-        public DateTimeOffset Timestamp { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
         /// Denotes this object is a batch.
         /// </summary>
@@ -434,7 +434,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Timestamp for transaction.
         /// </summary>
         [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
-        public DateTimeOffset Timestamp { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>
@@ -470,7 +470,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Timestamp for transaction.
         /// </summary>
         [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
-        public DateTimeOffset Timestamp { get; set; }
+        public DateTimeOffset? Timestamp { get; set; }
         /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>

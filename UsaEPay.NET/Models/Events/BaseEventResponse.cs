@@ -16,7 +16,7 @@ namespace UsaEPay.NET.Models.Events
         /// </summary>
         [JsonPropertyName("event_triggered")]
         [JsonConverter(typeof(USAePayStringToDatetimeOffsetConverter))]
-        public DateTimeOffset EventTriggered { get; set; }
+        public DateTimeOffset? EventTriggered { get; set; }
 
         /// <summary>
         /// Describes the type of the event.
