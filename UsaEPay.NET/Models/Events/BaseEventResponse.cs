@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using UsaEPay.NET.Converter;
+using UsaEPay.NET.Models.Enumerations.Event;
 
 namespace UsaEPay.NET.Models.Events
 {
@@ -23,7 +24,7 @@ namespace UsaEPay.NET.Models.Events
         /// </summary>
         [JsonPropertyName("event_type")]
         [JsonConverter(typeof(EventTypeConverter))]
-        public string EventType { get; set; }
+        public EventType EventType { get; set; }
 
         /// <summary>
         /// Unique identifier for the event.
