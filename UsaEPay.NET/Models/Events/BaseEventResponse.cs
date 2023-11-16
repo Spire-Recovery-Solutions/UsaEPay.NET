@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using UsaEPay.NET.Converter;
 using UsaEPay.NET.Models.Enumerations.Event;
 
