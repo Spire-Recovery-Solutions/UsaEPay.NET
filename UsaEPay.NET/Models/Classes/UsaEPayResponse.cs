@@ -21,11 +21,11 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("key")]
         public string Key { get; set; }
-        /// <summary>
-        /// Unique transaction reference number.
-        /// </summary>
-        [JsonPropertyName("refnum")]
-        public string ReferenceNumber { get; set; }
+        ///// <summary>
+        ///// Unique transaction reference number.
+        ///// </summary>
+        //[JsonPropertyName("refnum")]
+        //public string ReferenceNumber { get; set; }
         /// <summary>
         /// Unique transaction reference number.
         /// </summary>

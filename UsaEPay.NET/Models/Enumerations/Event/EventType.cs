@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using UsaEPay.NET.Converter;
 
- namespace UsaEPay.NET.Models.Enumerations.Event
+namespace UsaEPay.NET.Models.Enumerations.Event
 {
     
     /// <summary>
@@ -48,7 +48,7 @@ using UsaEPay.NET.Converter;
         /// <summary>
         /// Note added to ACH transaction.
         /// </summary>
-        [JsonPropertyName("ach.note_added")]
+        [JsonPropertyName("cardupdate.note_added")]
         AchNoteAdded,
 
         // Card Update (CAU) Events
@@ -56,37 +56,37 @@ using UsaEPay.NET.Converter;
         /// <summary>
         /// Card has been queued for update.
         /// </summary>
-        [JsonPropertyName("cau.created")] 
+        [JsonPropertyName("cardupdate.created")] 
         CauCreated,
 
         /// <summary>
         /// Card has been submitted to the processor for update.
         /// </summary>
-        [JsonPropertyName("cau.submitted")] 
+        [JsonPropertyName("cardupdate.submitted")] 
         CauSubmitted,
 
         /// <summary>
         /// An updated expiration date has been received.
         /// </summary>
-        [JsonPropertyName("cau.updated_expiration")]
+        [JsonPropertyName("cardupdate.updated_expiration")]
         CauUpdatedExpiration,
 
         /// <summary>
         /// An updated card number has been received.
         /// </summary>
-        [JsonPropertyName("cau.updated_card")] 
+        [JsonPropertyName("cardupdate.updated_card")] 
         CauUpdatedCard,
 
         /// <summary>
         /// Received a message from the issuer to contact the customer for a new card number.
         /// </summary>
-        [JsonPropertyName("cau.contact_customer")]
+        [JsonPropertyName("cardupdate.contact_customer")]
         CauContactCustomer,
 
         /// <summary>
         /// Received notification of account closure.
         /// </summary>
-        [JsonPropertyName("cau.account_closed")]
+        [JsonPropertyName("cardupdate.account_closed")]
         CauAccountClosed,
 
         // Product Inventory Events
