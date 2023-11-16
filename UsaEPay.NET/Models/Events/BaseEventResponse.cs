@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using UsaEPay.NET.Converter;
 using UsaEPay.NET.Models.Enumerations.Event;
 
@@ -23,7 +23,7 @@ namespace UsaEPay.NET.Models.Events
         /// Describes the type of the event.
         /// </summary>
         [JsonPropertyName("event_type")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
+        [JsonConverter(typeof(EventTypeConverter))]
         public EventType EventType { get; set; }
 
         /// <summary>

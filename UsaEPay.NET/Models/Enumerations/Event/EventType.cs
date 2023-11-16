@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using UsaEPay.NET.Converter;
 
 namespace UsaEPay.NET.Models.Enumerations.Event
 {
@@ -11,7 +12,7 @@ namespace UsaEPay.NET.Models.Enumerations.Event
     /// <summary>
     /// Enum representing various events.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(EventTypeConverter))]
     public enum EventType
     {
         /// <summary>
