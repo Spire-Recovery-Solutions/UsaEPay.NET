@@ -22,6 +22,7 @@ namespace UsaEPay.NET.Models.Events
         /// Describes the type of the event.
         /// </summary>
         [JsonPropertyName("event_type")]
+        [JsonConverter(typeof(EventTypeConverter))]
         public string EventType { get; set; }
 
         /// <summary>
