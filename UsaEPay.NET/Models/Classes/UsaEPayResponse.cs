@@ -300,8 +300,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("sales_amount")]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long SalesAmount { get; set; }
+        public double SalesAmount { get; set; }
         /// <summary>
         /// Total transaction count. This includes sales only.
         /// Only shows when batch contains this transaction type.
