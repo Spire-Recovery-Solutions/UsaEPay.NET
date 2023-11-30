@@ -21,6 +21,11 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("key")]
         public string Key { get; set; }
+        /// <summary>
+        /// Object holding check information for check payments
+        /// </summary>
+        [JsonPropertyName("check")]
+        public Check Check { get; set; }
         ///// <summary>
         ///// Unique transaction reference number.
         ///// </summary>
