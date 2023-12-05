@@ -348,7 +348,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Six digit credit card bin.
         /// </summary>
         [JsonPropertyName("bin")]
-        public string CardBin { get; set; }
+        public int CardBin { get; set; }
         /// <summary>
         /// Masked credit card number.
         /// </summary>
