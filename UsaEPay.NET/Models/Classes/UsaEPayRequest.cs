@@ -97,8 +97,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("amount")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
         /// <summary>
         /// Set to true to save the customer information to the customer database
         /// </summary>

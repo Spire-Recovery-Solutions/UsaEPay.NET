@@ -14,8 +14,7 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayTransactionParams
     {
         [JsonPropertyName("Amount")]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
 
         [JsonPropertyName("FirstName")]
         public string FirstName { get; set; }

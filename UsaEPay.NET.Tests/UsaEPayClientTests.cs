@@ -47,7 +47,7 @@ namespace UsaEPay.NET.Tests
             var response = await Client.SendRequest<UsaEPayResponse>(request);
             if (response.ResultCode == "A")
             {
-                Token = response.SavedCard.Key?.Replace("-", "");
+                Token = response.SavedCard.Key;
             }
 
             Assert.That(response.ResultCode, Is.EqualTo("A"));
