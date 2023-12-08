@@ -231,16 +231,16 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("subtotal")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Subtotal { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double Subtotal { get; set; }
 
         /// <summary>
         /// The amount of tax collected.
         /// </summary>
         [JsonPropertyName("tax")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Tax { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double Tax { get; set; }
 
         /// <summary>
         /// Transaction is non taxable 
@@ -254,32 +254,32 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("tip")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Tip { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double Tip { get; set; }
 
         /// <summary>
         /// Amount of discount applied to total transaction.
         /// </summary>
         [JsonPropertyName("discount")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Discount { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double Discount { get; set; }
 
         /// <summary>
         /// Amount of shipping fees collected.
         /// </summary>
         [JsonPropertyName("shipping")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Shipping { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double Shipping { get; set; }
 
         /// <summary>
         /// Amount of duty collected.
         /// </summary>
         [JsonPropertyName("duty")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Duty { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double Duty { get; set; }
 
         /// <summary>
         /// Enable partial amount authorization. If the available card balance is less than the amount request, the balance will be authorized and the POS must prompt the customer for another payment to cover the remainder. The result_code will be "P" and auth_amount will contain the partial amount that was approved.
@@ -467,8 +467,8 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("cost")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal Cost { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double Cost { get; set; }
         /// <summary>
         /// Quantity of products. (Required)
         /// </summary>
@@ -499,8 +499,8 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("tax_amount")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal TaxAmount { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double TaxAmount { get; set; }
         /// <summary>
         /// Tax percentage that should be applied to line item amount.
         /// </summary>
@@ -517,8 +517,8 @@ namespace UsaEPay.NET.Models.Classes
         /// Discount amount that should be applied to line item amount.
         /// </summary>
         [JsonPropertyName("discount_amount")]
-        [JsonConverter(typeof(ParseStringToDecimalConverter))]
-        public decimal DiscountAmount { get; set; }
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
+        public double DiscountAmount { get; set; }
         /// <summary>
         /// Unique identifier for warehouse location.
         /// </summary>

@@ -100,6 +100,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Amount needed for transaction.
         /// </summary>
         [JsonPropertyName("amount")]
+        [JsonConverter(typeof(ParseStringToDoubleConverter))]
         public double Amount { get; set; }
         /// <summary>
         /// Amount details needed for transaction.
