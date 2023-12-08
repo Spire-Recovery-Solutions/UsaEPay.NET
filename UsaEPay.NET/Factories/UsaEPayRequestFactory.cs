@@ -145,7 +145,7 @@ namespace UsaEPay.NET.Factories
         /// Creates a request for processing a sale with a payment_key in place of a card number. 
         /// The payment_key is a one time use token. To create a reusable token, set the save_card flag to true.
         /// </summary>
-        public static UsaEPayRequest PaymentKeySaleRequest(decimal amount, string paymentKey)
+        public static UsaEPayRequest PaymentKeySaleRequest(double amount, string paymentKey)
         {
             return new UsaEPayRequest
             {
@@ -160,7 +160,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for logging a cash sale transaction.
         /// </summary>
-        public static UsaEPayRequest CashSaleRequest(decimal amount)
+        public static UsaEPayRequest CashSaleRequest(double amount)
         {
             return new UsaEPayRequest
             {
@@ -175,7 +175,7 @@ namespace UsaEPay.NET.Factories
         /// Creates a request for processing a quick sale transaction.
         /// This works for Credit Card, Token, and Check transactions.
         /// </summary>
-        public static UsaEPayRequest QuickSaleRequest(decimal amount, string transactionKey)
+        public static UsaEPayRequest QuickSaleRequest(double amount, string transactionKey)
         {
             return new UsaEPayRequest
             {
@@ -260,7 +260,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a cash refund transaction.
         /// </summary>
-        public static UsaEPayRequest CashRefundRequest(decimal amount)
+        public static UsaEPayRequest CashRefundRequest(double amount)
         {
             return new UsaEPayRequest
             {
@@ -274,7 +274,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a quick refund transaction.
         /// </summary>
-        public static UsaEPayRequest QuickRefundRequest(decimal amount, string tranKey)
+        public static UsaEPayRequest QuickRefundRequest(double amount, string tranKey)
         {
             return new UsaEPayRequest
             {
@@ -438,7 +438,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for adjusting a refunded credit card payment.
         /// </summary>
-        public static UsaEPayRequest AdjustPaymentRefundRequest(string transKey, decimal amount)
+        public static UsaEPayRequest AdjustPaymentRefundRequest(string transKey, double amount)
         {
             return new UsaEPayRequest
             {
