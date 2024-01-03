@@ -549,11 +549,11 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving batch transactions by batchId
         /// </summary>
-        public static UsaEPayGetRequest RetrieveBatchTransactionsByIdRequest(string batchId)
+        public static UsaEPayGetRequest RetrieveBatchTransactionsByIdRequest(string batchId, int limit = 20, int offset = 0)
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"{UsaEPayEndpoints.Batches}/{batchId}/{UsaEPayEndpoints.Transactions}"
+                Endpoint = $"{UsaEPayEndpoints.Batches}/{batchId}/{UsaEPayEndpoints.Transactions}?limit={limit}&offset={offset}"
             };
         }
 

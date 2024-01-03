@@ -380,6 +380,17 @@ namespace UsaEPay.NET.Tests
 
             Assert.That(response.Status, Is.EqualTo("closing"));
         }
+
+        
+        [Test, Order(6), Category("TestRetrieveBatchTransactionsByIdRequest")]
+        public async Task TestRetrieveBatchTransactionsByIdRequest()
+        {
+            var request = UsaEPayRequestFactory.RetrieveBatchTransactionsByIdRequest(BatchKey, 5, 1);
+
+            var response = await Client.SendRequest<UsaEPayBatchListResponse>(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
     }
 
     //[Test]
