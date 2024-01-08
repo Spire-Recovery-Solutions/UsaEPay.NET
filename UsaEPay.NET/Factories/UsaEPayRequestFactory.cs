@@ -26,7 +26,7 @@ namespace UsaEPay.NET.Factories
                     Number = tranParams.CardNumber,
                     Cvc = tranParams.Cvc,
                     Expiration = tranParams.Expiration,
-                    CardHolder = $"{tranParams.FirstName} {tranParams.LastName}",
+                    CardHolder = tranParams.AccountHolder,
 
                 },
                 BillingAddress = new Address

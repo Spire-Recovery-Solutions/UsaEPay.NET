@@ -87,6 +87,7 @@ namespace UsaEPay.NET.Tests
                 Amount = 10,
                 FirstName = "John",
                 LastName = "Doe",
+                AccountHolder = "John Doe",
                 Address = "555 Test Street",
                 Address2 = "",
                 City = "Testington",
@@ -341,7 +342,7 @@ namespace UsaEPay.NET.Tests
         }
 
         [Test, Order(2), Category("BatchListByDate")]
-        [TestCase(20171003, 20171004)]
+        [TestCase(20230101, 20240201)]
         public async Task TestBatchListByDate(long openedAfter, long openedBefore)
         {
             var request = UsaEPayRequestFactory.RetrieveBatchListByDateRequest(openedAfter, openedBefore);
