@@ -25,7 +25,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Object holding check information for check payments
         /// </summary>
         [JsonPropertyName("check")]
-        public Check Check { get; set; }
+        public Check? Check { get; set; }
         ///// <summary>
         ///// Unique transaction reference number.
         ///// </summary>
@@ -75,12 +75,12 @@ namespace UsaEPay.NET.Models.Classes
         /// Object holding credit card information
         /// </summary>
         [JsonPropertyName("creditcard")]
-        public CreditCard CreditCard { get; set; }
+        public CreditCard? CreditCard { get; set; }
         /// <summary>
         /// Object containing saved/tokenized credit card information
         /// </summary>
         [JsonPropertyName("savedcard")]
-        public SavedCard SavedCard { get; set; }
+        public SavedCard? SavedCard { get; set; }
         /// <summary>
         /// Custom Invoice Number to easily retrieve sale details.
         /// </summary>
@@ -90,17 +90,17 @@ namespace UsaEPay.NET.Models.Classes
         /// The Address Verification System (AVS) result.
         /// </summary>
         [JsonPropertyName("avs")]
-        public AVS AVS { get; set; }
+        public AVS? AVS { get; set; }
         /// <summary>
         /// The Card Security Code (3-4 digit code) verification result.
         /// </summary>
         [JsonPropertyName("cvc")]
-        public CVC CVC { get; set; }
+        public CVC? CVC { get; set; }
         /// <summary>
         /// Batch information.
         /// </summary>
         [JsonPropertyName("batch")]
-        public Batch Batch { get; set; }
+        public Batch? Batch { get; set; }
         /// <summary>
         /// Amount needed for transaction.
         /// </summary>
@@ -111,7 +111,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Amount details needed for transaction.
         /// </summary>
         [JsonPropertyName("amount_detail")]
-        public AmountDetail AmountDetail { get; set; }
+        public AmountDetail? AmountDetail { get; set; }
         /// <summary>
         /// Merchant assigned order identifier.
         /// </summary>
@@ -132,17 +132,17 @@ namespace UsaEPay.NET.Models.Classes
         /// Object which holds the customer's billing address information.
         /// </summary>
         [JsonPropertyName("billing_address")]
-        public Address BillingAddress { get; set; }
+        public Address? BillingAddress { get; set; }
         /// <summary>
         /// Credit card bin detail. This will only be included if the return_bin flag is passed through.
         /// </summary>
         [JsonPropertyName("bin")]
-        public Bin Bin { get; set; }
+        public Bin? Bin { get; set; }
         /// <summary>
         /// Credit card fraud detail. This will only be included if the return_fraud flag is passed through.
         /// </summary>
         [JsonPropertyName("fraud")]
-        public Fraud Fraud { get; set; }
+        public Fraud? Fraud { get; set; }
         /// <summary>
         /// Amount authorized
         /// </summary>
@@ -158,7 +158,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Receipt information.
         /// </summary>
         [JsonPropertyName("receipts")]
-        public Receipts Receipts { get; set; }
+        public Receipts? Receipts { get; set; }
         /// <summary>
         /// ICC information fields. This will only be included for EMV transactions.
         /// </summary>
