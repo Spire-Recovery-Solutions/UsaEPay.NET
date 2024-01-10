@@ -67,6 +67,9 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("Invoice")]
         public string Invoice { get; set; }
 
+        [JsonPropertyName("OrderId")]
+        public string OrderId { get; set; }
+
         [JsonPropertyName("ClientIP")]
         public string ClientIP { get; set; }
 
