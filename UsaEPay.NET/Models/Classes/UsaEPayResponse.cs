@@ -116,8 +116,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Merchant assigned order identifier.
         /// </summary>
         [JsonPropertyName("orderid")]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long Orderid { get; set; }
+        public string OrderId { get; set; }
         /// <summary>
         /// Description for the transaction
         /// </summary>
