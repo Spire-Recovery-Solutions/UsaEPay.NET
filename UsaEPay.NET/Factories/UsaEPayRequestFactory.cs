@@ -42,6 +42,7 @@ namespace UsaEPay.NET.Factories
                     Phone = tranParams.Phone,
                 },
                 Invoice = tranParams.Invoice,
+                OrderId = tranParams.OrderId,
                 ClientIP = tranParams.ClientIP,
                 SaveCard = true
             };
@@ -87,6 +88,7 @@ namespace UsaEPay.NET.Factories
                     Phone = tranParams.Phone,
                 },
                 Invoice = tranParams.Invoice,
+                OrderId = tranParams.OrderId,
                 ClientIP = tranParams.ClientIP,
                 SaveCard = true
             };
@@ -130,6 +132,7 @@ namespace UsaEPay.NET.Factories
                     Phone = tranParams.Phone,
                 },
                 Invoice = tranParams.Invoice,
+                OrderId = tranParams.OrderId,
                 ClientIP = tranParams.ClientIP,
                 CustomFields = customFields
             };
@@ -253,7 +256,9 @@ namespace UsaEPay.NET.Factories
                     Account = tranParams.AccountNumber,
                     AccountType = tranParams.AccountType,
                     Routing = tranParams.Routing
-                }
+                },
+                Invoice = tranParams.Invoice,
+                OrderId = tranParams.OrderId,
             };
         }
 
@@ -282,7 +287,8 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.QuickRefund,
                 Amount = amount,
-                TransactionKey = tranKey
+                TransactionKey = tranKey,
+
             };
         }
 
