@@ -209,7 +209,9 @@ namespace UsaEPay.NET.Factories
                     Number = tranParams.CardNumber,
                     Expiration = tranParams.Expiration,
                     Cvc = tranParams.Cvc
-                }
+                },
+                Invoice = tranParams.Invoice,
+                OrderId = tranParams.OrderId,
             };
         }
 
@@ -232,7 +234,9 @@ namespace UsaEPay.NET.Factories
                     Number = tranParams.CardNumber,
                     Expiration = tranParams.Expiration,
                     Cvc = tranParams.Cvc
-                }
+                },
+                Invoice = tranParams.Invoice,
+                OrderId = tranParams.OrderId,
             };
         }
 
@@ -381,7 +385,9 @@ namespace UsaEPay.NET.Factories
                     Expiration = tranParams.Expiration,
                     Cvc = tranParams.Cvc,
                     CardHolder = tranParams.CardHolder
-                }
+                },
+                Invoice = tranParams.Invoice,
+                OrderId = tranParams.OrderId,
             };
         }
 
@@ -474,6 +480,8 @@ namespace UsaEPay.NET.Factories
                     Expiration = tranParams.Expiration,
                     CardHolder = tranParams.CardHolder
                 },
+                Invoice = tranParams.Invoice,
+                OrderId = tranParams.OrderId,
             };
         }
 
