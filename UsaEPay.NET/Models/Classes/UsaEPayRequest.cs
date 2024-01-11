@@ -300,13 +300,13 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// First name associated with billing address
         /// </summary>
-        [JsonPropertyName("firstname")]
+        [JsonPropertyName("first_name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string FirstName { get; set; }
         /// <summary>
         /// Last name associated with billing address
         /// </summary>
-        [JsonPropertyName("lastname")]
+        [JsonPropertyName("last_name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string LastName { get; set; }
         /// <summary>
