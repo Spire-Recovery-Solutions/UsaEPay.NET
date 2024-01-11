@@ -153,10 +153,18 @@ namespace UsaEPay.NET.Tests
             var authOnlyParams = new UsaEPayTransactionParams
             {
                 Amount = 10,
-                CardHolder = "John Doe",
+                AccountHolder = "John Doe",
                 CardNumber = "4000100011112224",
                 Expiration = "0924",
-                Cvc = 123
+                Cvc = 123,
+                FirstName = "John",
+                LastName = "Doe",
+                Address = "555 Test Street",
+                Address2 = "Street 2",
+                City = "Testington",
+                State = "OK",
+                Zip = "33242",
+
             };
             var request = UsaEPayRequestFactory.AuthOnlySaleRequest(authOnlyParams);
 
@@ -388,7 +396,7 @@ namespace UsaEPay.NET.Tests
         {
             var request = UsaEPayRequestFactory.RetrieveBatchTransactionsByIdRequest(BatchKey, 5, 1);
 
-            var response = await Client.SendRequest<UsaEPayBatchListResponse>(request);
+            var response = await Client.SendRequest<UsaEPayBatchTransactionResponse>(request);
 
             Assert.That(response, Is.Not.Null);
         }

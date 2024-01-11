@@ -205,10 +205,20 @@ namespace UsaEPay.NET.Factories
                 Description = tranParams.Description,
                 CreditCard = new CreditCard
                 {
-                    CardHolder = tranParams.CardHolder,
+                    CardHolder = tranParams.AccountHolder,
                     Number = tranParams.CardNumber,
                     Expiration = tranParams.Expiration,
                     Cvc = tranParams.Cvc
+                },
+                BillingAddress = new Address
+                {
+                    FirstName = tranParams.FirstName,
+                    LastName = tranParams.LastName,
+                    Street = tranParams.Address,
+                    Street2 = tranParams.Address2,
+                    City = tranParams.City,
+                    State = tranParams.State,
+                    PostalCode = tranParams.Zip,
                 },
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
