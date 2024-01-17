@@ -32,6 +32,7 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(Receipts))]
     [JsonSerializable(typeof(UsaEPayBatchListResponse))]
     [JsonSerializable(typeof(UsaEPayBatchTransactionResponse))]
+    [JsonSerializable(typeof(UsaEPayListTransactionResponse))]
     [JsonSerializable(typeof(UsaEPayTransactionParams))]
     [JsonSerializable(typeof(ACHStatusEventResponse))]
     [JsonSerializable(typeof(ACHEventBody))]

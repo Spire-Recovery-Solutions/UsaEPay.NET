@@ -505,4 +505,41 @@ namespace UsaEPay.NET.Models.Classes
         public long Total { get; set; }
 
     }
+    public partial class UsaEPayListTransactionResponse : IUsaEPayResponse
+    {
+        /// <summary>
+        /// Timestamp for transaction.
+        /// </summary>
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        public DateTimeOffset? Timestamp { get; set; }
+        /// <summary>
+        /// Object type. This will always be transaction.
+        /// </summary>
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
+        /// <summary>
+        /// The maximum amount of batches that will be included.
+        /// </summary>
+        [JsonPropertyName("limit")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long Limit { get; set; }
+        /// <summary>
+        /// The number of batches skipped from the results.
+        /// </summary>
+        [JsonPropertyName("offset")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long Offset { get; set; }
+        /// <summary>
+        /// An array of batches matching the search.
+        /// </summary>
+        [JsonPropertyName("data")]
+        public UsaEPayResponse[] Data { get; set; }
+        /// <summary>
+        /// The total amount of batches, including filtering results.
+        /// </summary>
+        [JsonPropertyName("total")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long Total { get; set; }
+
+    }
 }
