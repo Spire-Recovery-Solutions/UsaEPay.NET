@@ -44,7 +44,7 @@ namespace UsaEPay.NET.Factories
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
                 ClientIP = tranParams.ClientIP,
-                SaveCard = true
+                SaveCard = false
             };
             if (customFields != null)
             {
@@ -90,7 +90,7 @@ namespace UsaEPay.NET.Factories
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
                 ClientIP = tranParams.ClientIP,
-                SaveCard = true
+                SaveCard = false
             };
             if (customFields != null)
             {
