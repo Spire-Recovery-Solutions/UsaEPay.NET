@@ -591,5 +591,16 @@ namespace UsaEPay.NET.Factories
                 Endpoint = $"{UsaEPayEndpoints.CurrentBatchTransactions}"
             };
         }
+
+        /// <summary>
+        /// Creates a request for retrieving a list of transaction.
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveTransactionsRequest()
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.Transactions}"
+            };
+        }
     }
 }

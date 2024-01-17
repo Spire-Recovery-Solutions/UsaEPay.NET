@@ -329,6 +329,17 @@ namespace UsaEPay.NET.Tests
 
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
+
+
+        [Test, Order(19), Category("ListTransactions")]
+        public async Task TestTransactionList()
+        {
+            var request = UsaEPayRequestFactory.RetrieveTransactionsRequest();
+
+            var response = await Client.SendRequest<UsaEPayBatchTransactionResponse>(request);
+
+            Assert.That(response, Is.Not.Null);
+        }
     }
 
     [Order(3)]
