@@ -595,11 +595,11 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving a list of transaction.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveTransactionsRequest()
+        public static UsaEPayGetRequest RetrieveTransactionsRequest(int limit = 20, int offset = 0)
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"{UsaEPayEndpoints.Transactions}"
+                Endpoint = $"{UsaEPayEndpoints.Transactions}?limit={limit}&offset={offset}"
             };
         }
     }
