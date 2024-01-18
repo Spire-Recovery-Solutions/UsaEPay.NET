@@ -218,7 +218,7 @@ namespace UsaEPay.NET.Tests
         [Test, Order(7), Category("Refund")]
         public async Task TestQuickRefund()
         {
-            var request = UsaEPayRequestFactory.QuickRefundRequest(1, TransKey);
+            var request = UsaEPayRequestFactory.QuickRefundRequest(10, TransKey);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
