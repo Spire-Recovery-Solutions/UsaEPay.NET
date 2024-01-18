@@ -293,16 +293,25 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a connected refund transaction.
         /// </summary>
-        public static UsaEPayRequest ConnectedRefundRequest(string tranKey)
+        public static UsaEPayRequest ConnectedRefundRequest(string transKey, UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields = null)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.Refund,
-                TransactionKey = tranKey,
-
+                TransactionKey = transKey,
+                Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                ClientIP = tranParams.ClientIP
             };
+
+            if (customFields != null)
+            {
+                request.CustomFields = customFields;
+            }
+
+            return request;
         }
 
         /// <summary>

@@ -228,7 +228,13 @@ namespace UsaEPay.NET.Tests
         [Test, Order(8), Category("Refund")]
         public async Task TestConnectedRefund()
         {
-            var request = UsaEPayRequestFactory.ConnectedRefundRequest(TransAuthKey);
+            var connectedRefundParams = new UsaEPayTransactionParams
+            {
+                Amount = 10,
+                Email = "test@.com",
+                ClientIP = "10.1.0.1"
+            };
+            var request = UsaEPayRequestFactory.ConnectedRefundRequest(TransAuthKey, connectedRefundParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
