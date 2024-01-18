@@ -67,9 +67,10 @@ namespace UsaEPay.NET.Tests
                 City = "Testington",
                 State = "OK",
                 Zip = "33242",
-                Cvc = 123
+                Cvc = 123,
+                Token = Token
             };
-            var request = UsaEPayRequestFactory.TokenSaleRequest(tokenSaleParams, Token);
+            var request = UsaEPayRequestFactory.TokenSaleRequest(tokenSaleParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -112,7 +113,12 @@ namespace UsaEPay.NET.Tests
         [Test, Order(2), Category("Sale")]
         public async Task TestQuickSale()
         {
-            var request = UsaEPayRequestFactory.QuickSaleRequest(10, TransKey);
+            var quickSaleParams = new UsaEPayTransactionParams
+            {
+                Amount = 10,
+                TransactionKey = TransKey
+            };
+                var request = UsaEPayRequestFactory.QuickSaleRequest(quickSaleParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -218,7 +224,12 @@ namespace UsaEPay.NET.Tests
         [Test, Order(7), Category("Refund")]
         public async Task TestQuickRefund()
         {
-            var request = UsaEPayRequestFactory.QuickRefundRequest(10, TransKey);
+            var quickRefundParams = new UsaEPayTransactionParams
+            {
+                Amount = 10,
+                TransactionKey = TransKey
+            };
+                var request = UsaEPayRequestFactory.QuickRefundRequest(quickRefundParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -232,9 +243,10 @@ namespace UsaEPay.NET.Tests
             {
                 Amount = 10,
                 Email = "test@.com",
-                ClientIP = "10.1.0.1"
+                ClientIP = "10.1.0.1",
+                TransactionKey = TransAuthKey
             };
-            var request = UsaEPayRequestFactory.ConnectedRefundRequest(TransAuthKey, connectedRefundParams);
+            var request = UsaEPayRequestFactory.ConnectedRefundRequest(connectedRefundParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -244,7 +256,12 @@ namespace UsaEPay.NET.Tests
         [Test, Order(9), Category("Refund")]
         public async Task TestAdjustPaymentRefund()
         {
-            var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(TranCheckKey, 10);
+            var adjustRefundParams = new UsaEPayTransactionParams
+            {
+                Amount = 10,
+                TransactionKey = TranCheckKey
+            };
+                var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(adjustRefundParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -254,7 +271,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(10), Category("Capture")]
         public async Task TestCapturePayment()
         {
-            var request = UsaEPayRequestFactory.CapturePaymentRequest(TransKey);
+            var adjustRefundParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.CapturePaymentRequest(adjustRefundParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -264,7 +285,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(11), Category("Capture")]
         public async Task TestCapturePaymentError()
         {
-            var request = UsaEPayRequestFactory.CapturePaymentErrorRequest(TransKey);
+            var captureErrorParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.CapturePaymentErrorRequest(captureErrorParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -274,7 +299,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(12), Category("Capture")]
         public async Task TestCapturePaymentReauth()
         {
-            var request = UsaEPayRequestFactory.CapturePaymentReauthRequest(TransKey);
+            var captureReAuthParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.CapturePaymentReauthRequest(captureReAuthParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -284,7 +313,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(13), Category("Capture")]
         public async Task TestCapturePaymentOverride()
         {
-            var request = UsaEPayRequestFactory.CapturePaymentOverrideRequest(TransKey);
+            var captureOverrideParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.CapturePaymentOverrideRequest(captureOverrideParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -294,7 +327,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(14), Category("Adjust")]
         public async Task TestAdjustPayment()
         {
-            var request = UsaEPayRequestFactory.AdjustPaymentRequest(TransKey);
+            var adjustTransactionParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.AdjustPaymentRequest(adjustTransactionParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -304,7 +341,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(15), Category("RetrieveDetails")]
         public async Task TestRetrieveTransactionDetails()
         {
-            var request = UsaEPayRequestFactory.RetrieveTransactionDetailsRequest(TransKey);
+            var retrieveTransactionParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.RetrieveTransactionDetailsRequest(retrieveTransactionParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -314,7 +355,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(16), Category("Void")]
         public async Task TestCreditVoid()
         {
-            var request = UsaEPayRequestFactory.CreditVoidRequest(TransKey);
+            var voidTransactionParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.CreditVoidRequest(voidTransactionParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -324,7 +369,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(17), Category("Void")]
         public async Task TestVoidPayment()
         {
-            var request = UsaEPayRequestFactory.VoidPaymentRequest(TranCheckKey);
+            var voidPaymentParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TranCheckKey
+            };
+            var request = UsaEPayRequestFactory.VoidPaymentRequest(voidPaymentParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -334,7 +383,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(18), Category("Void")]
         public async Task TestUnvoid()
         {
-            var request = UsaEPayRequestFactory.UnvoidRequest(TransKey);
+            var UnvoidPaymentParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.UnvoidRequest(UnvoidPaymentParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -344,7 +397,11 @@ namespace UsaEPay.NET.Tests
         [Test, Order(19), Category("Void")]
         public async Task TestReleaseFunds()
         {
-            var request = UsaEPayRequestFactory.ReleaseFundsRequest(TransKey);
+            var releaseFundParams = new UsaEPayTransactionParams
+            {
+                TransactionKey = TransKey
+            };
+            var request = UsaEPayRequestFactory.ReleaseFundsRequest(releaseFundParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
