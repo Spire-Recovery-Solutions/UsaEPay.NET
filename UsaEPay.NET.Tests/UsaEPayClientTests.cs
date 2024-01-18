@@ -10,6 +10,7 @@ namespace UsaEPay.NET.Tests
         public static IConfiguration Config;
         public static string Token = string.Empty;
         public static string TransKey = string.Empty;
+        public static string TransAuthKey = string.Empty;
         public static string TranCheckKey = string.Empty;
         public string BatchKey = string.Empty;
     }
@@ -169,6 +170,10 @@ namespace UsaEPay.NET.Tests
             var request = UsaEPayRequestFactory.AuthOnlySaleRequest(authOnlyParams);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
+            if (response.ResultCode == "A")
+            {
+                TransAuthKey = response.Key;
+            }
 
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
@@ -213,7 +218,7 @@ namespace UsaEPay.NET.Tests
         [Test, Order(7), Category("Refund")]
         public async Task TestQuickRefund()
         {
-            var request = UsaEPayRequestFactory.QuickRefundRequest(10, TransKey);
+            var request = UsaEPayRequestFactory.QuickRefundRequest(1, TransKey);
 
             var response = await Client.SendRequest<UsaEPayResponse>(request);
 
@@ -221,6 +226,16 @@ namespace UsaEPay.NET.Tests
         }
 
         [Test, Order(8), Category("Refund")]
+        public async Task TestConnectedRefund()
+        {
+            var request = UsaEPayRequestFactory.ConnectedRefundRequest(TransAuthKey);
+
+            var response = await Client.SendRequest<UsaEPayResponse>(request);
+
+            Assert.That(response.ResultCode, Is.EqualTo("A"));
+        }
+
+        [Test, Order(9), Category("Refund")]
         public async Task TestAdjustPaymentRefund()
         {
             var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(TranCheckKey, 10);
@@ -230,7 +245,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(9), Category("Capture")]
+        [Test, Order(10), Category("Capture")]
         public async Task TestCapturePayment()
         {
             var request = UsaEPayRequestFactory.CapturePaymentRequest(TransKey);
@@ -240,7 +255,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(10), Category("Capture")]
+        [Test, Order(11), Category("Capture")]
         public async Task TestCapturePaymentError()
         {
             var request = UsaEPayRequestFactory.CapturePaymentErrorRequest(TransKey);
@@ -250,7 +265,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(11), Category("Capture")]
+        [Test, Order(12), Category("Capture")]
         public async Task TestCapturePaymentReauth()
         {
             var request = UsaEPayRequestFactory.CapturePaymentReauthRequest(TransKey);
@@ -260,7 +275,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(12), Category("Capture")]
+        [Test, Order(13), Category("Capture")]
         public async Task TestCapturePaymentOverride()
         {
             var request = UsaEPayRequestFactory.CapturePaymentOverrideRequest(TransKey);
@@ -270,7 +285,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(13), Category("Adjust")]
+        [Test, Order(14), Category("Adjust")]
         public async Task TestAdjustPayment()
         {
             var request = UsaEPayRequestFactory.AdjustPaymentRequest(TransKey);
@@ -280,7 +295,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(14), Category("RetrieveDetails")]
+        [Test, Order(15), Category("RetrieveDetails")]
         public async Task TestRetrieveTransactionDetails()
         {
             var request = UsaEPayRequestFactory.RetrieveTransactionDetailsRequest(TransKey);
@@ -290,7 +305,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(15), Category("Void")]
+        [Test, Order(16), Category("Void")]
         public async Task TestCreditVoid()
         {
             var request = UsaEPayRequestFactory.CreditVoidRequest(TransKey);
@@ -300,7 +315,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(16), Category("Void")]
+        [Test, Order(17), Category("Void")]
         public async Task TestVoidPayment()
         {
             var request = UsaEPayRequestFactory.VoidPaymentRequest(TranCheckKey);
@@ -310,7 +325,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(17), Category("Void")]
+        [Test, Order(18), Category("Void")]
         public async Task TestUnvoid()
         {
             var request = UsaEPayRequestFactory.UnvoidRequest(TransKey);
@@ -320,7 +335,7 @@ namespace UsaEPay.NET.Tests
             Assert.That(response.ResultCode, Is.EqualTo("A"));
         }
 
-        [Test, Order(18), Category("Void")]
+        [Test, Order(19), Category("Void")]
         public async Task TestReleaseFunds()
         {
             var request = UsaEPayRequestFactory.ReleaseFundsRequest(TransKey);
@@ -331,7 +346,7 @@ namespace UsaEPay.NET.Tests
         }
 
 
-        [Test, Order(19), Category("ListTransactions")]
+        [Test, Order(20), Category("ListTransactions")]
         public async Task TestTransactionList()
         {
             var request = UsaEPayRequestFactory.RetrieveTransactionsRequest(5,0);
