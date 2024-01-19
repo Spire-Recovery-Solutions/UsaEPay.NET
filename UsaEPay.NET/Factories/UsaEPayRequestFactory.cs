@@ -103,7 +103,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request which process a sale using a token with or without custom fields in the place of a credit card number 
         /// </summary>
-        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams, string token,
+        public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams,
             Dictionary<string, string> customFields = null)
         {
             var request = new UsaEPayRequest
@@ -116,7 +116,7 @@ namespace UsaEPay.NET.Factories
                 Description = tranParams.Description,
                 CreditCard = new CreditCard
                 {
-                    Number = token,
+                    Number = tranParams.Token,
                     Cvc = tranParams.Cvc
                 },
                 BillingAddress = new Address
@@ -145,32 +145,16 @@ namespace UsaEPay.NET.Factories
         }
 
         /// <summary>
-        /// Creates a request for processing a sale with a payment_key in place of a card number. 
-        /// The payment_key is a one time use token. To create a reusable token, set the save_card flag to true.
-        /// </summary>
-        public static UsaEPayRequest PaymentKeySaleRequest(double amount, string paymentKey)
-        {
-            return new UsaEPayRequest
-            {
-                Endpoint = UsaEPayEndpoints.Transactions,
-                RequestType = RestSharp.Method.Post,
-                Command = UsaEPayCommandTypes.TransactionSale,
-                Amount = amount,
-                PaymentKey = paymentKey
-            };
-        }
-
-        /// <summary>
         /// Creates a request for logging a cash sale transaction.
         /// </summary>
-        public static UsaEPayRequest CashSaleRequest(double amount)
+        public static UsaEPayRequest CashSaleRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CashSale,
-                Amount = amount
+                Amount = tranParams.Amount
             };
         }
 
@@ -178,15 +162,15 @@ namespace UsaEPay.NET.Factories
         /// Creates a request for processing a quick sale transaction.
         /// This works for Credit Card, Token, and Check transactions.
         /// </summary>
-        public static UsaEPayRequest QuickSaleRequest(double amount, string transactionKey)
+        public static UsaEPayRequest QuickSaleRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                TransactionKey = transactionKey,
+                TransactionKey = tranParams.TransactionKey,
                 Command = UsaEPayCommandTypes.QuickSale,
-                Amount = amount
+                Amount = tranParams.Amount
             };
         }
 
@@ -279,29 +263,53 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a cash refund transaction.
         /// </summary>
-        public static UsaEPayRequest CashRefundRequest(double amount)
+        public static UsaEPayRequest CashRefundRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CashRefund,
-                Amount = amount
+                Amount = tranParams.Amount
             };
+        }
+
+        /// <summary>
+        /// Creates a request for processing a connected refund transaction.
+        /// </summary>
+        public static UsaEPayRequest ConnectedRefundRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields = null)
+        {
+            var request = new UsaEPayRequest
+            {
+                Endpoint = UsaEPayEndpoints.Transactions,
+                RequestType = RestSharp.Method.Post,
+                Command = UsaEPayCommandTypes.Refund,
+                TransactionKey = tranParams.TransactionKey,
+                Amount = tranParams.Amount,
+                Email = tranParams.Email,
+                ClientIP = tranParams.ClientIP
+            };
+
+            if (customFields != null)
+            {
+                request.CustomFields = customFields;
+            }
+
+            return request;
         }
 
         /// <summary>
         /// Creates a request for processing a quick refund transaction.
         /// </summary>
-        public static UsaEPayRequest QuickRefundRequest(double amount, string tranKey)
+        public static UsaEPayRequest QuickRefundRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.QuickRefund,
-                Amount = amount,
-                TransactionKey = tranKey,
+                Amount = tranParams.Amount,
+                TransactionKey = tranParams.TransactionKey,
 
             };
         }
@@ -309,70 +317,70 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for capturing a pre-authorized credit card payment.
         /// </summary>
-        public static UsaEPayRequest CapturePaymentRequest(string tranKey)
+        public static UsaEPayRequest CapturePaymentRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CapturePayment,
-                TransactionKey = tranKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
         /// <summary>
         /// Creates a request for capturing, reauthorizing, and overriding a payment.
         /// </summary>
-        public static UsaEPayRequest CapturePaymentReauthRequest(string tranKey)
+        public static UsaEPayRequest CapturePaymentReauthRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CapturePaymentReauth,
-                TransactionKey = tranKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
         /// <summary>
         /// Creates a request for capturing a payment with an override.
         /// </summary>
-        public static UsaEPayRequest CapturePaymentOverrideRequest(string tranKey)
+        public static UsaEPayRequest CapturePaymentOverrideRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CapturePaymentOverride,
-                TransactionKey = tranKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
         /// <summary>
         /// Creates a request for capturing a payment with an error.
         /// </summary>
-        public static UsaEPayRequest CapturePaymentErrorRequest(string tranKey)
+        public static UsaEPayRequest CapturePaymentErrorRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CapturePaymentError,
-                TransactionKey = tranKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
         /// <summary>
         /// Creates a request for voiding a credit card payment.
         /// </summary>
-        public static UsaEPayRequest CreditVoidRequest(string tranKey)
+        public static UsaEPayRequest CreditVoidRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CreditVoid,
-                TransactionKey = tranKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
@@ -404,71 +412,71 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for voiding a payment transaction.
         /// </summary>
-        public static UsaEPayRequest VoidPaymentRequest(string transactionKey)
+        public static UsaEPayRequest VoidPaymentRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.VoidPayment,
-                TransactionKey = transactionKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
         /// <summary>
         /// Creates a request for releasing funds from a voided credit card transaction.
         /// </summary>
-        public static UsaEPayRequest ReleaseFundsRequest(string transactionKey)
+        public static UsaEPayRequest ReleaseFundsRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.ReleaseFunds,
-                TransactionKey = transactionKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
         /// <summary>
         /// Creates a request for unvoiding a transaction.
         /// </summary>
-        public static UsaEPayRequest UnvoidRequest(string transactionKey)
+        public static UsaEPayRequest UnvoidRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.Unvoid,
-                TransactionKey = transactionKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
         /// <summary>
         /// Creates a request for adjusting a payment transaction.
         /// </summary>
-        public static UsaEPayRequest AdjustPaymentRequest(string tranKey)
+        public static UsaEPayRequest AdjustPaymentRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.AdjustPayment,
-                TransactionKey = tranKey
+                TransactionKey = tranParams.TransactionKey
             };
         }
 
         /// <summary>
         /// Creates a request for adjusting a refunded credit card payment.
         /// </summary>
-        public static UsaEPayRequest AdjustPaymentRefundRequest(string transKey, double amount)
+        public static UsaEPayRequest AdjustPaymentRefundRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.AdjustPaymentRefund,
-                TransactionKey = transKey,
-                Amount = amount
+                TransactionKey = tranParams.TransactionKey,
+                Amount = tranParams.Amount
             };
         }
 
@@ -510,22 +518,22 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving details of a specific transaction.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveTransactionDetailsRequest(string transactionId)
+        public static UsaEPayGetRequest RetrieveTransactionDetailsRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"{UsaEPayEndpoints.Transactions}/{transactionId}"
+                Endpoint = $"{UsaEPayEndpoints.Transactions}/{tranParams.TransactionKey}"
             };
         }
 
         /// <summary>
         /// Creates a request for retrieving details of a specific token.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveTokenDetailsRequest(string tokenId)
+        public static UsaEPayGetRequest RetrieveTokenDetailsRequest(UsaEPayTransactionParams tranParams)
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"{UsaEPayEndpoints.Tokens}/{tokenId}"
+                Endpoint = $"{UsaEPayEndpoints.Tokens}/{tranParams.Token}"
             };
         }
 

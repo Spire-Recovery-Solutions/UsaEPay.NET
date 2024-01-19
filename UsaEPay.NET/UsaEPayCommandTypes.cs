@@ -43,6 +43,11 @@
         public const string CashRefund = "cash:refund";
 
         /// <summary>
+        /// Transaction command for connected refund.
+        /// </summary>
+        public const string Refund = "refund";
+
+        /// <summary>
         /// Transaction command for quick refund.
         /// </summary>
         public const string QuickRefund = "quickrefund";

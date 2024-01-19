@@ -16,6 +16,12 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("Amount")]
         public double Amount { get; set; }
 
+        [JsonPropertyName("number")]
+        public string Token { get; set; }
+
+        [JsonPropertyName("trankey")]
+        public string TransactionKey { get; set; }
+
         [JsonPropertyName("FirstName")]
         public string FirstName { get; set; }
 
