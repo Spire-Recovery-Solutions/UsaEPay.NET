@@ -168,6 +168,13 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("error")]
         public string Error { get; set; }
+
+        /// <summary>
+        /// Created Date Time
+        /// </summary>
+        [JsonPropertyName("created")]
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        public DateTimeOffset? CreatedTimestamp { get; set; }
     }
 
     public partial class CreditCard
