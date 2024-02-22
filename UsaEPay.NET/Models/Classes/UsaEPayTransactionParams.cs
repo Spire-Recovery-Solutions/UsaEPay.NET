@@ -68,7 +68,7 @@ namespace UsaEPay.NET.Models.Classes
         public string Expiration { get; set; }
 
         [JsonPropertyName("Cvc")]
-        public int Cvc { get; set; }
+        public string Cvc { get; set; }
 
         [JsonPropertyName("Invoice")]
         public string Invoice { get; set; }

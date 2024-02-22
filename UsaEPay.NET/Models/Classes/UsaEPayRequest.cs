@@ -385,8 +385,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("cvc")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long Cvc { get; set; }
+        public string Cvc { get; set; }
         /// <summary>
         /// Street address for address verification
         /// </summary>
