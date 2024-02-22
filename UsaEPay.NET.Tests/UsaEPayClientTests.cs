@@ -41,7 +41,7 @@ namespace UsaEPay.NET.Tests
                 CardHolder = "John Doe",
                 CardNumber = "4000100011112224",
                 Expiration = "0924",
-                Cvc = 123
+                Cvc = "123"
             };
             var request = UsaEPayRequestFactory.TokenizeCardRequest(tokenizeCardParams);
 
@@ -67,7 +67,7 @@ namespace UsaEPay.NET.Tests
                 City = "Testington",
                 State = "OK",
                 Zip = "33242",
-                Cvc = 123,
+                Cvc = "123",
                 Token = Token
             };
             var request = UsaEPayRequestFactory.TokenSaleRequest(tokenSaleParams);
@@ -97,7 +97,7 @@ namespace UsaEPay.NET.Tests
                 Zip = "33242",
                 CardNumber = "4000100011112224",
                 Expiration = "0924",
-                Cvc = 123
+                Cvc = "123"
             };
             var request = UsaEPayRequestFactory.CreditCardSaleRequest(creditCardSaleParams);
 
@@ -163,7 +163,7 @@ namespace UsaEPay.NET.Tests
                 AccountHolder = "John Doe",
                 CardNumber = "4000100011112224",
                 Expiration = "0924",
-                Cvc = 123,
+                Cvc = "123",
                 FirstName = "John",
                 LastName = "Doe",
                 Address = "555 Test Street",
@@ -193,7 +193,7 @@ namespace UsaEPay.NET.Tests
                 CardHolder = "John Doe",
                 CardNumber = "4000100011112224",
                 Expiration = "0924",
-                Cvc = 123
+                Cvc = "123"
             };
             var request = UsaEPayRequestFactory.CreditCardRefundRequest(refundParams);
 
