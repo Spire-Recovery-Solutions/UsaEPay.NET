@@ -5,7 +5,7 @@ namespace UsaEPay.NET.Models.Classes
 {
     public class UsaEPayResponse : IUsaEPayResponse
     {
-        
+
         /// <summary>
         /// Timestamp for transaction.
         /// </summary>
@@ -195,6 +195,13 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("entry_mode")]
         public string EntryMode { get; set; }
+
+        /// <summary>
+        /// The type of credit card being used in the transaction.
+        /// </summary>
+        [JsonPropertyName("type")]
+        public string CardType { get; set; }
+
     }
 
     public partial class SavedCard
