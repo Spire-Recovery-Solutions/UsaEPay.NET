@@ -136,10 +136,6 @@ namespace UsaEPay.NET.Factories
                 ClientIP = tranParams.ClientIP,
                 CustomFields = customFields
             };
-            if (customFields != null)
-            {
-                request.CustomFields = customFields;
-            }
 
             return request;
         }
@@ -164,14 +160,18 @@ namespace UsaEPay.NET.Factories
         /// </summary>
         public static UsaEPayRequest QuickSaleRequest(UsaEPayTransactionParams tranParams)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
-                TransactionKey = tranParams.TransactionKey,
                 Command = UsaEPayCommandTypes.QuickSale,
                 Amount = tranParams.Amount
             };
+            if (!string.IsNullOrEmpty(tranParams.TransactionKey))
+                request.TransactionKey = tranParams.TransactionKey;
+            else if (!string.IsNullOrEmpty(tranParams.Refnum))
+                request.ReferenceNumber = tranParams.Refnum;
+            return request;
         }
 
         /// <summary>
@@ -284,11 +284,14 @@ namespace UsaEPay.NET.Factories
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.Refund,
-                TransactionKey = tranParams.TransactionKey,
                 Amount = tranParams.Amount,
                 Email = tranParams.Email,
                 ClientIP = tranParams.ClientIP
             };
+            if (!string.IsNullOrEmpty(tranParams.TransactionKey))
+                request.TransactionKey = tranParams.TransactionKey;
+            else if (!string.IsNullOrEmpty(tranParams.Refnum))
+                request.ReferenceNumber = tranParams.Refnum;
 
             if (customFields != null)
             {
@@ -303,15 +306,18 @@ namespace UsaEPay.NET.Factories
         /// </summary>
         public static UsaEPayRequest QuickRefundRequest(UsaEPayTransactionParams tranParams)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.QuickRefund,
                 Amount = tranParams.Amount,
-                TransactionKey = tranParams.TransactionKey,
-
             };
+            if (!string.IsNullOrEmpty(tranParams.TransactionKey))
+                request.TransactionKey = tranParams.TransactionKey;
+            else if (!string.IsNullOrEmpty(tranParams.Refnum))
+                request.ReferenceNumber = tranParams.Refnum;
+            return request;
         }
 
         /// <summary>
@@ -375,13 +381,17 @@ namespace UsaEPay.NET.Factories
         /// </summary>
         public static UsaEPayRequest CreditVoidRequest(UsaEPayTransactionParams tranParams)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.CreditVoid,
-                TransactionKey = tranParams.TransactionKey
             };
+            if (!string.IsNullOrEmpty(tranParams.TransactionKey))
+                request.TransactionKey = tranParams.TransactionKey;
+            else if (!string.IsNullOrEmpty(tranParams.Refnum))
+                request.ReferenceNumber = tranParams.Refnum;
+            return request;
         }
 
         /// <summary>
@@ -414,13 +424,17 @@ namespace UsaEPay.NET.Factories
         /// </summary>
         public static UsaEPayRequest VoidPaymentRequest(UsaEPayTransactionParams tranParams)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.VoidPayment,
-                TransactionKey = tranParams.TransactionKey
             };
+            if (!string.IsNullOrEmpty(tranParams.TransactionKey))
+                request.TransactionKey = tranParams.TransactionKey;
+            else if (!string.IsNullOrEmpty(tranParams.Refnum))
+                request.ReferenceNumber = tranParams.Refnum;
+            return request;
         }
 
         /// <summary>
@@ -428,13 +442,17 @@ namespace UsaEPay.NET.Factories
         /// </summary>
         public static UsaEPayRequest ReleaseFundsRequest(UsaEPayTransactionParams tranParams)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.ReleaseFunds,
-                TransactionKey = tranParams.TransactionKey
             };
+            if (!string.IsNullOrEmpty(tranParams.TransactionKey))
+                request.TransactionKey = tranParams.TransactionKey;
+            else if (!string.IsNullOrEmpty(tranParams.Refnum))
+                request.ReferenceNumber = tranParams.Refnum;
+            return request;
         }
 
         /// <summary>
@@ -442,13 +460,17 @@ namespace UsaEPay.NET.Factories
         /// </summary>
         public static UsaEPayRequest UnvoidRequest(UsaEPayTransactionParams tranParams)
         {
-            return new UsaEPayRequest
+            var request = new UsaEPayRequest
             {
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.Unvoid,
-                TransactionKey = tranParams.TransactionKey
             };
+            if (!string.IsNullOrEmpty(tranParams.TransactionKey))
+                request.TransactionKey = tranParams.TransactionKey;
+            else if (!string.IsNullOrEmpty(tranParams.Refnum))
+                request.ReferenceNumber = tranParams.Refnum;
+            return request;
         }
 
         /// <summary>
@@ -496,10 +518,96 @@ namespace UsaEPay.NET.Factories
                     Number = tranParams.CardNumber,
                     Cvc = tranParams.Cvc,
                     Expiration = tranParams.Expiration,
-                    CardHolder = tranParams.CardHolder
+                    CardHolder = tranParams.CardHolder,
+                    AvsStreet = tranParams.Address,
+                    AvsPostalCode = tranParams.Zip
                 },
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for generating a token from an existing transaction.
+        /// </summary>
+        public static UsaEPayRequest CreateTokenFromTransactionRequest(string transactionKey)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = UsaEPayEndpoints.Tokens,
+                RequestType = RestSharp.Method.Post,
+                TransactionKey = transactionKey
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for processing a sale using a stored customer payment method.
+        /// </summary>
+        public static UsaEPayRequest CustomerSaleRequest(UsaEPayTransactionParams tranParams)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = UsaEPayEndpoints.Transactions,
+                RequestType = RestSharp.Method.Post,
+                Command = UsaEPayCommandTypes.CustomerSale,
+                Amount = tranParams.Amount,
+                CustomerKey = tranParams.CustomerKey,
+                PaymentMethodKey = tranParams.PaymentMethodKey,
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for processing a refund using a stored customer payment method.
+        /// </summary>
+        public static UsaEPayRequest CustomerRefundRequest(UsaEPayTransactionParams tranParams)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = UsaEPayEndpoints.Transactions,
+                RequestType = RestSharp.Method.Post,
+                Command = UsaEPayCommandTypes.CustomerRefund,
+                Amount = tranParams.Amount,
+                CustomerKey = tranParams.CustomerKey,
+                PaymentMethodKey = tranParams.PaymentMethodKey,
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for processing a sale using a payment key (Client JS Library token).
+        /// </summary>
+        public static UsaEPayRequest PaymentKeySaleRequest(UsaEPayTransactionParams tranParams)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = UsaEPayEndpoints.Transactions,
+                RequestType = RestSharp.Method.Post,
+                Command = UsaEPayCommandTypes.TransactionSale,
+                Amount = tranParams.Amount,
+                PaymentKey = tranParams.PaymentKey,
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for sending a transaction receipt to an email address.
+        /// </summary>
+        public static UsaEPayRequest SendReceiptRequest(string transactionKey, string email)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.TransactionSend}/{transactionKey}/send",
+                RequestType = RestSharp.Method.Post,
+                Email = email,
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for retrieving a specific transaction receipt.
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveReceiptRequest(string transactionKey, string receiptId)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.TransactionReceipts}/{transactionKey}/receipts/{receiptId}"
             };
         }
 
@@ -559,22 +667,30 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving a list of batches.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveBatchListRequest()
+        public static UsaEPayGetRequest RetrieveBatchListRequest(int limit = 20, int offset = 0)
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"{UsaEPayEndpoints.Batches}"
+                Endpoint = $"{UsaEPayEndpoints.Batches}?limit={limit}&offset={offset}"
             };
         }
 
         /// <summary>
         /// Creates a request for retrieving a filtered list of batches by date.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(long openBefore, long openAfter)
+        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string openedBefore = null, string openedAfter = null, string closedBefore = null, string closedAfter = null, int limit = 20, int offset = 0)
         {
+            var queryParams = new List<string>();
+            queryParams.Add($"limit={limit}");
+            queryParams.Add($"offset={offset}");
+            if (openedBefore != null) queryParams.Add($"openedlt={openedBefore}");
+            if (openedAfter != null) queryParams.Add($"openedge={openedAfter}");
+            if (closedBefore != null) queryParams.Add($"closedlt={closedBefore}");
+            if (closedAfter != null) queryParams.Add($"closedge={closedAfter}");
+
             return new UsaEPayGetRequest
             {
-                Endpoint = $"{UsaEPayEndpoints.Batches}?openedge={openBefore}&openedlt={openAfter}"
+                Endpoint = $"{UsaEPayEndpoints.Batches}?{string.Join("&", queryParams)}"
             };
         }
 
@@ -592,11 +708,11 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving current batch transactions
         /// </summary>
-        public static UsaEPayGetRequest RetrieveCurrentBatchTransactionsRequest()
+        public static UsaEPayGetRequest RetrieveCurrentBatchTransactionsRequest(int limit = 20, int offset = 0)
         {
             return new UsaEPayGetRequest
             {
-                Endpoint = $"{UsaEPayEndpoints.CurrentBatchTransactions}"
+                Endpoint = $"{UsaEPayEndpoints.CurrentBatchTransactions}?limit={limit}&offset={offset}"
             };
         }
 

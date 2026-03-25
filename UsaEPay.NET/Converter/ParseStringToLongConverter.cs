@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -14,7 +15,7 @@ namespace UsaEPay.NET.Converter
                     return 0; // or throw an exception if null should not be treated as a default value
 
                 case JsonTokenType.String:
-                    if (long.TryParse(reader.GetString(), out long result))
+                    if (long.TryParse(reader.GetString(), NumberStyles.Any, CultureInfo.InvariantCulture, out long result))
                         return result;
                     break;
 
@@ -24,7 +25,7 @@ namespace UsaEPay.NET.Converter
                     break;
             }
 
-            throw new JsonException($"Cannot convert '{reader.GetString()}' to {typeToConvert}.");
+            throw new JsonException($"Cannot convert token type '{reader.TokenType}' to {typeToConvert}.");
         }
 
         public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)

@@ -67,6 +67,34 @@ namespace UsaEPay.NET.Models.Events
         [JsonPropertyName("processed")]
         [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Processed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the settled date.
+        /// </summary>
+        [JsonPropertyName("settled")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Settled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the returned date.
+        /// </summary>
+        [JsonPropertyName("returned")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Returned { get; set; }
+
+        /// <summary>
+        /// Gets or sets the return reason.
+        /// </summary>
+        [JsonPropertyName("reason")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Reason { get; set; }
+
+        /// <summary>
+        /// Gets or sets the bank note.
+        /// </summary>
+        [JsonPropertyName("banknote")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Banknote { get; set; }
     }
 
     /// <summary>

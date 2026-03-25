@@ -26,13 +26,13 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("check")]
         public Check? Check { get; set; }
-        ///// <summary>
-        ///// Unique transaction reference number.
-        ///// </summary>
-        //[JsonPropertyName("refnum")]
-        //public string ReferenceNumber { get; set; }
         /// <summary>
         /// Unique transaction reference number.
+        /// </summary>
+        [JsonPropertyName("refnum")]
+        public string ReferenceNumber { get; set; }
+        /// <summary>
+        /// Transaction type code.
         /// </summary>
         [JsonPropertyName("trantype_code")]
         public string TrantypeCode { get; set; }
@@ -105,8 +105,8 @@ namespace UsaEPay.NET.Models.Classes
         /// Amount needed for transaction.
         /// </summary>
         [JsonPropertyName("amount")]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Amount { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Amount { get; set; }
         /// <summary>
         /// Amount details needed for transaction.
         /// </summary>
@@ -175,6 +175,77 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("created")]
         [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? CreatedTimestamp { get; set; }
+
+        /// <summary>
+        /// Customer's purchase order number.
+        /// </summary>
+        [JsonPropertyName("ponum")]
+        public string Ponum { get; set; }
+        /// <summary>
+        /// Terminal identifier.
+        /// </summary>
+        [JsonPropertyName("terminal")]
+        public string Terminal { get; set; }
+        /// <summary>
+        /// Clerk/Cashier/Server name.
+        /// </summary>
+        [JsonPropertyName("clerk")]
+        public string Clerk { get; set; }
+        /// <summary>
+        /// Gateway customer key.
+        /// </summary>
+        [JsonPropertyName("cust_key")]
+        public string CustomerKey { get; set; }
+        /// <summary>
+        /// Gateway customer identifier (SOAP API style).
+        /// </summary>
+        [JsonPropertyName("custid")]
+        public string CustId { get; set; }
+        /// <summary>
+        /// Merchant-assigned customer ID.
+        /// </summary>
+        [JsonPropertyName("customerid")]
+        public string CustomerId { get; set; }
+        /// <summary>
+        /// Customer email address.
+        /// </summary>
+        [JsonPropertyName("customer_email")]
+        public string CustomerEmail { get; set; }
+        /// <summary>
+        /// Merchant email address.
+        /// </summary>
+        [JsonPropertyName("merchant_email")]
+        public string MerchantEmail { get; set; }
+        /// <summary>
+        /// IP address of client.
+        /// </summary>
+        [JsonPropertyName("clientip")]
+        public string ClientIP { get; set; }
+        /// <summary>
+        /// API key name / source.
+        /// </summary>
+        [JsonPropertyName("source_name")]
+        public string SourceName { get; set; }
+        /// <summary>
+        /// List of valid actions on this transaction.
+        /// </summary>
+        [JsonPropertyName("available_actions")]
+        public string[] AvailableActions { get; set; }
+        /// <summary>
+        /// Object which holds the customer's shipping address information.
+        /// </summary>
+        [JsonPropertyName("shipping_address")]
+        public Address? ShippingAddress { get; set; }
+        /// <summary>
+        /// Array of line items attached to the transaction.
+        /// </summary>
+        [JsonPropertyName("lineitems")]
+        public List<LineItem> LineItems { get; set; }
+        /// <summary>
+        /// Custom fields attached to the transaction.
+        /// </summary>
+        [JsonPropertyName("custom_fields")]
+        public Dictionary<string, string> CustomFields { get; set; }
     }
 
     public partial class CreditCard
@@ -221,6 +292,48 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("cardnumber")]
         public string CardNumber { get; set; }
+    }
+
+    /// <summary>
+    /// Response-only fields for Check (ACH) transactions returned in GET detail.
+    /// </summary>
+    public partial class Check
+    {
+        /// <summary>
+        /// Check number (response field).
+        /// </summary>
+        [JsonPropertyName("checknum")]
+        public string CheckNum { get; set; }
+        /// <summary>
+        /// ACH tracking number.
+        /// </summary>
+        [JsonPropertyName("trackingnum")]
+        public string TrackingNum { get; set; }
+        /// <summary>
+        /// Effective date.
+        /// </summary>
+        [JsonPropertyName("effective")]
+        public string Effective { get; set; }
+        /// <summary>
+        /// Processed date.
+        /// </summary>
+        [JsonPropertyName("processed")]
+        public string Processed { get; set; }
+        /// <summary>
+        /// Settled date.
+        /// </summary>
+        [JsonPropertyName("settled")]
+        public string Settled { get; set; }
+        /// <summary>
+        /// Returned date.
+        /// </summary>
+        [JsonPropertyName("returned")]
+        public string Returned { get; set; }
+        /// <summary>
+        /// Bank note.
+        /// </summary>
+        [JsonPropertyName("banknote")]
+        public string BankNote { get; set; }
     }
 
     public class AVS
@@ -272,8 +385,8 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// This is the unique batch identifier. This was originally used in the SOAP API.
         /// </summary>
-        //[jsonpropertyname("batchrefnum")]
-        //public int batchreferencenumber { get; set; }
+        [JsonPropertyName("batchrefnum")]
+        public long BatchReferenceNumber { get; set; }
         /// <summary>
         /// Date and time the batch was opened. Format will be, YYYY-MM-DD HH:MM:SS.
         /// </summary>
@@ -296,7 +409,8 @@ namespace UsaEPay.NET.Models.Classes
         /// Only shows for open batches.
         /// </summary>
         [JsonPropertyName("scheduled")]
-        public string Scheduled { get; set; }
+        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        public DateTimeOffset? Scheduled { get; set; }
         /// <summary>
         /// The batch sequence number. The first batch the merchant closes is 1, the second is 2, etc.
         /// </summary>
@@ -306,7 +420,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Total amount in dollars in the specific batch. This includes sales, voids, and refunds.
         /// </summary>
         [JsonPropertyName("total_amount")]
-        public double TotalAmount { get; set; }
+        public decimal TotalAmount { get; set; }
         /// <summary>
         /// Total transaction count. This includes sales, voids, and refunds.
         /// Only shows for open batches.
@@ -319,7 +433,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("sales_amount")]
-        public double SalesAmount { get; set; }
+        public decimal SalesAmount { get; set; }
         /// <summary>
         /// Total transaction count. This includes sales only.
         /// Only shows when batch contains this transaction type.
@@ -332,8 +446,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("voids_amount")]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long VoidsAmount { get; set; }
+        public decimal VoidsAmount { get; set; }
         /// <summary>
         /// Total transaction count. This includes voids only.
         /// Only shows when batch contains this transaction type.
@@ -346,7 +459,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Only shows when batch contains this transaction type.
         /// </summary>
         [JsonPropertyName("refunds_amount")]
-        public double RefundsAmount { get; set; }
+        public decimal RefundsAmount { get; set; }
         /// <summary>
         /// Total transaction count. This includes refunds only.
         /// Only shows when batch contains this transaction type.

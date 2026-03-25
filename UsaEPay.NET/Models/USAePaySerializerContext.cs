@@ -50,15 +50,20 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(CardObject))]
     [JsonSerializable(typeof(CardOriginal))]
     [JsonSerializable(typeof(CardSource))]
-    [JsonSerializable(typeof(CardChanges))]
     [JsonSerializable(typeof(SettlementEventResponse))]
     [JsonSerializable(typeof(SettlementEventBody))]
     [JsonSerializable(typeof(SettlementObject))]
+    [JsonSerializable(typeof(ProductInventoryEventResponse))]
+    [JsonSerializable(typeof(ProductInventoryEventBody))]
+    [JsonSerializable(typeof(ProductInventoryObject))]
+    [JsonSerializable(typeof(CardUpdateDetail))]
     [JsonSerializable(typeof(TransactionEventResponse))]
     [JsonSerializable(typeof(TransactionEventBody))]
     [JsonSerializable(typeof(EventType))]
     [JsonSerializable(typeof(IUsaEPayRequest))]
     [JsonSerializable(typeof(IUsaEPayResponse))]
+    [JsonSerializable(typeof(UsaEPayTokenResponse))]
+    [JsonSerializable(typeof(UsaEPayBulkTokenResult))]
     public partial class USAePaySerializerContext : JsonSerializerContext
     {
     }

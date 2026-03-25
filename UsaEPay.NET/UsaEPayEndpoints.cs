@@ -31,5 +31,15 @@
         /// Endpoint for tokens.
         /// </summary>
         public const string Tokens = "tokens";
+
+        /// <summary>
+        /// Endpoint for sending a transaction receipt (used as transactions/{trankey}/send).
+        /// </summary>
+        public const string TransactionSend = "transactions";
+
+        /// <summary>
+        /// Endpoint for transaction receipts (used as transactions/{trankey}/receipts/{receiptid}).
+        /// </summary>
+        public const string TransactionReceipts = "transactions";
     }
 }

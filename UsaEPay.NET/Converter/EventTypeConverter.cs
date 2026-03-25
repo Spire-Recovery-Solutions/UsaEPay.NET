@@ -27,6 +27,13 @@ namespace UsaEPay.NET.Converter
                 "cardupdate.contact_customer" => EventType.CauContactCustomer,
                 "cardupdate.account_closed" => EventType.CauAccountClosed,
 
+                "cau.created" => EventType.CauCreated,
+                "cau.submitted" => EventType.CauSubmitted,
+                "cau.updated_expiration" => EventType.CauUpdatedExpiration,
+                "cau.updated_card" => EventType.CauUpdatedCard,
+                "cau.contact_customer" => EventType.CauContactCustomer,
+                "cau.account_closed" => EventType.CauAccountClosed,
+
                 "product.inventory.ordered" => EventType.ProductInventoryOrdered,
                 "product.inventory.adjusted" => EventType.ProductInventoryAdjusted,
 

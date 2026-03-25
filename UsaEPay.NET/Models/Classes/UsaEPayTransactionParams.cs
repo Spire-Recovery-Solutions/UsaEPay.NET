@@ -14,13 +14,20 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayTransactionParams
     {
         [JsonPropertyName("Amount")]
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
 
-        [JsonPropertyName("number")]
         public string Token { get; set; }
 
         [JsonPropertyName("trankey")]
         public string TransactionKey { get; set; }
+
+        public string Refnum { get; set; }
+
+        public string CustomerKey { get; set; }
+
+        public string PaymentMethodKey { get; set; }
+
+        public string PaymentKey { get; set; }
 
         [JsonPropertyName("FirstName")]
         public string FirstName { get; set; }

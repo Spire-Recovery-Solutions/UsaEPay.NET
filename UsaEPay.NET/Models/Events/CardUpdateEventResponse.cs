@@ -51,6 +51,42 @@ namespace UsaEPay.NET.Models.Events
         /// </summary>
         [JsonPropertyName("cardaccount_closed")]
         public string CardaccountClosed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status change.
+        /// </summary>
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the contact customer flag. Note: API spelling includes typo.
+        /// </summary>
+        [JsonPropertyName("contact_cusomer")]
+        public string ContactCusomer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the original card info.
+        /// </summary>
+        [JsonPropertyName("original_card")]
+        public CardUpdateDetail OriginalCard { get; set; }
+
+        /// <summary>
+        /// Gets or sets the updated card info.
+        /// </summary>
+        [JsonPropertyName("updated_card")]
+        public CardUpdateDetail UpdatedCard { get; set; }
+    }
+
+    public class CardUpdateDetail
+    {
+        [JsonPropertyName("number")]
+        public string Number { get; set; }
+
+        [JsonPropertyName("expiration")]
+        public string Expiration { get; set; }
+
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
     }
 
     public partial class CardObject

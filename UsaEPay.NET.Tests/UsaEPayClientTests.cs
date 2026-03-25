@@ -439,10 +439,10 @@ namespace UsaEPay.NET.Tests
         }
 
         [Test, Order(2), Category("BatchListByDate")]
-        [TestCase(20230101, 20240201)]
-        public async Task TestBatchListByDate(long openedAfter, long openedBefore)
+        [TestCase("20230101", "20240201")]
+        public async Task TestBatchListByDate(string openedAfter, string openedBefore)
         {
-            var request = UsaEPayRequestFactory.RetrieveBatchListByDateRequest(openedAfter, openedBefore);
+            var request = UsaEPayRequestFactory.RetrieveBatchListByDateRequest(openedBefore: openedBefore, openedAfter: openedAfter);
 
             var response = await Client.SendRequest<UsaEPayBatchListResponse>(request);
 

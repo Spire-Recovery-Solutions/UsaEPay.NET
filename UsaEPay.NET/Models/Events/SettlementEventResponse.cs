@@ -65,8 +65,8 @@ namespace UsaEPay.NET.Models.Events
         /// Total sales amount of the settlement batch.
         /// </summary>
         [JsonPropertyName("totalsales")]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long Totalsales { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Totalsales { get; set; }
 
         /// <summary>
         /// Gets or sets the Total sales count in the settlement batch.
@@ -85,5 +85,11 @@ namespace UsaEPay.NET.Models.Events
         /// </summary>
         [JsonPropertyName("uri")]
         public string Uri { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reason for batch failure.
+        /// </summary>
+        [JsonPropertyName("reason")]
+        public string Reason { get; set; }
     }
 }
