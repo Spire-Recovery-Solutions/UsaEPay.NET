@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -8,11 +9,19 @@ namespace UsaEPay.NET.Converter
     {
         public override double Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.Null)
-                return 0;
+            switch (reader.TokenType)
+            {
+                case JsonTokenType.Null:
+                    return 0;
 
-            if (reader.TokenType == JsonTokenType.String && double.TryParse(reader.GetString(), out var value))
-                return value;
+                case JsonTokenType.String:
+                    if (double.TryParse(reader.GetString(), NumberStyles.Any, CultureInfo.InvariantCulture, out var value))
+                        return value;
+                    break;
+
+                case JsonTokenType.Number:
+                    return reader.GetDouble();
+            }
 
             throw new JsonException("Cannot convert to double");
         }

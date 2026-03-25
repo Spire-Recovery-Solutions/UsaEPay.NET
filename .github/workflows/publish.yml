@@ -2,7 +2,8 @@ name: Publish to NuGet
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to main branch
+      - main
+      - alpha
 
 jobs:
   build:
@@ -15,7 +16,16 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 10.0.x
-        
+
+    - name: Set Branch-Specific Variables
+      id: branch_vars
+      run: |
+        if [[ "${{ github.ref }}" == "refs/heads/alpha" ]]; then
+          echo "version_postfix=-alpha" >> $GITHUB_ENV
+        else
+          echo "version_postfix=" >> $GITHUB_ENV
+        fi
+
     - name: Build
       run: |
         cd UsaEPay.NET
@@ -35,7 +45,7 @@ jobs:
     - name: Pack
       run: |
         cd UsaEPay.NET
-        dotnet pack --configuration Release --no-restore --output nupkg /p:Version=1.0.0.${{ github.run_number }}
+        dotnet pack --configuration Release --no-restore --output nupkg /p:Version=1.0.0.${{ github.run_number }}${{ env.version_postfix }}
 
     - name: Push to NuGet
       run: |

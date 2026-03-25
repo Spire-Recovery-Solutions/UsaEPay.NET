@@ -1,6 +1,6 @@
 ﻿namespace UsaEPay.NET
 {
-    public class UsaEPayCommandTypes
+    public static class UsaEPayCommandTypes
     {
         /// <summary>
         /// Transaction command for credit card sale.
@@ -111,5 +111,20 @@
         /// Transaction command for tokenizing a credit card for later use.
         /// </summary>
         public const string TokenizeCard = "cc:save";
+
+        /// <summary>
+        /// Transaction command for a sale using a stored customer payment method.
+        /// </summary>
+        public const string CustomerSale = "customer:sale";
+
+        /// <summary>
+        /// Transaction command for a refund using a stored customer payment method.
+        /// </summary>
+        public const string CustomerRefund = "customer:refund";
+
+        /// <summary>
+        /// Transaction command for adjusting a refund. Alias for cc:refund:adjust.
+        /// </summary>
+        public const string RefundAdjust = "refund:adjust";
     }
 }

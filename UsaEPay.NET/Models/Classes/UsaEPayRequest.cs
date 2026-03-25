@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using RestSharp;
 using UsaEPay.NET.Converter;
-using System.Text.Json.Serialization;
 
 namespace UsaEPay.NET.Models.Classes
 {
@@ -31,6 +30,36 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("trankey")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string TransactionKey { get; set; }
+        /// <summary>
+        /// Unique transaction reference number. Alternative to trankey for referencing prior transactions.
+        /// </summary>
+        [JsonPropertyName("refnum")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string ReferenceNumber { get; set; }
+        /// <summary>
+        /// Merchant assigned customer identifier.
+        /// </summary>
+        [JsonPropertyName("customerid")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string CustomerId { get; set; }
+        /// <summary>
+        /// Payment method key for customer stored payment method.
+        /// </summary>
+        [JsonPropertyName("paymethod_key")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string PaymentMethodKey { get; set; }
+        /// <summary>
+        /// Restaurant table number.
+        /// </summary>
+        [JsonPropertyName("table")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Table { get; set; }
+        /// <summary>
+        /// Geolocation of transaction (latitude,longitude).
+        /// </summary>
+        [JsonPropertyName("geolocation")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string Geolocation { get; set; }
         /// <summary>
         /// Authorization code received from processor for posting a payment
         /// </summary>
@@ -97,7 +126,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("amount")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double Amount { get; set; }
+        public decimal Amount { get; set; }
         /// <summary>
         /// Set to true to save the customer information to the customer database
         /// </summary>
@@ -231,19 +260,19 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("subtotal")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Subtotal { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Subtotal { get; set; }
 
         /// <summary>
         /// The amount of tax collected.
         /// </summary>
         [JsonPropertyName("tax")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Tax { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Tax { get; set; }
 
         /// <summary>
-        /// Transaction is non taxable 
+        /// Transaction is non taxable
         /// </summary>
         [JsonPropertyName("nontaxable")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
@@ -254,32 +283,32 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("tip")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Tip { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Tip { get; set; }
 
         /// <summary>
         /// Amount of discount applied to total transaction.
         /// </summary>
         [JsonPropertyName("discount")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Discount { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Discount { get; set; }
 
         /// <summary>
         /// Amount of shipping fees collected.
         /// </summary>
         [JsonPropertyName("shipping")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Shipping { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Shipping { get; set; }
 
         /// <summary>
         /// Amount of duty collected.
         /// </summary>
         [JsonPropertyName("duty")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Duty { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Duty { get; set; }
 
         /// <summary>
         /// Enable partial amount authorization. If the available card balance is less than the amount request, the balance will be authorized and the POS must prompt the customer for another payment to cover the remainder. The result_code will be "P" and auth_amount will contain the partial amount that was approved.
@@ -395,9 +424,9 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Postal (Zip) code for address verification
         /// </summary>
-        [JsonPropertyName("avs_zip")]
+        [JsonPropertyName("avs_postalcode")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string AvsZip { get; set; }
+        public string AvsPostalCode { get; set; }
     }
 
     public partial class Check
@@ -466,8 +495,8 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("cost")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Cost { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Cost { get; set; }
         /// <summary>
         /// Quantity of products. (Required)
         /// </summary>
@@ -498,8 +527,8 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("tax_amount")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double TaxAmount { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal TaxAmount { get; set; }
         /// <summary>
         /// Tax percentage that should be applied to line item amount.
         /// </summary>
@@ -516,8 +545,9 @@ namespace UsaEPay.NET.Models.Classes
         /// Discount amount that should be applied to line item amount.
         /// </summary>
         [JsonPropertyName("discount_amount")]
-        [JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double DiscountAmount { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal DiscountAmount { get; set; }
         /// <summary>
         /// Unique identifier for warehouse location.
         /// </summary>
@@ -534,6 +564,7 @@ namespace UsaEPay.NET.Models.Classes
         /// Unit of measure (Required for Level 3 processing)
         /// </summary>
         [JsonPropertyName("um")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string UnitMeasure { get; set; }
     }
 
@@ -544,6 +575,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         /// <see href="https://help.usaepay.info/developer/reference/existingdebt/"/>
         [JsonPropertyName("is_debt")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public bool? IsDebt { get; set; }
         /// <summary>
         /// Set to true if this transaction is a bill pay transaction. Defaults to false.
