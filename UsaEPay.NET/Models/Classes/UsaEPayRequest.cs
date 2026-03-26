@@ -103,6 +103,18 @@ namespace UsaEPay.NET.Models.Classes
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Email { get; set; }
         /// <summary>
+        /// Recipient email for sending a transaction receipt (POST /transactions/{key}/send).
+        /// </summary>
+        [JsonPropertyName("toemail")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ToEmail { get; set; }
+        /// <summary>
+        /// Sender email for transaction receipt.
+        /// </summary>
+        [JsonPropertyName("fromemail")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? FromEmail { get; set; }
+        /// <summary>
         /// If set, this parameter will send an email receipt to the customer's email.
         /// </summary>
         // TODO: While these are bools here and are listed to be bools in the docs, they use 1 and 0 instead of true and false. Double checkerino these.

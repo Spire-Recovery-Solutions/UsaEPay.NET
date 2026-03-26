@@ -503,6 +503,22 @@ namespace UsaEPay.NET.Factories
         }
 
         /// <summary>
+        /// Creates a request for adjusting a refund using the refund:adjust alias command.
+        /// Targets the original sale transaction key (not the refund key).
+        /// </summary>
+        public static UsaEPayRequest RefundAdjustRequest(UsaEPayTransactionParams tranParams)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = UsaEPayEndpoints.Transactions,
+                RequestType = RestSharp.Method.Post,
+                Command = UsaEPayCommandTypes.RefundAdjust,
+                TransactionKey = tranParams.TransactionKey,
+                Amount = tranParams.Amount
+            };
+        }
+
+        /// <summary>
         /// Creates a request for tokenizing a credit card for later use.
         /// </summary>
         public static UsaEPayRequest TokenizeCardRequest(UsaEPayTransactionParams tranParams)
@@ -596,7 +612,7 @@ namespace UsaEPay.NET.Factories
             {
                 Endpoint = $"{UsaEPayEndpoints.TransactionSend}/{transactionKey}/send",
                 RequestType = RestSharp.Method.Post,
-                Email = email,
+                ToEmail = email,
             };
         }
 

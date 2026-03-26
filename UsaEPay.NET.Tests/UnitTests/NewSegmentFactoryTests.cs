@@ -276,10 +276,10 @@ public sealed class NewSegmentFactoryTests
     }
 
     [Test]
-    public async Task SendReceiptRequest_SetsEmail()
+    public async Task SendReceiptRequest_SetsToEmail()
     {
         var request = UsaEPayRequestFactory.SendReceiptRequest("tk_123", "test@example.com");
-        await Assert.That(request.Email).IsEqualTo("test@example.com");
+        await Assert.That(request.ToEmail).IsEqualTo("test@example.com");
     }
 
     #endregion

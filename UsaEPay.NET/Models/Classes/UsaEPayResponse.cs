@@ -177,6 +177,13 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("error_code")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long ErrorCode { get; set; }
+        /// <summary>
+        /// Alternate error code field used by non-transaction endpoints (no underscore).
+        /// The API inconsistently uses "error_code" (transactions) vs "errorcode" (receipts, bulk, etc.).
+        /// </summary>
+        [JsonPropertyName("errorcode")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long ErrorCodeAlt { get; set; }
 
         /// <summary>
         /// Created Date Time
