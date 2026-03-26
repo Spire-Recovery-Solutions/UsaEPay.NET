@@ -7,7 +7,6 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
-    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
     <UserSecretsId>4cc5d884-60c2-4ffd-ac59-49bf3f54b1ca</UserSecretsId>
   </PropertyGroup>
 

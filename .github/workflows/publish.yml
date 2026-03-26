@@ -36,9 +36,7 @@ jobs:
         dotnet build --configuration Release --no-restore
 
     - name: Test
-      run: |
-        cd UsaEPay.NET.Tests
-        dotnet test
+      run: dotnet test --project UsaEPay.NET.Tests/UsaEPay.NET.Tests.csproj --configuration Release --no-build
       env:
         API_KEY: ${{ secrets.API_KEY }}
         API_PIN: ${{ secrets.API_PIN }}
