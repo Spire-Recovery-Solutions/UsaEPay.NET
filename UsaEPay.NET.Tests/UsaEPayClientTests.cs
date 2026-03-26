@@ -40,7 +40,7 @@ namespace UsaEPay.NET.Tests
             {
                 CardHolder = "John Doe",
                 CardNumber = "4000100011112224",
-                Expiration = "0924",
+                Expiration = "0929",
                 Cvc = "123"
             };
             var request = UsaEPayRequestFactory.TokenizeCardRequest(tokenizeCardParams);
@@ -96,7 +96,7 @@ namespace UsaEPay.NET.Tests
                 State = "OK",
                 Zip = "33242",
                 CardNumber = "4000100011112224",
-                Expiration = "0924",
+                Expiration = "0929",
                 Cvc = "123"
             };
             var request = UsaEPayRequestFactory.CreditCardSaleRequest(creditCardSaleParams);
@@ -162,7 +162,7 @@ namespace UsaEPay.NET.Tests
                 Amount = 10,
                 AccountHolder = "John Doe",
                 CardNumber = "4000100011112224",
-                Expiration = "0924",
+                Expiration = "0929",
                 Cvc = "123",
                 FirstName = "John",
                 LastName = "Doe",
@@ -192,7 +192,7 @@ namespace UsaEPay.NET.Tests
                 Amount = 10,
                 CardHolder = "John Doe",
                 CardNumber = "4000100011112224",
-                Expiration = "0924",
+                Expiration = "0929",
                 Cvc = "123"
             };
             var request = UsaEPayRequestFactory.CreditCardRefundRequest(refundParams);
