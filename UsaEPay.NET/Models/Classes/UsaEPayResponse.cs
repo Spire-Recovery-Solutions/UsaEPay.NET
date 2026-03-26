@@ -241,6 +241,11 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("available_actions")]
         public string[]? AvailableActions { get; set; }
         /// <summary>
+        /// Processor platform information.
+        /// </summary>
+        [JsonPropertyName("platform")]
+        public Platform? Platform { get; set; }
+        /// <summary>
         /// Object which holds the customer's shipping address information.
         /// </summary>
         [JsonPropertyName("shipping_address")]
@@ -296,6 +301,14 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("key")]
         public string? Key { get; set; }
+        /// <summary>
+        /// Masked credit card data.
+        /// </summary>
+        /// <summary>
+        /// Card expiration date (MMYY format).
+        /// </summary>
+        [JsonPropertyName("expiration")]
+        public string? Expiration { get; set; }
         /// <summary>
         /// Masked credit card data.
         /// </summary>
@@ -554,6 +567,12 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("card_blocked")]
         public string? CardBlocked { get; set; }
+    }
+
+    public class Platform
+    {
+        [JsonPropertyName("name")]
+        public string? Name { get; set; }
     }
 
     public class Receipts
