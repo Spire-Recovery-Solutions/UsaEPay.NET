@@ -100,5 +100,8 @@ namespace UsaEPay.NET.Models.Classes
 
         [JsonPropertyName("Description")]
         public string Description { get; set; }
+
+        [JsonPropertyName("AuthCode")]
+        public string AuthCode { get; set; }
     }
 }

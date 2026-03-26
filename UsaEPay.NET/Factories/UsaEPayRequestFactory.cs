@@ -407,6 +407,7 @@ namespace UsaEPay.NET.Factories
                 Amount = tranParams.Amount,
                 Email = tranParams.Email,
                 Description = tranParams.Description,
+                AuthCode = tranParams.AuthCode,
                 CreditCard = new CreditCard
                 {
                     Number = tranParams.CardNumber,
@@ -678,7 +679,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving a filtered list of batches by date.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string openedBefore = null, string openedAfter = null, string closedBefore = null, string closedAfter = null, int limit = 20, int offset = 0)
+        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string openedBefore = null, string openedAfter = null, string closedBefore = null, string closedAfter = null, string openedGt = null, string openedLe = null, string closedGt = null, string closedLe = null, int limit = 20, int offset = 0)
         {
             var queryParams = new List<string>();
             queryParams.Add($"limit={limit}");
@@ -687,6 +688,10 @@ namespace UsaEPay.NET.Factories
             if (openedAfter != null) queryParams.Add($"openedge={openedAfter}");
             if (closedBefore != null) queryParams.Add($"closedlt={closedBefore}");
             if (closedAfter != null) queryParams.Add($"closedge={closedAfter}");
+            if (openedGt != null) queryParams.Add($"openedgt={openedGt}");
+            if (openedLe != null) queryParams.Add($"openedle={openedLe}");
+            if (closedGt != null) queryParams.Add($"closedgt={closedGt}");
+            if (closedLe != null) queryParams.Add($"closedle={closedLe}");
 
             return new UsaEPayGetRequest
             {
@@ -784,12 +789,13 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for bulk deleting customers by keys.
         /// </summary>
-        public static UsaEPayRequest BulkDeleteCustomersRequest(string[] custKeys)
+        public static UsaEPayBulkDeleteRequest BulkDeleteCustomersRequest(string[] custKeys)
         {
-            return new UsaEPayRequest
+            return new UsaEPayBulkDeleteRequest
             {
                 Endpoint = $"{UsaEPayEndpoints.Customers}/bulk",
-                RequestType = RestSharp.Method.Delete
+                RequestType = RestSharp.Method.Delete,
+                Keys = custKeys
             };
         }
 
@@ -877,6 +883,30 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post
             };
         }
+
+        /// <summary>
+        /// Creates a request for resuming the current bulk transaction file.
+        /// </summary>
+        public static UsaEPayRequest ResumeBulkTransactionCurrentRequest()
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.BulkTransactionsCurrent}/resume",
+                RequestType = RestSharp.Method.Post
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for retrieving a customer's transaction history.
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveCustomerTransactionsRequest(string custKey, int limit = 20, int offset = 0)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.Customers}/{custKey}/{UsaEPayEndpoints.Transactions}?limit={limit}&offset={offset}"
+            };
+        }
+
         /// <summary>
         /// Creates a request for creating a billing schedule for an existing customer.
         /// </summary>
@@ -966,12 +996,13 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for bulk deleting customer payment methods by keys.
         /// </summary>
-        public static UsaEPayRequest BulkDeletePaymentMethodsRequest(string custKey, string[] methodKeys)
+        public static UsaEPayBulkDeleteRequest BulkDeletePaymentMethodsRequest(string custKey, string[] methodKeys)
         {
-            return new UsaEPayRequest
+            return new UsaEPayBulkDeleteRequest
             {
                 Endpoint = $"{UsaEPayEndpoints.Customers}/{custKey}/{UsaEPayEndpoints.PaymentMethods}/bulk",
-                RequestType = RestSharp.Method.Delete
+                RequestType = RestSharp.Method.Delete,
+                Keys = methodKeys
             };
         }
 

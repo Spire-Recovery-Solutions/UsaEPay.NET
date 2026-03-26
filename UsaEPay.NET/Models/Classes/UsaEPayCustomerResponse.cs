@@ -124,6 +124,18 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("description")]
         public string Description { get; set; }
+
+        /// <summary>
+        /// Payment methods associated with the customer.
+        /// </summary>
+        [JsonPropertyName("payment_methods")]
+        public UsaEPayPaymentMethodResponse[] PaymentMethods { get; set; }
+
+        /// <summary>
+        /// Billing schedules associated with the customer.
+        /// </summary>
+        [JsonPropertyName("billing_schedules")]
+        public UsaEPayBillingScheduleResponse[] BillingSchedules { get; set; }
     }
 
     public class UsaEPayCustomerListResponse : IUsaEPayResponse

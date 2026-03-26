@@ -144,6 +144,34 @@ namespace UsaEPay.NET.Models.Classes
         public string Url { get; set; }
 
         /// <summary>
+        /// If set to true, product is available to all locations.
+        /// </summary>
+        [JsonPropertyName("available_all")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool? AvailableAll { get; set; }
+
+        /// <summary>
+        /// Date the product became available to all locations.
+        /// </summary>
+        [JsonPropertyName("available_all_date")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string AvailableAllDate { get; set; }
+
+        /// <summary>
+        /// Date the product becomes available.
+        /// </summary>
+        [JsonPropertyName("date_available")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string DateAvailable { get; set; }
+
+        /// <summary>
+        /// If set to true, allows price override on the product.
+        /// </summary>
+        [JsonPropertyName("allow_override")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool? AllowOverride { get; set; }
+
+        /// <summary>
         /// This is the product's weight.
         /// </summary>
         [JsonPropertyName("weight")]

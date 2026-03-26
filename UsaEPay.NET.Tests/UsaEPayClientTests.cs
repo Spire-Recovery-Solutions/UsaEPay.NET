@@ -494,7 +494,10 @@ public sealed class UsaEPayClientTests
         await Assert.That(response!.Status).IsEqualTo("open");
     }
 
-    [Test, Category("CloseCurrentBatch"), DependsOn(nameof(RetrieveCurrentBatch_ReturnsOpen))]
+    [Test, Category("CloseCurrentBatch"),
+     DependsOn(nameof(RetrieveCurrentBatch_ReturnsOpen)),
+     DependsOn(nameof(RetrieveSpecificBatch_ReturnsOpen)),
+     DependsOn(nameof(RetrieveBatchTransactionsById_ReturnsData))]
     public async Task CloseCurrentBatch_ReturnsClosing()
     {
         var request = UsaEPayRequestFactory.CloseCurrentBatchRequest();

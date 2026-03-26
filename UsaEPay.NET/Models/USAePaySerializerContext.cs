@@ -102,6 +102,7 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(UsaEPayProductCategoryRequest))]
     [JsonSerializable(typeof(UsaEPayProductCategoryResponse))]
     [JsonSerializable(typeof(UsaEPayProductCategoryListResponse))]
+    [JsonSerializable(typeof(UsaEPayBulkDeleteRequest))]
     public partial class USAePaySerializerContext : JsonSerializerContext
     {
     }
