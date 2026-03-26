@@ -2,513 +2,512 @@ using Microsoft.Extensions.Configuration;
 using UsaEPay.NET.Factories;
 using UsaEPay.NET.Models.Classes;
 
-namespace UsaEPay.NET.Tests
+namespace UsaEPay.NET.Tests;
+
+[NotInParallel]
+public sealed class UsaEPayClientTests
 {
-    public class Shared
+    private IConfiguration _config = null!;
+    private UsaEPayClient _client = null!;
+
+    // Shared state captured across ordered tests
+    private static string s_token = string.Empty;
+    private static string s_transKey = string.Empty;
+    private static string s_transAuthKey = string.Empty;
+    private static string s_tranCheckKey = string.Empty;
+    private static string s_batchKey = string.Empty;
+
+    [Before(Test)]
+    public void Setup()
     {
-        public static UsaEPayClient Client;
-        public static IConfiguration Config;
-        public static string Token = string.Empty;
-        public static string TransKey = string.Empty;
-        public static string TransAuthKey = string.Empty;
-        public static string TranCheckKey = string.Empty;
-        public string BatchKey = string.Empty;
+        _config = new ConfigurationBuilder()
+            .AddEnvironmentVariables()
+            .AddUserSecrets<UsaEPayClientTests>()
+            .Build();
+
+        _client = new UsaEPayClient(
+            _config["API_URL"]!,
+            _config["API_KEY"]!,
+            _config["API_PIN"]!,
+            _config["RANDOM_SEED"]!,
+            true);
     }
-    [Order(1)]
-    public class Tokenization : Shared
+
+    // ── Tokenization ────────────────────────────────────────────────
+
+    [Test, Category("Token")]
+    public async Task TokenizeCard_ReturnsApproved()
     {
-        [SetUp]
-        public void Setup()
+        var request = UsaEPayRequestFactory.TokenizeCardRequest(new UsaEPayTransactionParams
         {
-            Config = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .AddUserSecrets<Tokenization>()
-                .Build();
-            Client = new UsaEPayClient(
-                Config["API_URL"],
-                Config["API_KEY"],
-                Config["API_PIN"],
-                Config["RANDOM_SEED"],
-                true
-                );
-        }
+            CardHolder = "John Doe",
+            CardNumber = "4000100011112224",
+            Expiration = "0929",
+            Cvc = "123"
+        });
 
-        [Test, Order(1), Category("Token")]
-        public async Task TestTokenizeCard()
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+
+        if (response.ResultCode == "A")
         {
-            var tokenizeCardParams = new UsaEPayTransactionParams
-            {
-                CardHolder = "John Doe",
-                CardNumber = "4000100011112224",
-                Expiration = "0929",
-                Cvc = "123"
-            };
-            var request = UsaEPayRequestFactory.TokenizeCardRequest(tokenizeCardParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-            if (response.ResultCode == "A")
-            {
-                Token = response.SavedCard.Key;
-            }
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(2), Category("Token")]
-        public async Task TestTokenSale()
-        {
-            var tokenSaleParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                FirstName = "John",
-                LastName = "Doe",
-                Address = "555 Test Street",
-                Address2 = "",
-                City = "Testington",
-                State = "OK",
-                Zip = "33242",
-                Cvc = "123",
-                Token = Token
-            };
-            var request = UsaEPayRequestFactory.TokenSaleRequest(tokenSaleParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
+            s_token = response.SavedCard!.Key;
         }
     }
 
-    [Order(2)]
-    public class Transaction : Shared
+    [Test, Category("Token"), DependsOn(nameof(TokenizeCard_ReturnsApproved))]
+    public async Task TokenSale_ReturnsApproved()
     {
-        [Test, Order(1), Category("Sale")]
-        public async Task TestCardSale()
+        var request = UsaEPayRequestFactory.TokenSaleRequest(new UsaEPayTransactionParams
         {
-            var creditCardSaleParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                FirstName = "John",
-                LastName = "Doe",
-                AccountHolder = "John Doe",
-                Address = "555 Test Street",
-                Address2 = "",
-                City = "Testington",
-                State = "OK",
-                Zip = "33242",
-                CardNumber = "4000100011112224",
-                Expiration = "0929",
-                Cvc = "123"
-            };
-            var request = UsaEPayRequestFactory.CreditCardSaleRequest(creditCardSaleParams);
+            Amount = 10,
+            FirstName = "John",
+            LastName = "Doe",
+            Address = "555 Test Street",
+            Address2 = "",
+            City = "Testington",
+            State = "OK",
+            Zip = "33242",
+            Cvc = "123",
+            Token = s_token
+        });
 
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-            if (response.ResultCode == "A")
-            {
-                TransKey = response.Key;
-            }
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
 
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
 
-        [Test, Order(2), Category("Sale")]
-        public async Task TestQuickSale()
+    // ── Credit Card Sale ────────────────────────────────────────────
+
+    [Test, Category("Sale")]
+    public async Task CardSale_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CreditCardSaleRequest(new UsaEPayTransactionParams
         {
-            var quickSaleParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                TransactionKey = TransKey
-            };
-                var request = UsaEPayRequestFactory.QuickSaleRequest(quickSaleParams);
+            Amount = 10,
+            FirstName = "John",
+            LastName = "Doe",
+            AccountHolder = "John Doe",
+            Address = "555 Test Street",
+            Address2 = "",
+            City = "Testington",
+            State = "OK",
+            Zip = "33242",
+            CardNumber = "4000100011112224",
+            Expiration = "0929",
+            Cvc = "123"
+        });
 
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
 
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
 
-        [Test, Order(3), Category("Sale")]
-        public async Task TestCheckSale()
+        if (response.ResultCode == "A")
         {
-            var checkSaleParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                FirstName = "Remus",
-                LastName = "Lupin",
-                Address = "555 Test Street",
-                Address2 = "",
-                City = "Testington",
-                State = "OK",
-                Zip = "33242",
-                Routing = "123456789",
-                Account = "324523524",
-                AccountType = "checking",
-                CheckNumber = "101"
-            };
-            var request = UsaEPayRequestFactory.CheckSaleRequest(checkSaleParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-            if (response.ResultCode == "A")
-            {
-                TranCheckKey = response.Key;
-            }
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(4), Category("Sale")]
-        public async Task TestAuthOnlySale()
-        {
-            var authOnlyParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                AccountHolder = "John Doe",
-                CardNumber = "4000100011112224",
-                Expiration = "0929",
-                Cvc = "123",
-                FirstName = "John",
-                LastName = "Doe",
-                Address = "555 Test Street",
-                Address2 = "Street 2",
-                City = "Testington",
-                State = "OK",
-                Zip = "33242",
-
-            };
-            var request = UsaEPayRequestFactory.AuthOnlySaleRequest(authOnlyParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-            if (response.ResultCode == "A")
-            {
-                TransAuthKey = response.Key;
-            }
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(5), Category("Refund")]
-        public async Task TestCreditCardRefund()
-        {
-            var refundParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                CardHolder = "John Doe",
-                CardNumber = "4000100011112224",
-                Expiration = "0929",
-                Cvc = "123"
-            };
-            var request = UsaEPayRequestFactory.CreditCardRefundRequest(refundParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(6), Category("Refund")]
-        public async Task TestCheckRefund()
-        {
-            var refundParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                AccountHolder = "John Doe",
-                AccountNumber = "234234",
-                Routing = "123456789",
-                AccountType = "checking",
-                CheckNumber = "101"
-            };
-            var request = UsaEPayRequestFactory.CheckRefundRequest(refundParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(7), Category("Refund")]
-        public async Task TestQuickRefund()
-        {
-            var quickRefundParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                TransactionKey = TransKey
-            };
-                var request = UsaEPayRequestFactory.QuickRefundRequest(quickRefundParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(8), Category("Refund")]
-        public async Task TestConnectedRefund()
-        {
-            var connectedRefundParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                Email = "test@.com",
-                ClientIP = "10.1.0.1",
-                TransactionKey = TransAuthKey
-            };
-            var request = UsaEPayRequestFactory.ConnectedRefundRequest(connectedRefundParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(9), Category("Refund")]
-        public async Task TestAdjustPaymentRefund()
-        {
-            var adjustRefundParams = new UsaEPayTransactionParams
-            {
-                Amount = 10,
-                TransactionKey = TranCheckKey
-            };
-                var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(adjustRefundParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(10), Category("Capture")]
-        public async Task TestCapturePayment()
-        {
-            var adjustRefundParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.CapturePaymentRequest(adjustRefundParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(11), Category("Capture")]
-        public async Task TestCapturePaymentError()
-        {
-            var captureErrorParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.CapturePaymentErrorRequest(captureErrorParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(12), Category("Capture")]
-        public async Task TestCapturePaymentReauth()
-        {
-            var captureReAuthParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.CapturePaymentReauthRequest(captureReAuthParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(13), Category("Capture")]
-        public async Task TestCapturePaymentOverride()
-        {
-            var captureOverrideParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.CapturePaymentOverrideRequest(captureOverrideParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(14), Category("Adjust")]
-        public async Task TestAdjustPayment()
-        {
-            var adjustTransactionParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.AdjustPaymentRequest(adjustTransactionParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(15), Category("RetrieveDetails")]
-        public async Task TestRetrieveTransactionDetails()
-        {
-            var retrieveTransactionParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.RetrieveTransactionDetailsRequest(retrieveTransactionParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(16), Category("Void")]
-        public async Task TestCreditVoid()
-        {
-            var voidTransactionParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.CreditVoidRequest(voidTransactionParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(17), Category("Void")]
-        public async Task TestVoidPayment()
-        {
-            var voidPaymentParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TranCheckKey
-            };
-            var request = UsaEPayRequestFactory.VoidPaymentRequest(voidPaymentParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(18), Category("Void")]
-        public async Task TestUnvoid()
-        {
-            var UnvoidPaymentParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.UnvoidRequest(UnvoidPaymentParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-        [Test, Order(19), Category("Void")]
-        public async Task TestReleaseFunds()
-        {
-            var releaseFundParams = new UsaEPayTransactionParams
-            {
-                TransactionKey = TransKey
-            };
-            var request = UsaEPayRequestFactory.ReleaseFundsRequest(releaseFundParams);
-
-            var response = await Client.SendRequest<UsaEPayResponse>(request);
-
-            Assert.That(response.ResultCode, Is.EqualTo("A"));
-        }
-
-
-        [Test, Order(20), Category("ListTransactions")]
-        public async Task TestTransactionList()
-        {
-            var request = UsaEPayRequestFactory.RetrieveTransactionsRequest(5,0);
-
-            var response = await Client.SendRequest<UsaEPayListTransactionResponse>(request);
-
-            Assert.That(response, Is.Not.Null);
+            s_transKey = response.Key;
         }
     }
 
-    [Order(3)]
-    public class Batch : Shared
+    [Test, Category("Sale"), DependsOn(nameof(CardSale_ReturnsApproved))]
+    public async Task QuickSale_ReturnsApproved()
     {
-        [Test, Order(1), Category("BatchList")]
-        public async Task TestBatchList()
+        var request = UsaEPayRequestFactory.QuickSaleRequest(new UsaEPayTransactionParams
         {
-            var request = UsaEPayRequestFactory.RetrieveBatchListRequest();
+            Amount = 10,
+            TransactionKey = s_transKey
+        });
 
-            var response = await Client.SendRequest<UsaEPayBatchListResponse>(request);
-            if (response.Data != null)
-            {
-                var batchItem = response.Data.First();
-                BatchKey = batchItem.Key;
-            }
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
 
-            Assert.That(response, Is.Not.Null);
-        }
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
 
-        [Test, Order(2), Category("BatchListByDate")]
-        [TestCase("20230101", "20240201")]
-        public async Task TestBatchListByDate(string openedAfter, string openedBefore)
+    // ── Check Sale ──────────────────────────────────────────────────
+
+    [Test, Category("Sale")]
+    public async Task CheckSale_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CheckSaleRequest(new UsaEPayTransactionParams
         {
-            var request = UsaEPayRequestFactory.RetrieveBatchListByDateRequest(openedBefore: openedBefore, openedAfter: openedAfter);
+            Amount = 10,
+            FirstName = "Remus",
+            LastName = "Lupin",
+            Address = "555 Test Street",
+            Address2 = "",
+            City = "Testington",
+            State = "OK",
+            Zip = "33242",
+            Routing = "123456789",
+            Account = "324523524",
+            AccountType = "checking",
+            CheckNumber = "101"
+        });
 
-            var response = await Client.SendRequest<UsaEPayBatchListResponse>(request);
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
 
-            Assert.That(response.Data, Is.Not.Null);
-        }
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
 
-        [Test, Order(3), Category("RetreiveSpecificBatch")]
-        public async Task TestRetrieveSpecificBatch()
+        if (response.ResultCode == "A")
         {
-            var request = UsaEPayRequestFactory.RetrieveSpecificBatchRequest(BatchKey);
-
-            var response = await Client.SendRequest<Models.Classes.Batch>(request);
-
-            Assert.That(response.Status, Is.EqualTo("open"));
-        }
-
-        [Test, Order(4), Category("RetreiveCurrentBatch")]
-        public async Task TestRetrieveCurrentBatch()
-        {
-            var request = UsaEPayRequestFactory.RetrieveCurrentBatchRequest();
-
-            var response = await Client.SendRequest<Models.Classes.Batch>(request);
-
-            Assert.That(response.Status, Is.EqualTo("open"));
-        }
-
-        [Test, Order(5), Category("CloseCurrentBatch")]
-        public async Task TestCloseCurrentBatch()
-        {
-            var request = UsaEPayRequestFactory.CloseCurrentBatchRequest();
-
-            var response = await Client.SendRequest<Models.Classes.Batch>(request);
-
-            Assert.That(response.Status, Is.EqualTo("closing"));
-        }
-
-        
-        [Test, Order(6), Category("TestRetrieveBatchTransactionsByIdRequest")]
-        public async Task TestRetrieveBatchTransactionsByIdRequest()
-        {
-            var request = UsaEPayRequestFactory.RetrieveBatchTransactionsByIdRequest(BatchKey, 5, 1);
-
-            var response = await Client.SendRequest<UsaEPayBatchTransactionResponse>(request);
-
-            Assert.That(response, Is.Not.Null);
+            s_tranCheckKey = response.Key;
         }
     }
 
-    //[Test]
-    //[Order(8)]
-    //public async Task TestPostPayment() 
-    //{
-    //    var request = UsaEPayRequestFactory.PostPaymentRequest(10, "AUTH_CODE", "John Doe", "4000100011112224", "0924", 123);
+    // ── Auth Only ───────────────────────────────────────────────────
 
-    //    var response = await _Client.SendRequest<UsaEPayResponse>(request);
+    [Test, Category("Sale")]
+    public async Task AuthOnlySale_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.AuthOnlySaleRequest(new UsaEPayTransactionParams
+        {
+            Amount = 10,
+            AccountHolder = "John Doe",
+            CardNumber = "4000100011112224",
+            Expiration = "0929",
+            Cvc = "123",
+            FirstName = "John",
+            LastName = "Doe",
+            Address = "555 Test Street",
+            Address2 = "Street 2",
+            City = "Testington",
+            State = "OK",
+            Zip = "33242"
+        });
 
-    //    Assert.That(response.ResultCode, Is.EqualTo("A"));
-    //}
-    //[Test]
-    //[Order(29)]
-    //public async Task TestCashRefund()
-    //{
-    //    var request = UsaEPayRequestFactory.CashRefundRequest(10);
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
 
-    //    var response = await _Client.SendRequest<UsaEPayResponse>(request);
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
 
-    //    Assert.That(response.ResultCode, Is.EqualTo("A"));
-    //}
+        if (response.ResultCode == "A")
+        {
+            s_transAuthKey = response.Key;
+        }
+    }
+
+    // ── Refunds ─────────────────────────────────────────────────────
+
+    [Test, Category("Refund")]
+    public async Task CreditCardRefund_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CreditCardRefundRequest(new UsaEPayTransactionParams
+        {
+            Amount = 10,
+            CardHolder = "John Doe",
+            CardNumber = "4000100011112224",
+            Expiration = "0929",
+            Cvc = "123"
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Refund")]
+    public async Task CheckRefund_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CheckRefundRequest(new UsaEPayTransactionParams
+        {
+            Amount = 10,
+            AccountHolder = "John Doe",
+            AccountNumber = "234234",
+            Routing = "123456789",
+            AccountType = "checking",
+            CheckNumber = "101"
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Refund"), DependsOn(nameof(CardSale_ReturnsApproved))]
+    public async Task QuickRefund_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.QuickRefundRequest(new UsaEPayTransactionParams
+        {
+            Amount = 10,
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Refund"), DependsOn(nameof(AuthOnlySale_ReturnsApproved))]
+    public async Task ConnectedRefund_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.ConnectedRefundRequest(new UsaEPayTransactionParams
+        {
+            Amount = 10,
+            Email = "test@.com",
+            ClientIP = "10.1.0.1",
+            TransactionKey = s_transAuthKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Refund"), DependsOn(nameof(CheckSale_ReturnsApproved))]
+    public async Task AdjustPaymentRefund_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(new UsaEPayTransactionParams
+        {
+            Amount = 10,
+            TransactionKey = s_tranCheckKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    // ── Capture ─────────────────────────────────────────────────────
+
+    [Test, Category("Capture"), DependsOn(nameof(CardSale_ReturnsApproved))]
+    public async Task CapturePayment_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CapturePaymentRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Capture"), DependsOn(nameof(CapturePayment_ReturnsApproved))]
+    public async Task CapturePaymentError_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CapturePaymentErrorRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Capture"), DependsOn(nameof(CapturePaymentError_ReturnsApproved))]
+    public async Task CapturePaymentReauth_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CapturePaymentReauthRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Capture"), DependsOn(nameof(CapturePaymentReauth_ReturnsApproved))]
+    public async Task CapturePaymentOverride_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CapturePaymentOverrideRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    // ── Adjust ──────────────────────────────────────────────────────
+
+    [Test, Category("Adjust"), DependsOn(nameof(CapturePaymentOverride_ReturnsApproved))]
+    public async Task AdjustPayment_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.AdjustPaymentRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    // ── Retrieve Details ────────────────────────────────────────────
+
+    [Test, Category("RetrieveDetails"), DependsOn(nameof(AdjustPayment_ReturnsApproved))]
+    public async Task RetrieveTransactionDetails_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.RetrieveTransactionDetailsRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    // ── Void ────────────────────────────────────────────────────────
+
+    [Test, Category("Void"), DependsOn(nameof(RetrieveTransactionDetails_ReturnsApproved))]
+    public async Task CreditVoid_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.CreditVoidRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Void"), DependsOn(nameof(CheckSale_ReturnsApproved))]
+    public async Task VoidPayment_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.VoidPaymentRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_tranCheckKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Void"), DependsOn(nameof(CreditVoid_ReturnsApproved))]
+    public async Task Unvoid_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.UnvoidRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    [Test, Category("Void"), DependsOn(nameof(Unvoid_ReturnsApproved))]
+    public async Task ReleaseFunds_ReturnsApproved()
+    {
+        var request = UsaEPayRequestFactory.ReleaseFundsRequest(new UsaEPayTransactionParams
+        {
+            TransactionKey = s_transKey
+        });
+
+        var response = await _client.SendRequest<UsaEPayResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.ResultCode).IsEqualTo("A");
+    }
+
+    // ── Transaction List ────────────────────────────────────────────
+
+    [Test, Category("ListTransactions"), DependsOn(nameof(ReleaseFunds_ReturnsApproved))]
+    public async Task TransactionList_ReturnsData()
+    {
+        var request = UsaEPayRequestFactory.RetrieveTransactionsRequest(5, 0);
+
+        var response = await _client.SendRequest<UsaEPayListTransactionResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+    }
+
+    // ── Batch ───────────────────────────────────────────────────────
+
+    [Test, Category("BatchList")]
+    public async Task BatchList_ReturnsData()
+    {
+        var request = UsaEPayRequestFactory.RetrieveBatchListRequest();
+
+        var response = await _client.SendRequest<UsaEPayBatchListResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+
+        if (response!.Data != null)
+        {
+            var batchItem = response.Data.First();
+            s_batchKey = batchItem.Key;
+        }
+    }
+
+    [Test, Category("BatchListByDate")]
+    public async Task BatchListByDate_ReturnsData()
+    {
+        var request = UsaEPayRequestFactory.RetrieveBatchListByDateRequest(
+            openedBefore: "20240201",
+            openedAfter: "20230101");
+
+        var response = await _client.SendRequest<UsaEPayBatchListResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.Data).IsNotNull();
+    }
+
+    [Test, Category("RetrieveSpecificBatch"), DependsOn(nameof(BatchList_ReturnsData))]
+    public async Task RetrieveSpecificBatch_ReturnsOpen()
+    {
+        var request = UsaEPayRequestFactory.RetrieveSpecificBatchRequest(s_batchKey);
+
+        var response = await _client.SendRequest<Models.Classes.Batch>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.Status).IsEqualTo("open");
+    }
+
+    [Test, Category("RetrieveCurrentBatch")]
+    public async Task RetrieveCurrentBatch_ReturnsOpen()
+    {
+        var request = UsaEPayRequestFactory.RetrieveCurrentBatchRequest();
+
+        var response = await _client.SendRequest<Models.Classes.Batch>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.Status).IsEqualTo("open");
+    }
+
+    [Test, Category("CloseCurrentBatch"), DependsOn(nameof(RetrieveCurrentBatch_ReturnsOpen))]
+    public async Task CloseCurrentBatch_ReturnsClosing()
+    {
+        var request = UsaEPayRequestFactory.CloseCurrentBatchRequest();
+
+        var response = await _client.SendRequest<Models.Classes.Batch>(request);
+
+        await Assert.That(response).IsNotNull();
+        await Assert.That(response!.Status).IsEqualTo("closing");
+    }
+
+    [Test, Category("BatchTransactions"), DependsOn(nameof(BatchList_ReturnsData))]
+    public async Task RetrieveBatchTransactionsById_ReturnsData()
+    {
+        var request = UsaEPayRequestFactory.RetrieveBatchTransactionsByIdRequest(s_batchKey, 5, 1);
+
+        var response = await _client.SendRequest<UsaEPayBatchTransactionResponse>(request);
+
+        await Assert.That(response).IsNotNull();
+    }
 }
