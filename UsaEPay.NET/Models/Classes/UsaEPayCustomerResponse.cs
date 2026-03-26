@@ -33,7 +33,8 @@ namespace UsaEPay.NET.Models.Classes
         /// Gateway assigned customer identifier. This was originally used in SOAP API.
         /// </summary>
         [JsonPropertyName("custid")]
-        public string? CustId { get; set; }
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long CustId { get; set; }
 
         /// <summary>
         /// Company or Organization Name.
@@ -136,6 +137,12 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("billing_schedules")]
         public UsaEPayBillingScheduleResponse[]? BillingSchedules { get; set; }
+
+        /// <summary>
+        /// Custom fields attached to the customer.
+        /// </summary>
+        [JsonPropertyName("custom_fields")]
+        public Dictionary<string, string?>? CustomFields { get; set; }
     }
 
     public class UsaEPayCustomerListResponse : IUsaEPayResponse

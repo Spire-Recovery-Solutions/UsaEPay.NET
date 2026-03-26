@@ -93,10 +93,10 @@ namespace UsaEPay.NET.Models.Classes
         public string? ReceiptNote { get; set; }
 
         /// <summary>
-        /// If 1 is returned, receipt will be sent. If 0 is returned, receipt will not be sent.
+        /// Whether a receipt will be sent to the customer.
         /// </summary>
         [JsonPropertyName("send_receipt")]
-        public string? SendReceipt { get; set; }
+        public bool? SendReceipt { get; set; }
 
         /// <summary>
         /// Source associated with the recurring billing schedule.

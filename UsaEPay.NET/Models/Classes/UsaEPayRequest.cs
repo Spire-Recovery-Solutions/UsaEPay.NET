@@ -387,6 +387,12 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("fax")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? Fax { get; set; }
+        /// <summary>
+        /// Website URL associated with the address.
+        /// </summary>
+        [JsonPropertyName("website")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Website { get; set; }
     }
 
     public partial class CreditCard
@@ -502,8 +508,8 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("qty")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long Quantity { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Quantity { get; set; }
         /// <summary>
         /// Line item description.
         /// </summary>
@@ -521,7 +527,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("taxable")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool Taxable { get; set; }
+        public string? Taxable { get; set; }
         /// <summary>
         /// Tax amount that should be applied to line item price.
         /// </summary>

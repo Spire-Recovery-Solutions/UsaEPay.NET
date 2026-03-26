@@ -128,5 +128,19 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("transaction_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public string? TransactionKey { get; set; }
+
+        /// <summary>
+        /// Whether the customer is enabled.
+        /// </summary>
+        [JsonPropertyName("enabled")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool Enabled { get; set; }
+
+        /// <summary>
+        /// Whether to send receipts to the customer.
+        /// </summary>
+        [JsonPropertyName("send_receipts")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool SendReceipts { get; set; }
     }
 }

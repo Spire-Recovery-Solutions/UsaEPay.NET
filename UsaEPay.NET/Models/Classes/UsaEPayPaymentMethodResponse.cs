@@ -66,10 +66,29 @@ namespace UsaEPay.NET.Models.Classes
         public string? AvsPostalCode { get; set; }
 
         /// <summary>
+        /// Payment type (e.g. "cc" for credit card, "check" for ACH).
+        /// </summary>
+        [JsonPropertyName("pay_type")]
+        public string? PayType { get; set; }
+
+        /// <summary>
+        /// Bank account number (masked). Returned for ACH payment methods.
+        /// </summary>
+        [JsonPropertyName("account_number")]
+        public string? AccountNumber { get; set; }
+
+        /// <summary>
+        /// Bank routing number (masked). Returned for ACH payment methods.
+        /// </summary>
+        [JsonPropertyName("routing_number")]
+        public string? RoutingNumber { get; set; }
+
+        /// <summary>
         /// Sort order for the payment method.
         /// </summary>
         [JsonPropertyName("sortord")]
-        public string? SortOrder { get; set; }
+        [JsonConverter(typeof(ParseStringToLongConverter))]
+        public long SortOrder { get; set; }
 
         /// <summary>
         /// Date and time the payment method was added to the customer. Format is YYYY-MM-DD HH:MM:SS.

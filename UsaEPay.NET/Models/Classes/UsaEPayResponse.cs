@@ -203,7 +203,7 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Gateway customer key.
         /// </summary>
-        [JsonPropertyName("cust_key")]
+        [JsonPropertyName("custkey")]
         public string? CustomerKey { get; set; }
         /// <summary>
         /// Gateway customer identifier (SOAP API style).
@@ -356,6 +356,16 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("banknote")]
         public string? BankNote { get; set; }
+        /// <summary>
+        /// Bank account number (masked).
+        /// </summary>
+        [JsonPropertyName("account_number")]
+        public string? AccountNumber { get; set; }
+        /// <summary>
+        /// Bank routing number (masked).
+        /// </summary>
+        [JsonPropertyName("routing_number")]
+        public string? RoutingNumber { get; set; }
     }
 
     public class Avs
@@ -490,6 +500,46 @@ namespace UsaEPay.NET.Models.Classes
         [JsonPropertyName("refunds_count")]
         [JsonConverter(typeof(ParseStringToLongConverter))]
         public long RefundsCount { get; set; }
+        /// <summary>
+        /// Parent batch sequence number.
+        /// </summary>
+        [JsonPropertyName("parent_sequence")]
+        public string? ParentSequence { get; set; }
+        /// <summary>
+        /// Whether the batch has been resubmitted.
+        /// </summary>
+        [JsonPropertyName("resubmitted")]
+        public string? Resubmitted { get; set; }
+        /// <summary>
+        /// Whether the batch is locked.
+        /// </summary>
+        [JsonPropertyName("locked")]
+        public bool? Locked { get; set; }
+        /// <summary>
+        /// Date and time the batch was locked.
+        /// </summary>
+        [JsonPropertyName("lockdate")]
+        public string? LockDate { get; set; }
+        /// <summary>
+        /// Transaction cutoff time for the batch.
+        /// </summary>
+        [JsonPropertyName("trancutoff")]
+        public string? TranCutoff { get; set; }
+        /// <summary>
+        /// Total sales dollar amount in the batch.
+        /// </summary>
+        [JsonPropertyName("sales")]
+        public string? Sales { get; set; }
+        /// <summary>
+        /// Total credits dollar amount in the batch.
+        /// </summary>
+        [JsonPropertyName("credits")]
+        public string? Credits { get; set; }
+        /// <summary>
+        /// Total number of credit transactions in the batch.
+        /// </summary>
+        [JsonPropertyName("credits_count")]
+        public string? CreditsCount { get; set; }
     }
 
     public class Bin
