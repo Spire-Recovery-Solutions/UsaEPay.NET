@@ -8,32 +8,32 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for the response.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        [JsonConverter(typeof(UsaEPayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
 
         /// <summary>
         /// The object type. Successful calls will always return product.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// Gateway generated product identifier.
         /// </summary>
         [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         /// <summary>
         /// Gateway generated product identifier.
         /// </summary>
         [JsonPropertyName("product_refnum")]
-        public string ProductRefnum { get; set; }
+        public string? ProductRefnum { get; set; }
 
         /// <summary>
         /// Product name.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Product cost.
@@ -46,55 +46,55 @@ namespace UsaEPay.NET.Models.Classes
         /// If set to Y, product is enabled.
         /// </summary>
         [JsonPropertyName("enabled")]
-        public string Enabled { get; set; }
+        public string? Enabled { get; set; }
 
         /// <summary>
         /// If set to Y, product is taxable.
         /// </summary>
         [JsonPropertyName("taxable")]
-        public string Taxable { get; set; }
+        public string? Taxable { get; set; }
 
         /// <summary>
         /// If set to Y, product is available.
         /// </summary>
         [JsonPropertyName("available_all")]
-        public string AvailableAll { get; set; }
+        public string? AvailableAll { get; set; }
 
         /// <summary>
         /// Date product will become available. Format is YYYY-MM-DD.
         /// </summary>
         [JsonPropertyName("available_all_date")]
-        public string AvailableAllDate { get; set; }
+        public string? AvailableAllDate { get; set; }
 
         /// <summary>
         /// Gateway generated category identifier.
         /// </summary>
         [JsonPropertyName("categoryid")]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; }
 
         /// <summary>
         /// Commodity code for product.
         /// </summary>
         [JsonPropertyName("commodity_code")]
-        public string CommodityCode { get; set; }
+        public string? CommodityCode { get; set; }
 
         /// <summary>
         /// Date product will become available.
         /// </summary>
         [JsonPropertyName("date_available")]
-        public string DateAvailable { get; set; }
+        public string? DateAvailable { get; set; }
 
         /// <summary>
         /// Product description.
         /// </summary>
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// URL where product image is hosted.
         /// </summary>
         [JsonPropertyName("image_url")]
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         /// <summary>
         /// Recommended listing price.
@@ -107,31 +107,31 @@ namespace UsaEPay.NET.Models.Classes
         /// Manufacturer of product.
         /// </summary>
         [JsonPropertyName("manufacturer")]
-        public string Manufacturer { get; set; }
+        public string? Manufacturer { get; set; }
 
         /// <summary>
         /// Merchant assigned product identifier.
         /// </summary>
         [JsonPropertyName("merch_productid")]
-        public string MerchProductId { get; set; }
+        public string? MerchProductId { get; set; }
 
         /// <summary>
         /// When the inventory reaches this quantity, you will see a low inventory flag on this product.
         /// </summary>
         [JsonPropertyName("min_quantity")]
-        public string MinQuantity { get; set; }
+        public string? MinQuantity { get; set; }
 
         /// <summary>
         /// Product model.
         /// </summary>
         [JsonPropertyName("model")]
-        public string Model { get; set; }
+        public string? Model { get; set; }
 
         /// <summary>
         /// If set to Y the product is Physical. If set to N the product is Virtual.
         /// </summary>
         [JsonPropertyName("physicalgood")]
-        public string PhysicalGood { get; set; }
+        public string? PhysicalGood { get; set; }
 
         /// <summary>
         /// This is the product's weight adjusted for packing and shipping purposes.
@@ -143,31 +143,31 @@ namespace UsaEPay.NET.Models.Classes
         /// This is the product's Stock Keeping Unit number.
         /// </summary>
         [JsonPropertyName("sku")]
-        public string Sku { get; set; }
+        public string? Sku { get; set; }
 
         /// <summary>
         /// Product tax class.
         /// </summary>
         [JsonPropertyName("taxclass")]
-        public string TaxClass { get; set; }
+        public string? TaxClass { get; set; }
 
         /// <summary>
         /// Unit of measure.
         /// </summary>
         [JsonPropertyName("um")]
-        public string Um { get; set; }
+        public string? Um { get; set; }
 
         /// <summary>
         /// This is the product's Universal Product Code.
         /// </summary>
         [JsonPropertyName("upc")]
-        public string Upc { get; set; }
+        public string? Upc { get; set; }
 
         /// <summary>
         /// Product URL.
         /// </summary>
         [JsonPropertyName("url")]
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>
         /// This is the product's weight.
@@ -192,25 +192,25 @@ namespace UsaEPay.NET.Models.Classes
         /// Array of inventory objects associated with the product.
         /// </summary>
         [JsonPropertyName("inventory")]
-        public List<ProductInventory> Inventory { get; set; }
+        public List<ProductInventory>? Inventory { get; set; }
 
         /// <summary>
         /// Array of modifier objects associated with the product.
         /// </summary>
         [JsonPropertyName("modifiers")]
-        public List<object> Modifiers { get; set; }
+        public List<object>? Modifiers { get; set; }
 
         /// <summary>
         /// Date and time the product was created.
         /// </summary>
         [JsonPropertyName("created")]
-        public string Created { get; set; }
+        public string? Created { get; set; }
 
         /// <summary>
         /// Date and time the product was last modified.
         /// </summary>
         [JsonPropertyName("modified")]
-        public string Modified { get; set; }
+        public string? Modified { get; set; }
 
         /// <summary>
         /// Indicates if the product has inventory.
@@ -222,13 +222,13 @@ namespace UsaEPay.NET.Models.Classes
         /// If the response is a delete status result.
         /// </summary>
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         /// <summary>
         /// Error message if the request failed.
         /// </summary>
         [JsonPropertyName("error")]
-        public string Error { get; set; }
+        public string? Error { get; set; }
     }
 
     public class ProductInventory
@@ -237,67 +237,67 @@ namespace UsaEPay.NET.Models.Classes
         /// Location identifier.
         /// </summary>
         [JsonPropertyName("locationid")]
-        public string LocationId { get; set; }
+        public string? LocationId { get; set; }
 
         /// <summary>
         /// Merchant assigned location identifier.
         /// </summary>
         [JsonPropertyName("merch_locationid")]
-        public string MerchLocationId { get; set; }
+        public string? MerchLocationId { get; set; }
 
         /// <summary>
         /// Location name.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Location description.
         /// </summary>
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Inventory identifier.
         /// </summary>
         [JsonPropertyName("inventoryid")]
-        public string InventoryId { get; set; }
+        public string? InventoryId { get; set; }
 
         /// <summary>
         /// Product identifier.
         /// </summary>
         [JsonPropertyName("productid")]
-        public string ProductId { get; set; }
+        public string? ProductId { get; set; }
 
         /// <summary>
         /// Quantity on hand.
         /// </summary>
         [JsonPropertyName("qtyonhand")]
-        public string QtyOnHand { get; set; }
+        public string? QtyOnHand { get; set; }
 
         /// <summary>
         /// Quantity on order.
         /// </summary>
         [JsonPropertyName("qtyonorder")]
-        public string QtyOnOrder { get; set; }
+        public string? QtyOnOrder { get; set; }
 
         /// <summary>
         /// Date inventory is available.
         /// </summary>
         [JsonPropertyName("date_available")]
-        public string DateAvailable { get; set; }
+        public string? DateAvailable { get; set; }
 
         /// <summary>
         /// Inventory key.
         /// </summary>
         [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         /// <summary>
         /// Location key.
         /// </summary>
         [JsonPropertyName("location_key")]
-        public string LocationKey { get; set; }
+        public string? LocationKey { get; set; }
     }
 
     public class UsaEPayProductListResponse : IUsaEPayResponse
@@ -305,14 +305,14 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for the response.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        [JsonConverter(typeof(UsaEPayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
 
         /// <summary>
         /// The type of object returned. Returns a list.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// The maximum amount of products that will be included in response.
@@ -332,7 +332,7 @@ namespace UsaEPay.NET.Models.Classes
         /// An array of products matching the request.
         /// </summary>
         [JsonPropertyName("data")]
-        public UsaEPayProductResponse[] Data { get; set; }
+        public UsaEPayProductResponse[]? Data { get; set; }
 
         /// <summary>
         /// The total amount of products, including filtered results.

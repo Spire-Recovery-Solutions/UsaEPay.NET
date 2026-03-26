@@ -1,5 +1,4 @@
 using System.Text.Json;
-using TUnit.Core;
 using UsaEPay.NET.Models;
 using UsaEPay.NET.Models.Classes;
 
@@ -29,7 +28,7 @@ public sealed class SerializationTests
             }
         };
 
-        var json = JsonSerializer.Serialize(request, USAePaySerializerContext.Default.Options);
+        var json = JsonSerializer.Serialize(request, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(json).Contains("\"command\":\"cc:sale\"");
         await Assert.That(json).Contains("\"number\":\"4111111111111111\"");
@@ -51,7 +50,7 @@ public sealed class SerializationTests
             }
         };
 
-        var json = JsonSerializer.Serialize(request, USAePaySerializerContext.Default.Options);
+        var json = JsonSerializer.Serialize(request, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(json).Contains("\"creditcard\"");
         await Assert.That(json).Contains("\"number\":\"4242424242424242\"");
@@ -69,7 +68,7 @@ public sealed class SerializationTests
             Amount = 5.00m
         };
 
-        var json = JsonSerializer.Serialize(request, USAePaySerializerContext.Default.Options);
+        var json = JsonSerializer.Serialize(request, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(json).DoesNotContain("\"creditcard\"");
         await Assert.That(json).DoesNotContain("\"billing_address\"");
@@ -88,7 +87,7 @@ public sealed class SerializationTests
             Command = "cc:sale"
         };
 
-        var json = JsonSerializer.Serialize(request, USAePaySerializerContext.Default.Options);
+        var json = JsonSerializer.Serialize(request, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(json).DoesNotContain("\"save_card\"");
         await Assert.That(json).DoesNotContain("\"save_customer\"");
@@ -128,7 +127,7 @@ public sealed class SerializationTests
         }
         """;
 
-        var response = JsonSerializer.Deserialize<UsaEPayResponse>(json, USAePaySerializerContext.Default.Options);
+        var response = JsonSerializer.Deserialize<UsaEPayResponse>(json, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.Type).IsEqualTo("transaction");
@@ -158,7 +157,7 @@ public sealed class SerializationTests
         }
         """;
 
-        var response = JsonSerializer.Deserialize<UsaEPayResponse>(json, USAePaySerializerContext.Default.Options);
+        var response = JsonSerializer.Deserialize<UsaEPayResponse>(json, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.Key).IsEqualTo("tnx_minimal");
@@ -208,22 +207,23 @@ public sealed class SerializationTests
         }
         """;
 
-        var response = JsonSerializer.Deserialize<UsaEPayBatchListResponse>(json, USAePaySerializerContext.Default.Options);
+        var response = JsonSerializer.Deserialize<UsaEPayBatchListResponse>(json, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.Type).IsEqualTo("list");
         await Assert.That(response.Limit).IsEqualTo(20L);
         await Assert.That(response.Offset).IsEqualTo(0L);
         await Assert.That(response.Total).IsEqualTo(2L);
-        await Assert.That(response.Data).HasCount().EqualTo(2);
-        await Assert.That(response.Data[0].Key).IsEqualTo("batch_001");
-        await Assert.That(response.Data[0].BatchReferenceNumber).IsEqualTo(1001L);
-        await Assert.That(response.Data[0].Status).IsEqualTo("closed");
-        await Assert.That(response.Data[0].TotalAmount).IsEqualTo(5000.00m);
-        await Assert.That(response.Data[0].TotalCount).IsEqualTo(50L);
-        await Assert.That(response.Data[0].SalesCount).IsEqualTo(45L);
-        await Assert.That(response.Data[1].Key).IsEqualTo("batch_002");
-        await Assert.That(response.Data[1].Status).IsEqualTo("open");
+        var data = response.Data!;
+        await Assert.That(data).HasCount().EqualTo(2);
+        await Assert.That(data[0].Key).IsEqualTo("batch_001");
+        await Assert.That(data[0].BatchReferenceNumber).IsEqualTo(1001L);
+        await Assert.That(data[0].Status).IsEqualTo("closed");
+        await Assert.That(data[0].TotalAmount).IsEqualTo(5000.00m);
+        await Assert.That(data[0].TotalCount).IsEqualTo(50L);
+        await Assert.That(data[0].SalesCount).IsEqualTo(45L);
+        await Assert.That(data[1].Key).IsEqualTo("batch_002");
+        await Assert.That(data[1].Status).IsEqualTo("open");
     }
 
     #endregion
@@ -243,7 +243,7 @@ public sealed class SerializationTests
         }
         """;
 
-        var response = JsonSerializer.Deserialize<UsaEPayResponse>(json, USAePaySerializerContext.Default.Options);
+        var response = JsonSerializer.Deserialize<UsaEPayResponse>(json, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(response!.Amount).IsEqualTo(123.45m);
     }
@@ -261,7 +261,7 @@ public sealed class SerializationTests
         }
         """;
 
-        var response = JsonSerializer.Deserialize<UsaEPayResponse>(json, USAePaySerializerContext.Default.Options);
+        var response = JsonSerializer.Deserialize<UsaEPayResponse>(json, UsaEPaySerializerContext.Default.Options);
 
         await Assert.That(response!.Amount).IsEqualTo(67.89m);
     }

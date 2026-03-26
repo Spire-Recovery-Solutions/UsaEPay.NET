@@ -1,5 +1,4 @@
 using RestSharp;
-using TUnit.Core;
 using UsaEPay.NET.Factories;
 using UsaEPay.NET.Models.Classes;
 
@@ -66,7 +65,7 @@ public sealed class FactoryTests
         var tranParams = CreateSampleCardParams();
         var customFields = new Dictionary<string, string> { { "custom1", "value1" } };
         var request = UsaEPayRequestFactory.CreditCardSaleRequest(tranParams, customFields);
-        await Assert.That(request.CustomFields).IsNotNull();
+        await Assert.That(request.CustomFields!).IsNotNull();
         await Assert.That(request.CustomFields!["custom1"]).IsEqualTo("value1");
     }
 
@@ -75,7 +74,7 @@ public sealed class FactoryTests
     {
         var tranParams = CreateSampleCardParams();
         var request = UsaEPayRequestFactory.CreditCardSaleRequest(tranParams);
-        await Assert.That(request.CustomFields).IsNull();
+        await Assert.That((object?)request.CustomFields).IsNull();
     }
 
     #endregion
@@ -108,7 +107,7 @@ public sealed class FactoryTests
         var request = UsaEPayRequestFactory.TokenSaleRequest(tranParams, customFields);
         await Assert.That(request.Command).IsEqualTo(UsaEPayCommandTypes.TransactionSale);
         await Assert.That(request.CreditCard!.Number).IsEqualTo("tok_abc123");
-        await Assert.That(request.CustomFields).IsNotNull();
+        await Assert.That(request.CustomFields!).IsNotNull();
         await Assert.That(request.CustomFields!.Count).IsEqualTo(2);
     }
 
@@ -118,7 +117,7 @@ public sealed class FactoryTests
         var tranParams = CreateSampleCardParams();
         tranParams.Token = "tok_abc123";
         var request = UsaEPayRequestFactory.TokenSaleRequest(tranParams);
-        await Assert.That(request.CustomFields).IsNull();
+        await Assert.That((object?)request.CustomFields).IsNull();
     }
 
     #endregion
@@ -419,7 +418,7 @@ public sealed class FactoryTests
             Description = "Test sale",
             Invoice = "INV-001",
             OrderId = "ORD-001",
-            ClientIP = "192.168.1.1"
+            ClientIp = "192.168.1.1"
         };
     }
 
@@ -445,7 +444,7 @@ public sealed class FactoryTests
             Description = "Check sale test",
             Invoice = "INV-002",
             OrderId = "ORD-002",
-            ClientIP = "10.0.0.1"
+            ClientIp = "10.0.0.1"
         };
     }
 

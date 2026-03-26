@@ -2,14 +2,12 @@
 using RestSharp;
 using UsaEPay.NET.Models;
 using UsaEPay.NET.Models.Authentication;
-using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET
 {
     public class UsaEPayClient : IDisposable
     {
         private readonly RestClient _restClient;
-        private readonly Authentication _authInfo;
         private bool _disposed;
 
         public UsaEPayClient(string apiUrl, string apiKey, string apiPin, string randomSeed, bool useSandbox = false, int maxTimeout = 20000)
@@ -19,21 +17,21 @@ namespace UsaEPay.NET
             ArgumentException.ThrowIfNullOrWhiteSpace(apiPin);
             ArgumentException.ThrowIfNullOrWhiteSpace(randomSeed);
 
-            _authInfo = new Authentication(randomSeed, apiKey.Trim(), apiPin.Trim());
+            var authInfo = new Authentication(randomSeed, apiKey.Trim(), apiPin.Trim());
 
             var target = useSandbox ? "sandbox" : "secure";
             var baseUrl = new Uri($"https://{target}.usaepay.com/api/{apiUrl}/");
 
             var restClientOptions = new RestClientOptions
             {
-                MaxTimeout = maxTimeout,
+                Timeout = TimeSpan.FromMilliseconds(maxTimeout),
                 ThrowOnDeserializationError = true,
                 ThrowOnAnyError = true,
                 BaseUrl = baseUrl
             };
 
             _restClient = new RestClient(restClientOptions);
-            _restClient.AddDefaultHeader("Authorization", _authInfo.AuthKey);
+            _restClient.AddDefaultHeader("Authorization", authInfo.AuthKey);
         }
 
         public async Task<T?> SendRequest<T>(IUsaEPayRequest request, CancellationToken cancellationToken = default) where T : IUsaEPayResponse
@@ -43,7 +41,7 @@ namespace UsaEPay.NET
             var restRequest = new RestRequest(request.Endpoint, request.RequestType);
 
             // Serialize to JSON and set as raw StringBody to avoid RestSharp double-serializing
-            var requestBodyJson = JsonSerializer.Serialize(request, request.GetType(), USAePaySerializerContext.Default.Options);
+            var requestBodyJson = JsonSerializer.Serialize(request, request.GetType(), UsaEPaySerializerContext.Default.Options);
             restRequest.AddStringBody(requestBodyJson, ContentType.Json);
 
             var response = await _restClient.ExecuteAsync(restRequest, cancellationToken).ConfigureAwait(false);
@@ -64,7 +62,7 @@ namespace UsaEPay.NET
                     response.Content);
             }
 
-            var result = JsonSerializer.Deserialize<T>(response.Content, USAePaySerializerContext.Default.Options);
+            var result = JsonSerializer.Deserialize<T>(response.Content, UsaEPaySerializerContext.Default.Options);
 
             if (result is null)
             {
@@ -75,9 +73,9 @@ namespace UsaEPay.NET
             }
 
             var dateHeader = response.Headers?.FirstOrDefault(f => f.Name == "Date");
-            if (dateHeader != null && DateTimeOffset.TryParse(dateHeader.Value?.ToString(), out var timestamp))
+            if (dateHeader != null && DateTimeOffset.TryParse(dateHeader.Value, out var timestamp))
             {
-                ((IUsaEPayResponse)result).Timestamp = timestamp;
+                result.Timestamp = timestamp;
             }
 
             return result;
@@ -87,7 +85,7 @@ namespace UsaEPay.NET
         {
             if (!_disposed)
             {
-                _restClient?.Dispose();
+                _restClient.Dispose();
                 _disposed = true;
             }
             GC.SuppressFinalize(this);

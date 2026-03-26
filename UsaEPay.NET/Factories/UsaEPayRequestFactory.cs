@@ -1,5 +1,4 @@
 ﻿using UsaEPay.NET.Models.Classes;
-using System.Collections.Generic;
 
 namespace UsaEPay.NET.Factories
 {
@@ -10,7 +9,7 @@ namespace UsaEPay.NET.Factories
         /// An example of this transaction type is shown here with or without custom fields.
         /// </summary>
         public static UsaEPayRequest CreditCardSaleRequest(UsaEPayTransactionParams tranParams,
-            Dictionary<string, string> customFields = null)
+            Dictionary<string, string>? customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -43,7 +42,7 @@ namespace UsaEPay.NET.Factories
                 },
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
-                ClientIP = tranParams.ClientIP,
+                ClientIp = tranParams.ClientIp,
                 SaveCard = false
             };
             if (customFields != null)
@@ -58,7 +57,7 @@ namespace UsaEPay.NET.Factories
         /// Creates a request for processing a check sale transaction with or without custom fields.
         /// </summary>
         public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams,
-            Dictionary<string, string> customFields = null)
+            Dictionary<string, string>? customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -89,7 +88,7 @@ namespace UsaEPay.NET.Factories
                 },
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
-                ClientIP = tranParams.ClientIP,
+                ClientIp = tranParams.ClientIp,
                 SaveCard = false
             };
             if (customFields != null)
@@ -104,7 +103,7 @@ namespace UsaEPay.NET.Factories
         /// Creates a request which process a sale using a token with or without custom fields in the place of a credit card number 
         /// </summary>
         public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams,
-            Dictionary<string, string> customFields = null)
+            Dictionary<string, string>? customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -133,7 +132,7 @@ namespace UsaEPay.NET.Factories
                 },
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
-                ClientIP = tranParams.ClientIP,
+                ClientIp = tranParams.ClientIp,
                 CustomFields = customFields
             };
 
@@ -277,7 +276,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a connected refund transaction.
         /// </summary>
-        public static UsaEPayRequest ConnectedRefundRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields = null)
+        public static UsaEPayRequest ConnectedRefundRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string>? customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -286,7 +285,7 @@ namespace UsaEPay.NET.Factories
                 Command = UsaEPayCommandTypes.Refund,
                 Amount = tranParams.Amount,
                 Email = tranParams.Email,
-                ClientIP = tranParams.ClientIP
+                ClientIp = tranParams.ClientIp
             };
             if (!string.IsNullOrEmpty(tranParams.TransactionKey))
                 request.TransactionKey = tranParams.TransactionKey;
@@ -679,7 +678,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving a filtered list of batches by date.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string openedBefore = null, string openedAfter = null, string closedBefore = null, string closedAfter = null, string openedGt = null, string openedLe = null, string closedGt = null, string closedLe = null, int limit = 20, int offset = 0)
+        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string? openedBefore = null, string? openedAfter = null, string? closedBefore = null, string? closedAfter = null, string? openedGt = null, string? openedLe = null, string? closedGt = null, string? closedLe = null, int limit = 20, int offset = 0)
         {
             var queryParams = new List<string>();
             queryParams.Add($"limit={limit}");

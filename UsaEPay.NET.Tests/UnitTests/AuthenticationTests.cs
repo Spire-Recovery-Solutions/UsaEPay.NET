@@ -1,6 +1,5 @@
 using System.Security.Cryptography;
 using System.Text;
-using TUnit.Core;
 using UsaEPay.NET.Models.Authentication;
 
 namespace UsaEPay.NET.Tests.UnitTests;

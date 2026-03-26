@@ -28,17 +28,17 @@ public sealed class DeclineTests
     [After(Test)]
     public void Teardown()
     {
-        _client?.Dispose();
+        _client.Dispose();
     }
 
     [Test, Category("Decline")]
-    [Arguments("4000300011112220", "999", "Generic decline")]
-    [Arguments("4000300211112228", "999", "Do not Honor (code 05)")]
-    [Arguments("4000300611112224", "999", "Insufficient funds (code 51)")]
-    [Arguments("4000300811112222", "999", "Transaction not permitted (code 57)")]
-    [Arguments("4000300911112221", "999", "Restricted card (code 62)")]
-    [Arguments("4000301311112225", "999", "CVV failure (code 97)")]
-    public async Task Sale_DeclineCard_ReturnsDeclined(string cardNumber, string cvv, string description)
+    [Arguments("4000300011112220", "999", 10127, "Card Declined")]
+    [Arguments("4000300211112228", "999", 10205, "Do not Honor")]
+    [Arguments("4000300611112224", "999", 10251, "Insufficient funds")]
+    [Arguments("4000300811112222", "999", 10257, "Transaction not permitted")]
+    [Arguments("4000300911112221", "999", 10262, "Restricted Card")]
+    [Arguments("4000301311112225", "999", 10297, "Declined for CVV failure")]
+    public async Task Sale_DeclineCard_ReturnsDeclinedWithErrorCode(string cardNumber, string cvv, long expectedErrorCode, string expectedErrorContains)
     {
         var request = UsaEPayRequestFactory.CreditCardSaleRequest(new UsaEPayTransactionParams
         {
@@ -57,7 +57,20 @@ public sealed class DeclineTests
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
 
+        // Core decline assertions
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.ResultCode).IsEqualTo("D");
+        await Assert.That(response.Result).IsEqualTo("Declined");
+
+        // Error code — the key field for programmatic decline handling
+        await Assert.That(response.ErrorCode).IsEqualTo(expectedErrorCode);
+
+        // Error text — human-readable decline reason
+        await Assert.That(response.Error).IsNotNull();
+        await Assert.That(response.Error!).Contains(expectedErrorContains);
+
+        // Decline responses still get a key and refnum
+        await Assert.That(response.Key).IsNotNull();
+        await Assert.That(response.ReferenceNumber).IsNotNull();
     }
 }

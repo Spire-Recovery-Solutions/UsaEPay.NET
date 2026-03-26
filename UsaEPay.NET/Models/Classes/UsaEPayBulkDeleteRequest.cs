@@ -6,11 +6,11 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayBulkDeleteRequest : IUsaEPayRequest
     {
         [JsonIgnore]
-        public string Endpoint { get; set; }
+        public string? Endpoint { get; set; }
         [JsonIgnore]
         public Method RequestType { get; set; }
 
         [JsonPropertyName("Keys")]
-        public string[] Keys { get; set; }
+        public string[]? Keys { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using UsaEPay.NET.Models.Enumerations.Event;
 
@@ -9,7 +8,7 @@ namespace UsaEPay.NET.Converter
     {
         public override EventType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            string value = reader.GetString();
+            string? value = reader.GetString();
 
             return value switch
             {

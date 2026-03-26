@@ -8,89 +8,89 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for the response.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        [JsonConverter(typeof(UsaEPayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
 
         /// <summary>
         /// Object type. This will always be device.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// Unique device identifier.
         /// </summary>
         [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         /// <summary>
         /// The id of API key (source key) associated with the device.
         /// </summary>
         [JsonPropertyName("apikeyid")]
-        public string ApiKeyId { get; set; }
+        public string? ApiKeyId { get; set; }
 
         /// <summary>
         /// Terminal type: "standalone" for payment engine cloud based terminal.
         /// </summary>
         [JsonPropertyName("terminal_type")]
-        public string TerminalType { get; set; }
+        public string? TerminalType { get; set; }
 
         /// <summary>
         /// Current device status.
         /// </summary>
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         /// <summary>
         /// Developer assigned device name.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Device settings.
         /// </summary>
         [JsonPropertyName("settings")]
-        public DeviceSettings Settings { get; set; }
+        public DeviceSettings? Settings { get; set; }
 
         /// <summary>
         /// Details of terminal.
         /// </summary>
         [JsonPropertyName("terminal_info")]
-        public TerminalInfo TerminalInfo { get; set; }
+        public TerminalInfo? TerminalInfo { get; set; }
 
         /// <summary>
         /// Terminal configuration.
         /// </summary>
         [JsonPropertyName("terminal_config")]
-        public TerminalConfig TerminalConfig { get; set; }
+        public TerminalConfig? TerminalConfig { get; set; }
 
         /// <summary>
         /// If terminal type is 'standalone', this is the pairing code required to pair the payment device with the payment engine.
         /// </summary>
         [JsonPropertyName("pairing_code")]
-        public string PairingCode { get; set; }
+        public string? PairingCode { get; set; }
 
         /// <summary>
         /// If terminal type is 'standalone', the expiration is the date/time that the pairing code is no longer valid.
         /// </summary>
         [JsonPropertyName("expiration")]
-        public string Expiration { get; set; }
+        public string? Expiration { get; set; }
     }
 
-    public partial class UsaEPayDeviceListResponse : IUsaEPayResponse
+    public class UsaEPayDeviceListResponse : IUsaEPayResponse
     {
         /// <summary>
         /// Timestamp for the response.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        [JsonConverter(typeof(UsaEPayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
 
         /// <summary>
         /// Object type. This will always be list.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// The max number of items returned in each result set.
@@ -110,7 +110,7 @@ namespace UsaEPay.NET.Models.Classes
         /// An array of devices matching the request.
         /// </summary>
         [JsonPropertyName("data")]
-        public UsaEPayDeviceResponse[] Data { get; set; }
+        public UsaEPayDeviceResponse[]? Data { get; set; }
 
         /// <summary>
         /// The total number of devices.

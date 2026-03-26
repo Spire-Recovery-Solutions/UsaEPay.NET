@@ -1,5 +1,4 @@
 using RestSharp;
-using TUnit.Core;
 using UsaEPay.NET.Factories;
 using UsaEPay.NET.Models.Classes;
 
@@ -1222,7 +1221,7 @@ public sealed class NewSegmentFactoryTests
             Description = "Test sale",
             Invoice = "INV-001",
             OrderId = "ORD-001",
-            ClientIP = "192.168.1.1"
+            ClientIp = "192.168.1.1"
         };
     }
 

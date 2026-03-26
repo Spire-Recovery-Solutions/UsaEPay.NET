@@ -10,13 +10,13 @@ namespace UsaEPay.NET.Models.Classes
         public DateTimeOffset? Timestamp { get; set; }
 
         [JsonPropertyName("cardref")]
-        public string CardRef { get; set; }
+        public string? CardRef { get; set; }
 
         [JsonPropertyName("masked_card_number")]
-        public string MaskedCardNumber { get; set; }
+        public string? MaskedCardNumber { get; set; }
 
         [JsonPropertyName("card_type")]
-        public string CardType { get; set; }
+        public string? CardType { get; set; }
     }
 
     /// <summary>
@@ -25,12 +25,12 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayBulkTokenResult
     {
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         [JsonPropertyName("error")]
-        public string Error { get; set; }
+        public string? Error { get; set; }
     }
 }

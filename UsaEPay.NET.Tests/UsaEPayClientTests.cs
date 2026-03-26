@@ -11,11 +11,11 @@ public sealed class UsaEPayClientTests
     private UsaEPayClient _client = null!;
 
     // Shared state captured across ordered tests
-    private static string s_token = string.Empty;
-    private static string s_transKey = string.Empty;
-    private static string s_transAuthKey = string.Empty;
-    private static string s_tranCheckKey = string.Empty;
-    private static string s_batchKey = string.Empty;
+    private static string _sToken = string.Empty;
+    private static string _sTransKey = string.Empty;
+    private static string _sTransAuthKey = string.Empty;
+    private static string _sTranCheckKey = string.Empty;
+    private static string _sBatchKey = string.Empty;
 
     [Before(Test)]
     public void Setup()
@@ -36,7 +36,7 @@ public sealed class UsaEPayClientTests
     [After(Test)]
     public void Teardown()
     {
-        _client?.Dispose();
+        _client.Dispose();
     }
 
     // ── Tokenization ────────────────────────────────────────────────
@@ -59,7 +59,7 @@ public sealed class UsaEPayClientTests
 
         if (response.ResultCode == "A")
         {
-            s_token = response.SavedCard!.Key;
+            _sToken = response.SavedCard!.Key!;
         }
     }
 
@@ -77,7 +77,7 @@ public sealed class UsaEPayClientTests
             State = "OK",
             Zip = "33242",
             Cvc = "123",
-            Token = s_token
+            Token = _sToken
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -114,7 +114,7 @@ public sealed class UsaEPayClientTests
 
         if (response.ResultCode == "A")
         {
-            s_transKey = response.Key;
+            _sTransKey = response.Key!;
         }
     }
 
@@ -124,7 +124,7 @@ public sealed class UsaEPayClientTests
         var request = UsaEPayRequestFactory.QuickSaleRequest(new UsaEPayTransactionParams
         {
             Amount = 10,
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -161,7 +161,7 @@ public sealed class UsaEPayClientTests
 
         if (response.ResultCode == "A")
         {
-            s_tranCheckKey = response.Key;
+            _sTranCheckKey = response.Key!;
         }
     }
 
@@ -193,7 +193,7 @@ public sealed class UsaEPayClientTests
 
         if (response.ResultCode == "A")
         {
-            s_transAuthKey = response.Key;
+            _sTransAuthKey = response.Key!;
         }
     }
 
@@ -242,7 +242,7 @@ public sealed class UsaEPayClientTests
         var request = UsaEPayRequestFactory.QuickRefundRequest(new UsaEPayTransactionParams
         {
             Amount = 10,
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -258,8 +258,8 @@ public sealed class UsaEPayClientTests
         {
             Amount = 10,
             Email = "test@.com",
-            ClientIP = "10.1.0.1",
-            TransactionKey = s_transAuthKey
+            ClientIp = "10.1.0.1",
+            TransactionKey = _sTransAuthKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -274,7 +274,7 @@ public sealed class UsaEPayClientTests
         var request = UsaEPayRequestFactory.AdjustPaymentRefundRequest(new UsaEPayTransactionParams
         {
             Amount = 10,
-            TransactionKey = s_tranCheckKey
+            TransactionKey = _sTranCheckKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -290,7 +290,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.CapturePaymentRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -304,7 +304,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.CapturePaymentErrorRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -318,7 +318,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.CapturePaymentReauthRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -332,7 +332,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.CapturePaymentOverrideRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -348,7 +348,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.AdjustPaymentRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -364,7 +364,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.RetrieveTransactionDetailsRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -380,7 +380,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.CreditVoidRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -394,7 +394,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.VoidPaymentRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_tranCheckKey
+            TransactionKey = _sTranCheckKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -408,7 +408,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.UnvoidRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -422,7 +422,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.ReleaseFundsRequest(new UsaEPayTransactionParams
         {
-            TransactionKey = s_transKey
+            TransactionKey = _sTransKey
         });
 
         var response = await _client.SendRequest<UsaEPayResponse>(request);
@@ -436,7 +436,7 @@ public sealed class UsaEPayClientTests
     [Test, Category("ListTransactions"), DependsOn(nameof(ReleaseFunds_ReturnsApproved))]
     public async Task TransactionList_ReturnsData()
     {
-        var request = UsaEPayRequestFactory.RetrieveTransactionsRequest(5, 0);
+        var request = UsaEPayRequestFactory.RetrieveTransactionsRequest(5);
 
         var response = await _client.SendRequest<UsaEPayListTransactionResponse>(request);
 
@@ -454,9 +454,9 @@ public sealed class UsaEPayClientTests
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.Data).IsNotNull();
-        await Assert.That(response.Data.Length).IsGreaterThan(0);
+        await Assert.That(response.Data!.Length).IsGreaterThan(0);
 
-        s_batchKey = response.Data.First().Key;
+        _sBatchKey = response.Data.First().Key!;
     }
 
     [Test, Category("BatchListByDate")]
@@ -475,9 +475,9 @@ public sealed class UsaEPayClientTests
     [Test, Category("RetrieveSpecificBatch"), DependsOn(nameof(BatchList_ReturnsData))]
     public async Task RetrieveSpecificBatch_ReturnsOpen()
     {
-        var request = UsaEPayRequestFactory.RetrieveSpecificBatchRequest(s_batchKey);
+        var request = UsaEPayRequestFactory.RetrieveSpecificBatchRequest(_sBatchKey);
 
-        var response = await _client.SendRequest<Models.Classes.Batch>(request);
+        var response = await _client.SendRequest<Batch>(request);
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.Status).IsEqualTo("open");
@@ -488,7 +488,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.RetrieveCurrentBatchRequest();
 
-        var response = await _client.SendRequest<Models.Classes.Batch>(request);
+        var response = await _client.SendRequest<Batch>(request);
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.Status).IsEqualTo("open");
@@ -502,7 +502,7 @@ public sealed class UsaEPayClientTests
     {
         var request = UsaEPayRequestFactory.CloseCurrentBatchRequest();
 
-        var response = await _client.SendRequest<Models.Classes.Batch>(request);
+        var response = await _client.SendRequest<Batch>(request);
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.Status).IsEqualTo("closing");
@@ -511,7 +511,7 @@ public sealed class UsaEPayClientTests
     [Test, Category("BatchTransactions"), DependsOn(nameof(BatchList_ReturnsData))]
     public async Task RetrieveBatchTransactionsById_ReturnsData()
     {
-        var request = UsaEPayRequestFactory.RetrieveBatchTransactionsByIdRequest(s_batchKey, 5, 1);
+        var request = UsaEPayRequestFactory.RetrieveBatchTransactionsByIdRequest(_sBatchKey, 5, 1);
 
         var response = await _client.SendRequest<UsaEPayBatchTransactionResponse>(request);
 

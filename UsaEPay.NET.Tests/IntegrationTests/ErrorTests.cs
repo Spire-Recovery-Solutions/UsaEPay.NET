@@ -14,7 +14,7 @@ public sealed class ErrorTests
             .AddUserSecrets<ErrorTests>()
             .Build();
 
-        using var client = new UsaEPayClient(
+        var client = new UsaEPayClient(
             config["API_URL"]!,
             config["API_KEY"]!,
             config["API_PIN"]!,
@@ -44,15 +44,16 @@ public sealed class ErrorTests
             .AddUserSecrets<ErrorTests>()
             .Build();
 
-        using var client = new UsaEPayClient(
+        var client = new UsaEPayClient(
             config["API_URL"]!,
             config["API_KEY"]!,
             config["API_PIN"]!,
             config["RANDOM_SEED"]!,
             true);
 
-        using var cts = new CancellationTokenSource();
+        var cts = new CancellationTokenSource();
         cts.Cancel();
+        var cancelledToken = cts.Token;
 
         var request = UsaEPayRequestFactory.CreditCardSaleRequest(new UsaEPayTransactionParams
         {
@@ -63,7 +64,11 @@ public sealed class ErrorTests
             Cvc = "123"
         });
 
-        await Assert.That(async () => await client.SendRequest<UsaEPayResponse>(request, cts.Token))
+        // ReSharper disable once AccessToDisposedClosure — lambda executes synchronously before Dispose
+        await Assert.That(async () => await client.SendRequest<UsaEPayResponse>(request, cancelledToken))
             .ThrowsException();
+
+        cts.Dispose();
+        client.Dispose();
     }
 }

@@ -28,7 +28,7 @@ public sealed class CardBrandTests
     [After(Test)]
     public void Teardown()
     {
-        _client?.Dispose();
+        _client.Dispose();
     }
 
     [Test, Category("CardBrand")]
@@ -53,10 +53,10 @@ public sealed class CardBrandTests
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.ResultCode).IsEqualTo("A");
-        await Assert.That(response.AVS).IsNotNull();
-        await Assert.That(response.AVS!.ResultCode).IsEqualTo("YYY");
-        await Assert.That(response.CVC).IsNotNull();
-        await Assert.That(response.CVC!.ResultCode).IsEqualTo("M");
+        await Assert.That(response.Avs).IsNotNull();
+        await Assert.That(response.Avs!.ResultCode).IsEqualTo("YYY");
+        await Assert.That(response.Cvc).IsNotNull();
+        await Assert.That(response.Cvc!.ResultCode).IsEqualTo("M");
     }
 
     [Test, Category("CardBrand")]
@@ -81,8 +81,8 @@ public sealed class CardBrandTests
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.ResultCode).IsEqualTo("A");
-        await Assert.That(response.CVC).IsNotNull();
-        await Assert.That(response.CVC!.ResultCode).IsEqualTo("M");
+        await Assert.That(response.Cvc).IsNotNull();
+        await Assert.That(response.Cvc!.ResultCode).IsEqualTo("M");
     }
 
     [Test, Category("CardBrand")]
@@ -107,8 +107,8 @@ public sealed class CardBrandTests
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.ResultCode).IsEqualTo("A");
-        await Assert.That(response.CVC).IsNotNull();
-        await Assert.That(response.CVC!.ResultCode).IsEqualTo("M");
+        await Assert.That(response.Cvc).IsNotNull();
+        await Assert.That(response.Cvc!.ResultCode).IsEqualTo("M");
     }
 
     [Test, Category("CardBrand")]
@@ -133,7 +133,7 @@ public sealed class CardBrandTests
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.ResultCode).IsEqualTo("A");
-        await Assert.That(response.CVC).IsNotNull();
-        await Assert.That(response.CVC!.ResultCode).IsEqualTo("M");
+        await Assert.That(response.Cvc).IsNotNull();
+        await Assert.That(response.Cvc!.ResultCode).IsEqualTo("M");
     }
 }

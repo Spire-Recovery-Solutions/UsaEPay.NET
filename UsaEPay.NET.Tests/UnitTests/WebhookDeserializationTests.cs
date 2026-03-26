@@ -1,5 +1,4 @@
 using System.Text.Json;
-using TUnit.Core;
 using UsaEPay.NET.Models;
 using UsaEPay.NET.Models.Enumerations.Event;
 using UsaEPay.NET.Models.Events;
@@ -8,7 +7,7 @@ namespace UsaEPay.NET.Tests.UnitTests;
 
 public sealed class WebhookDeserializationTests
 {
-    private static readonly JsonSerializerOptions Options = USAePaySerializerContext.Default.Options;
+    private static readonly JsonSerializerOptions Options = UsaEPaySerializerContext.Default.Options;
 
     #region ACH Events
 
@@ -49,7 +48,7 @@ public sealed class WebhookDeserializationTests
         }
         """;
 
-        var result = JsonSerializer.Deserialize<ACHStatusEventResponse>(json, Options);
+        var result = JsonSerializer.Deserialize<AchStatusEventResponse>(json, Options);
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.Type).IsEqualTo("event");
@@ -65,9 +64,9 @@ public sealed class WebhookDeserializationTests
         await Assert.That(result.EventBody.Object!.Type).IsEqualTo("transaction");
         await Assert.That(result.EventBody.Object.Key).IsEqualTo("tnx_ach_001");
         await Assert.That(result.EventBody.Object.Refnum).IsEqualTo(200001L);
-        await Assert.That(result.EventBody.Object.Orderid).IsEqualTo("ORD-5001");
+        await Assert.That(result.EventBody.Object.OrderId).IsEqualTo("ORD-5001");
         await Assert.That(result.EventBody.Object.Check).IsNotNull();
-        await Assert.That(result.EventBody.Object.Check!.Trackingcode).IsEqualTo("TRK123456");
+        await Assert.That(result.EventBody.Object.Check!.TrackingCode).IsEqualTo("TRK123456");
         await Assert.That(result.EventBody.Object.Uri).IsEqualTo("transactions/tnx_ach_001");
 
         await Assert.That(result.EventBody.Changes).IsNotNull();
@@ -115,7 +114,7 @@ public sealed class WebhookDeserializationTests
         }
         """;
 
-        var result = JsonSerializer.Deserialize<ACHStatusEventResponse>(json, Options);
+        var result = JsonSerializer.Deserialize<AchStatusEventResponse>(json, Options);
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.EventType).IsEqualTo(EventType.AchSettled);
@@ -166,7 +165,7 @@ public sealed class WebhookDeserializationTests
         }
         """;
 
-        var result = JsonSerializer.Deserialize<ACHStatusEventResponse>(json, Options);
+        var result = JsonSerializer.Deserialize<AchStatusEventResponse>(json, Options);
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.EventType).IsEqualTo(EventType.AchReturned);
@@ -216,14 +215,14 @@ public sealed class WebhookDeserializationTests
         }
         """;
 
-        var result = JsonSerializer.Deserialize<ACHStatusEventResponse>(json, Options);
+        var result = JsonSerializer.Deserialize<AchStatusEventResponse>(json, Options);
 
         await Assert.That(result).IsNotNull();
         await Assert.That(result!.EventType).IsEqualTo(EventType.AchNoteAdded);
         await Assert.That(result.EventBody).IsNotNull();
         await Assert.That(result.EventBody!.Changes).IsNotNull();
         await Assert.That(result.EventBody.Changes!.New).IsNotNull();
-        await Assert.That(result.EventBody.Changes.New!.Banknote).IsEqualTo("Customer contacted regarding payment");
+        await Assert.That(result.EventBody.Changes.New!.BankNote).IsEqualTo("Customer contacted regarding payment");
     }
 
     #endregion
@@ -431,8 +430,8 @@ public sealed class WebhookDeserializationTests
 
         var changes = result.EventBody!.Changes;
         await Assert.That(changes).IsNotNull();
-        await Assert.That(changes!.Old!.CardaccountClosed).IsEqualTo("N");
-        await Assert.That(changes.New!.CardaccountClosed).IsEqualTo("Y");
+        await Assert.That(changes!.Old!.CardAccountClosed).IsEqualTo("N");
+        await Assert.That(changes.New!.CardAccountClosed).IsEqualTo("Y");
         await Assert.That(changes.New.Status).IsEqualTo("account_closed");
     }
 
@@ -603,12 +602,12 @@ public sealed class WebhookDeserializationTests
         await Assert.That(obj).IsNotNull();
         await Assert.That(obj!.Type).IsEqualTo("batch");
         await Assert.That(obj.Key).IsEqualTo("batch_key_001");
-        await Assert.That(obj.Batchnum).IsEqualTo(247L);
-        await Assert.That(obj.Batchrefnum).IsEqualTo(90001L);
+        await Assert.That(obj.BatchNum).IsEqualTo(247L);
+        await Assert.That(obj.BatchRefNum).IsEqualTo(90001L);
         await Assert.That(obj.Response).IsEqualTo("Approved");
-        await Assert.That(obj.Totalsales).IsEqualTo(5432.10m);
-        await Assert.That(obj.Numsales).IsEqualTo(38L);
-        await Assert.That(obj.Totalcredits).IsEqualTo("120.00");
+        await Assert.That(obj.TotalSales).IsEqualTo(5432.10m);
+        await Assert.That(obj.NumSales).IsEqualTo(38L);
+        await Assert.That(obj.TotalCredits).IsEqualTo("120.00");
         await Assert.That(obj.Uri).IsEqualTo("batches/batch_key_001");
     }
 
@@ -651,8 +650,8 @@ public sealed class WebhookDeserializationTests
         await Assert.That(obj).IsNotNull();
         await Assert.That(obj!.Response).IsEqualTo("Error");
         await Assert.That(obj.Reason).IsEqualTo("Processor communication timeout");
-        await Assert.That(obj.Totalsales).IsEqualTo(0m);
-        await Assert.That(obj.Numsales).IsEqualTo(0L);
+        await Assert.That(obj.TotalSales).IsEqualTo(0m);
+        await Assert.That(obj.NumSales).IsEqualTo(0L);
     }
 
     #endregion

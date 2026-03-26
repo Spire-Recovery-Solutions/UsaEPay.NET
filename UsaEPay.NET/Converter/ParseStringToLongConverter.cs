@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -30,7 +29,7 @@ namespace UsaEPay.NET.Converter
 
         public override void Write(Utf8JsonWriter writer, long value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToString());
+            writer.WriteStringValue(value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }
