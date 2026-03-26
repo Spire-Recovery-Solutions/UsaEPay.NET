@@ -41,5 +41,60 @@
         /// Endpoint for transaction receipts (used as transactions/{trankey}/receipts/{receiptid}).
         /// </summary>
         public const string TransactionReceipts = "transactions";
+
+        /// <summary>
+        /// Endpoint for customers.
+        /// </summary>
+        public const string Customers = "customers";
+
+        /// <summary>
+        /// Endpoint for bulk transactions.
+        /// </summary>
+        public const string BulkTransactions = "bulk_transactions";
+
+        /// <summary>
+        /// Endpoint for the current bulk transaction.
+        /// </summary>
+        public const string BulkTransactionsCurrent = "bulk_transactions/current";
+
+        /// <summary>
+        /// Endpoint for customer recurring billing schedules.
+        /// </summary>
+        public const string BillingSchedules = "billing_schedules";
+
+        /// <summary>
+        /// Endpoint for customer payment methods (used as customers/{custkey}/payment_methods).
+        /// </summary>
+        public const string PaymentMethods = "payment_methods";
+
+        /// <summary>
+        /// Endpoint for inventory.
+        /// </summary>
+        public const string Inventory = "inventory";
+
+        /// <summary>
+        /// Endpoint for inventory locations.
+        /// </summary>
+        public const string InventoryLocations = "inventory/location";
+
+        /// <summary>
+        /// Endpoint for payment engine devices.
+        /// </summary>
+        public const string PaymentEngineDevices = "paymentengine/devices";
+
+        /// <summary>
+        /// Endpoint for payment engine pay requests.
+        /// </summary>
+        public const string PaymentEnginePayRequests = "paymentengine/payrequests";
+
+        /// <summary>
+        /// Endpoint for products.
+        /// </summary>
+        public const string Products = "products";
+
+        /// <summary>
+        /// Endpoint for product categories.
+        /// </summary>
+        public const string ProductCategories = "products/categories";
     }
 }
