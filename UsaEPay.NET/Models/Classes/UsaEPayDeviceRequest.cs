@@ -45,64 +45,64 @@ namespace UsaEPay.NET.Models.Classes
         /// Transaction timeout, how long to wait for transaction authorization to complete.
         /// </summary>
         [JsonPropertyName("timeout")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public int Timeout { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? Timeout { get; set; }
 
         /// <summary>
         /// If true, this allows the payment device to be used by other merchants.
         /// </summary>
         [JsonPropertyName("share_device")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool ShareDevice { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? ShareDevice { get; set; }
 
         /// <summary>
         /// Allows transactions to be initiated from terminal (if supported).
         /// </summary>
         [JsonPropertyName("enable_standalone")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool EnableStandalone { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? EnableStandalone { get; set; }
 
         /// <summary>
         /// If true, device will be notified on all future updates.
         /// </summary>
         [JsonPropertyName("notify_update")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool NotifyUpdate { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? NotifyUpdate { get; set; }
 
         /// <summary>
         /// If true, device will be notified only on the next update. After notification, this is automatically set back to false.
         /// </summary>
         [JsonPropertyName("notify_update_next")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool NotifyUpdateNext { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? NotifyUpdateNext { get; set; }
 
         /// <summary>
         /// Amount of inactive time (in minutes) before the device enters full sleep on battery. Set to 0 to never sleep.
         /// </summary>
         [JsonPropertyName("sleep_battery_device")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public int SleepBatteryDevice { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? SleepBatteryDevice { get; set; }
 
         /// <summary>
         /// Amount of inactive time (in minutes) before the device enters display sleep on battery. Set to 0 to never sleep.
         /// </summary>
         [JsonPropertyName("sleep_battery_display")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public int SleepBatteryDisplay { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? SleepBatteryDisplay { get; set; }
 
         /// <summary>
         /// Amount of inactive time (in minutes) before the device enters full sleep when plugged into power. Set to 0 to never sleep.
         /// </summary>
         [JsonPropertyName("sleep_powered_device")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public int SleepPoweredDevice { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? SleepPoweredDevice { get; set; }
 
         /// <summary>
         /// Amount of inactive time (in minutes) before the device enters display sleep when plugged into power. Set to 0 to never sleep.
         /// </summary>
         [JsonPropertyName("sleep_powered_display")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public int SleepPoweredDisplay { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public int? SleepPoweredDisplay { get; set; }
     }
 
     public class TerminalConfig
@@ -111,29 +111,29 @@ namespace UsaEPay.NET.Models.Classes
         /// Enables EMV processing.
         /// </summary>
         [JsonPropertyName("enable_emv")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool EnableEmv { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? EnableEmv { get; set; }
 
         /// <summary>
         /// Enables PIN debit for swiped transactions.
         /// </summary>
         [JsonPropertyName("enable_debit_msr")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool EnableDebitMsr { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? EnableDebitMsr { get; set; }
 
         /// <summary>
         /// Allows EMV transaction amounts to be adjusted after authorization (to add tip). Disables PIN authentication.
         /// </summary>
         [JsonPropertyName("enable_tip_adjust")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool EnableTipAdjust { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? EnableTipAdjust { get; set; }
 
         /// <summary>
         /// Enables NFC reader.
         /// </summary>
         [JsonPropertyName("enable_contactless")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool EnableContactless { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public bool? EnableContactless { get; set; }
     }
 
     public class TerminalInfo

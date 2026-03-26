@@ -781,6 +781,18 @@ namespace UsaEPay.NET.Factories
             };
         }
 
+        /// <summary>
+        /// Creates a request for bulk deleting customers by keys.
+        /// </summary>
+        public static UsaEPayRequest BulkDeleteCustomersRequest(string[] custKeys)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.Customers}/bulk",
+                RequestType = RestSharp.Method.Delete
+            };
+        }
+
         // TODO: Upload Bulk Transaction File requires multipart file upload which is beyond
         // the current SDK's request pattern. This placeholder needs special handling for
         // POST /bulk_transactions with multipart form data (file upload).
@@ -947,6 +959,18 @@ namespace UsaEPay.NET.Factories
             return new UsaEPayPaymentMethodRequest
             {
                 Endpoint = $"{UsaEPayEndpoints.Customers}/{custKey}/{UsaEPayEndpoints.PaymentMethods}/{methodKey}",
+                RequestType = RestSharp.Method.Delete
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for bulk deleting customer payment methods by keys.
+        /// </summary>
+        public static UsaEPayRequest BulkDeletePaymentMethodsRequest(string custKey, string[] methodKeys)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.Customers}/{custKey}/{UsaEPayEndpoints.PaymentMethods}/bulk",
                 RequestType = RestSharp.Method.Delete
             };
         }
