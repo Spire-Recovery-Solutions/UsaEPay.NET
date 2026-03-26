@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.Extensions.Configuration;
 using UsaEPay.NET.Factories;
 using UsaEPay.NET.Models.Classes;
@@ -28,7 +29,7 @@ public sealed class PartialAuthTests
     [After(Test)]
     public void Teardown()
     {
-        _client?.Dispose();
+        _client.Dispose();
     }
 
     [Test, Category("PartialAuth")]
@@ -56,7 +57,7 @@ public sealed class PartialAuthTests
         await Assert.That(response!.ResultCode).IsEqualTo("P");
         await Assert.That(response.AmountAuthorized).IsNotNull();
 
-        var authAmount = decimal.Parse(response.AmountAuthorized!, System.Globalization.CultureInfo.InvariantCulture);
+        var authAmount = decimal.Parse(response.AmountAuthorized!, CultureInfo.InvariantCulture);
         await Assert.That(authAmount).IsEqualTo(50.00m);
     }
 
@@ -85,7 +86,7 @@ public sealed class PartialAuthTests
         await Assert.That(response!.ResultCode).IsEqualTo("P");
         await Assert.That(response.AmountAuthorized).IsNotNull();
 
-        var authAmount = decimal.Parse(response.AmountAuthorized!, System.Globalization.CultureInfo.InvariantCulture);
+        var authAmount = decimal.Parse(response.AmountAuthorized!, CultureInfo.InvariantCulture);
         await Assert.That(authAmount).IsEqualTo(75.00m);
     }
 }

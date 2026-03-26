@@ -28,7 +28,7 @@ public sealed class AvsTests
     [After(Test)]
     public void Teardown()
     {
-        _client?.Dispose();
+        _client.Dispose();
     }
 
     [Test, Category("AVS")]
@@ -59,7 +59,7 @@ public sealed class AvsTests
 
         await Assert.That(response).IsNotNull();
         await Assert.That(response!.ResultCode).IsEqualTo("A");
-        await Assert.That(response.AVS).IsNotNull();
-        await Assert.That(response.AVS!.ResultCode).IsEqualTo(expectedAvs);
+        await Assert.That(response.Avs).IsNotNull();
+        await Assert.That(response.Avs!.ResultCode).IsEqualTo(expectedAvs);
     }
 }

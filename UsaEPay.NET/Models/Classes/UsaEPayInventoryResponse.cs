@@ -8,56 +8,56 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for the response.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        [JsonConverter(typeof(UsaEPayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
 
         /// <summary>
         /// Object type. Successful calls will always return "product_inventory".
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// Gateway generated inventory identifier.
         /// </summary>
         [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         /// <summary>
         /// Quantity on hand for this product/location combination.
         /// </summary>
         [JsonPropertyName("qtyonhand")]
-        public string QtyOnHand { get; set; }
+        public string? QtyOnHand { get; set; }
 
         /// <summary>
         /// Quantity on order for this product/location combination.
         /// </summary>
         [JsonPropertyName("qtyonorder")]
-        public string QtyOnOrder { get; set; }
+        public string? QtyOnOrder { get; set; }
 
         /// <summary>
         /// Date product will become available.
         /// </summary>
         [JsonPropertyName("date_available")]
-        public string DateAvailable { get; set; }
+        public string? DateAvailable { get; set; }
 
         /// <summary>
         /// Product object.
         /// </summary>
         [JsonPropertyName("product")]
-        public InventoryProduct Product { get; set; }
+        public InventoryProduct? Product { get; set; }
 
         /// <summary>
         /// Location (warehouse) object.
         /// </summary>
         [JsonPropertyName("location")]
-        public UsaEPayInventoryLocationResponse Location { get; set; }
+        public UsaEPayInventoryLocationResponse? Location { get; set; }
 
         /// <summary>
         /// Status of the delete operation. Returned as "success" when an inventory is deleted.
         /// </summary>
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
     }
 
     public class InventoryProduct
@@ -66,49 +66,49 @@ namespace UsaEPay.NET.Models.Classes
         /// Object type. Returns "product".
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// Gateway generated unique product identifier.
         /// </summary>
         [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         /// <summary>
         /// Product reference number.
         /// </summary>
         [JsonPropertyName("product_refnum")]
-        public string ProductRefNum { get; set; }
+        public string? ProductRefNum { get; set; }
 
         /// <summary>
         /// Product name.
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Product price.
         /// </summary>
         [JsonPropertyName("price")]
-        public string Price { get; set; }
+        public string? Price { get; set; }
 
         /// <summary>
         /// Whether the product is enabled.
         /// </summary>
         [JsonPropertyName("enabled")]
-        public string Enabled { get; set; }
+        public string? Enabled { get; set; }
 
         /// <summary>
         /// Whether the product is taxable.
         /// </summary>
         [JsonPropertyName("taxable")]
-        public string Taxable { get; set; }
+        public string? Taxable { get; set; }
 
         /// <summary>
         /// Product SKU number.
         /// </summary>
         [JsonPropertyName("sku")]
-        public string Sku { get; set; }
+        public string? Sku { get; set; }
     }
 
     public class UsaEPayInventoryListResponse : IUsaEPayResponse
@@ -116,14 +116,14 @@ namespace UsaEPay.NET.Models.Classes
         /// <summary>
         /// Timestamp for the response.
         /// </summary>
-        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        [JsonConverter(typeof(UsaEPayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Timestamp { get; set; }
 
         /// <summary>
         /// The type of object returned. Returns a list.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// The maximum amount of inventories that will be included in response.
@@ -143,7 +143,7 @@ namespace UsaEPay.NET.Models.Classes
         /// An array of inventories matching the request.
         /// </summary>
         [JsonPropertyName("data")]
-        public UsaEPayInventoryResponse[] Data { get; set; }
+        public UsaEPayInventoryResponse[]? Data { get; set; }
 
         /// <summary>
         /// The total amount of inventories, including filtered results.

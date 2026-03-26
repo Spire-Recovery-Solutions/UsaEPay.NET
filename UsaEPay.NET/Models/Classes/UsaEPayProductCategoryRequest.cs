@@ -6,7 +6,7 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayProductCategoryRequest : IUsaEPayRequest
     {
         [JsonIgnore]
-        public string Endpoint { get; set; }
+        public string? Endpoint { get; set; }
         [JsonIgnore]
         public Method RequestType { get; set; }
 
@@ -15,13 +15,13 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Array of modifiers associated with the category.
         /// </summary>
         [JsonPropertyName("modifiers")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<object> Modifiers { get; set; }
+        public List<object>? Modifiers { get; set; }
     }
 }

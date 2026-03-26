@@ -1,5 +1,5 @@
-﻿using UsaEPay.NET.Models.Classes;
-using System.Collections.Generic;
+﻿using UsaEPay.NET.Models;
+using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET.Factories
 {
@@ -10,7 +10,7 @@ namespace UsaEPay.NET.Factories
         /// An example of this transaction type is shown here with or without custom fields.
         /// </summary>
         public static UsaEPayRequest CreditCardSaleRequest(UsaEPayTransactionParams tranParams,
-            Dictionary<string, string> customFields = null)
+            Dictionary<string, string>? customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -43,7 +43,7 @@ namespace UsaEPay.NET.Factories
                 },
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
-                ClientIP = tranParams.ClientIP,
+                ClientIp = tranParams.ClientIp,
                 SaveCard = false
             };
             if (customFields != null)
@@ -58,7 +58,7 @@ namespace UsaEPay.NET.Factories
         /// Creates a request for processing a check sale transaction with or without custom fields.
         /// </summary>
         public static UsaEPayRequest CheckSaleRequest(UsaEPayTransactionParams tranParams,
-            Dictionary<string, string> customFields = null)
+            Dictionary<string, string>? customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -89,7 +89,7 @@ namespace UsaEPay.NET.Factories
                 },
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
-                ClientIP = tranParams.ClientIP,
+                ClientIp = tranParams.ClientIp,
                 SaveCard = false
             };
             if (customFields != null)
@@ -104,7 +104,7 @@ namespace UsaEPay.NET.Factories
         /// Creates a request which process a sale using a token with or without custom fields in the place of a credit card number 
         /// </summary>
         public static UsaEPayRequest TokenSaleRequest(UsaEPayTransactionParams tranParams,
-            Dictionary<string, string> customFields = null)
+            Dictionary<string, string>? customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -133,7 +133,7 @@ namespace UsaEPay.NET.Factories
                 },
                 Invoice = tranParams.Invoice,
                 OrderId = tranParams.OrderId,
-                ClientIP = tranParams.ClientIP,
+                ClientIp = tranParams.ClientIp,
                 CustomFields = customFields
             };
 
@@ -277,7 +277,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for processing a connected refund transaction.
         /// </summary>
-        public static UsaEPayRequest ConnectedRefundRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string> customFields = null)
+        public static UsaEPayRequest ConnectedRefundRequest(UsaEPayTransactionParams tranParams, Dictionary<string, string>? customFields = null)
         {
             var request = new UsaEPayRequest
             {
@@ -286,7 +286,7 @@ namespace UsaEPay.NET.Factories
                 Command = UsaEPayCommandTypes.Refund,
                 Amount = tranParams.Amount,
                 Email = tranParams.Email,
-                ClientIP = tranParams.ClientIP
+                ClientIp = tranParams.ClientIp
             };
             if (!string.IsNullOrEmpty(tranParams.TransactionKey))
                 request.TransactionKey = tranParams.TransactionKey;
@@ -407,6 +407,7 @@ namespace UsaEPay.NET.Factories
                 Amount = tranParams.Amount,
                 Email = tranParams.Email,
                 Description = tranParams.Description,
+                AuthCode = tranParams.AuthCode,
                 CreditCard = new CreditCard
                 {
                     Number = tranParams.CardNumber,
@@ -497,6 +498,22 @@ namespace UsaEPay.NET.Factories
                 Endpoint = UsaEPayEndpoints.Transactions,
                 RequestType = RestSharp.Method.Post,
                 Command = UsaEPayCommandTypes.AdjustPaymentRefund,
+                TransactionKey = tranParams.TransactionKey,
+                Amount = tranParams.Amount
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for adjusting a refund using the refund:adjust alias command.
+        /// Targets the original sale transaction key (not the refund key).
+        /// </summary>
+        public static UsaEPayRequest RefundAdjustRequest(UsaEPayTransactionParams tranParams)
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = UsaEPayEndpoints.Transactions,
+                RequestType = RestSharp.Method.Post,
+                Command = UsaEPayCommandTypes.RefundAdjust,
                 TransactionKey = tranParams.TransactionKey,
                 Amount = tranParams.Amount
             };
@@ -596,7 +613,7 @@ namespace UsaEPay.NET.Factories
             {
                 Endpoint = $"{UsaEPayEndpoints.TransactionSend}/{transactionKey}/send",
                 RequestType = RestSharp.Method.Post,
-                Email = email,
+                ToEmail = email,
             };
         }
 
@@ -678,7 +695,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving a filtered list of batches by date.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string openedBefore = null, string openedAfter = null, string closedBefore = null, string closedAfter = null, int limit = 20, int offset = 0)
+        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string? openedBefore = null, string? openedAfter = null, string? closedBefore = null, string? closedAfter = null, int limit = 20, int offset = 0, string? openedGt = null, string? openedLe = null, string? closedGt = null, string? closedLe = null)
         {
             var queryParams = new List<string>();
             queryParams.Add($"limit={limit}");
@@ -687,6 +704,10 @@ namespace UsaEPay.NET.Factories
             if (openedAfter != null) queryParams.Add($"openedge={openedAfter}");
             if (closedBefore != null) queryParams.Add($"closedlt={closedBefore}");
             if (closedAfter != null) queryParams.Add($"closedge={closedAfter}");
+            if (openedGt != null) queryParams.Add($"openedgt={openedGt}");
+            if (openedLe != null) queryParams.Add($"openedle={openedLe}");
+            if (closedGt != null) queryParams.Add($"closedgt={closedGt}");
+            if (closedLe != null) queryParams.Add($"closedle={closedLe}");
 
             return new UsaEPayGetRequest
             {
@@ -784,12 +805,13 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for bulk deleting customers by keys.
         /// </summary>
-        public static UsaEPayRequest BulkDeleteCustomersRequest(string[] custKeys)
+        public static IUsaEPayRequest BulkDeleteCustomersRequest(string[] custKeys)
         {
-            return new UsaEPayRequest
+            return new UsaEPayBulkDeleteRequest
             {
                 Endpoint = $"{UsaEPayEndpoints.Customers}/bulk",
-                RequestType = RestSharp.Method.Delete
+                RequestType = RestSharp.Method.Delete,
+                Keys = custKeys
             };
         }
 
@@ -877,6 +899,30 @@ namespace UsaEPay.NET.Factories
                 RequestType = RestSharp.Method.Post
             };
         }
+
+        /// <summary>
+        /// Creates a request for resuming the current bulk transaction file.
+        /// </summary>
+        public static UsaEPayRequest ResumeBulkTransactionCurrentRequest()
+        {
+            return new UsaEPayRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.BulkTransactionsCurrent}/resume",
+                RequestType = RestSharp.Method.Post
+            };
+        }
+
+        /// <summary>
+        /// Creates a request for retrieving a customer's transaction history.
+        /// </summary>
+        public static UsaEPayGetRequest RetrieveCustomerTransactionsRequest(string custKey, int limit = 20, int offset = 0)
+        {
+            return new UsaEPayGetRequest
+            {
+                Endpoint = $"{UsaEPayEndpoints.Customers}/{custKey}/{UsaEPayEndpoints.Transactions}?limit={limit}&offset={offset}"
+            };
+        }
+
         /// <summary>
         /// Creates a request for creating a billing schedule for an existing customer.
         /// </summary>
@@ -966,12 +1012,13 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for bulk deleting customer payment methods by keys.
         /// </summary>
-        public static UsaEPayRequest BulkDeletePaymentMethodsRequest(string custKey, string[] methodKeys)
+        public static IUsaEPayRequest BulkDeletePaymentMethodsRequest(string custKey, string[] methodKeys)
         {
-            return new UsaEPayRequest
+            return new UsaEPayBulkDeleteRequest
             {
                 Endpoint = $"{UsaEPayEndpoints.Customers}/{custKey}/{UsaEPayEndpoints.PaymentMethods}/bulk",
-                RequestType = RestSharp.Method.Delete
+                RequestType = RestSharp.Method.Delete,
+                Keys = methodKeys
             };
         }
 

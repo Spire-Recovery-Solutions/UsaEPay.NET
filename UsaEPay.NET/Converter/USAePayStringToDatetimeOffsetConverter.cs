@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
+﻿using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace UsaEPay.NET.Converter
 {
-    public class USAePayStringToDateTimeOffsetConverter : JsonConverter<DateTimeOffset?>
+    public class UsaEPayStringToDateTimeOffsetConverter : JsonConverter<DateTimeOffset?>
     {
         public override DateTimeOffset? Read(ref Utf8JsonReader reader, Type typeToConvert,
             JsonSerializerOptions options)

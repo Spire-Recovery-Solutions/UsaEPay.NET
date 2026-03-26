@@ -4,19 +4,19 @@ using UsaEPay.NET.Models.Enumerations.Event;
 
 namespace UsaEPay.NET.Models.Events
 {
-    public partial class BaseEventResponse
+    public class BaseEventResponse
     {
         /// <summary>
         /// Object type. This will always be transaction.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// The timestamp indicating when the event was triggered.
         /// </summary>
         [JsonPropertyName("event_triggered")]
-        [JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        [JsonConverter(typeof(UsaEPayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? EventTriggered { get; set; }
 
         /// <summary>
@@ -30,27 +30,27 @@ namespace UsaEPay.NET.Models.Events
         /// Unique identifier for the event.
         /// </summary>
         [JsonPropertyName("event_id")]
-        public string EventId { get; set; }
+        public string? EventId { get; set; }
     }
 
-    public partial class BaseEventBody
+    public class BaseEventBody
     {
         /// <summary>
         /// Merchant information which triggered the event.
         /// </summary>
         [JsonPropertyName("merchant")]
-        public Merchant Merchant { get; set; }
+        public Merchant? Merchant { get; set; }
     }
 
     /// <summary>
     /// Merchant information which triggered the event.
     /// </summary>
-    public partial class Merchant
+    public class Merchant
     {
         /// <summary>
         /// Unique identifier for the merchant which triggered the event.
         /// </summary>
         [JsonPropertyName("merch_key")]
-        public string MerchKey { get; set; }
+        public string? MerchKey { get; set; }
     }
 }

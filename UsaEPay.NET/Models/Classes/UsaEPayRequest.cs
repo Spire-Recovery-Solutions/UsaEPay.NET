@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using RestSharp;
 using UsaEPay.NET.Converter;
 
@@ -7,7 +7,7 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayRequest : IUsaEPayRequest
     {
         [JsonIgnore]
-        public string Endpoint { get; set; }
+        public string? Endpoint { get; set; }
         //public Type ResponseType { get; set; }
         [JsonIgnore]
         public Method RequestType { get; set; }
@@ -17,91 +17,103 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("command")]
         //[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Command { get; set; }
+        public string? Command { get; set; }
         /// <summary>
         /// One time use token provided by Client JS Library
         /// </summary>
         [JsonPropertyName("payment_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string PaymentKey { get; set; }
+        public string? PaymentKey { get; set; }
         /// <summary>
         /// Unique gateway generated transaction key, for the transaction you are referencing with this QuickSale
         /// </summary>
         [JsonPropertyName("trankey")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string TransactionKey { get; set; }
+        public string? TransactionKey { get; set; }
         /// <summary>
         /// Unique transaction reference number. Alternative to trankey for referencing prior transactions.
         /// </summary>
         [JsonPropertyName("refnum")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string ReferenceNumber { get; set; }
+        public string? ReferenceNumber { get; set; }
         /// <summary>
         /// Merchant assigned customer identifier.
         /// </summary>
         [JsonPropertyName("customerid")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string CustomerId { get; set; }
+        public string? CustomerId { get; set; }
         /// <summary>
         /// Payment method key for customer stored payment method.
         /// </summary>
         [JsonPropertyName("paymethod_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string PaymentMethodKey { get; set; }
+        public string? PaymentMethodKey { get; set; }
         /// <summary>
         /// Restaurant table number.
         /// </summary>
         [JsonPropertyName("table")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Table { get; set; }
+        public string? Table { get; set; }
         /// <summary>
         /// Geolocation of transaction (latitude,longitude).
         /// </summary>
         [JsonPropertyName("geolocation")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Geolocation { get; set; }
+        public string? Geolocation { get; set; }
         /// <summary>
         /// Authorization code received from processor for posting a payment
         /// </summary>
         [JsonPropertyName("authcode")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string AuthCode { get; set; }
+        public string? AuthCode { get; set; }
         /// <summary>
         /// Custom Invoice Number to easily retrieve sale details.
         /// </summary>
         [JsonPropertyName("invoice")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Invoice { get; set; }
+        public string? Invoice { get; set; }
         /// <summary>
         /// Customer's purchase order number. Required for level 3 processing.
         /// </summary>
         [JsonPropertyName("ponum")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Ponum { get; set; }
+        public string? Ponum { get; set; }
         /// <summary>
         /// Merchant assigned order identifier.
         /// </summary>
         [JsonPropertyName("orderid")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string OrderId { get; set; }
+        public string? OrderId { get; set; }
         /// <summary>
         /// Public description of the transaction.
         /// </summary>
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// Private comment details only visible to the merchant.
         /// </summary>
         [JsonPropertyName("comments")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Comments { get; set; }
+        public string? Comments { get; set; }
         /// <summary>
         /// Customer's email address
         /// </summary>
         [JsonPropertyName("email")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
+        /// <summary>
+        /// Recipient email for sending a transaction receipt (POST /transactions/{key}/send).
+        /// </summary>
+        [JsonPropertyName("toemail")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? ToEmail { get; set; }
+        /// <summary>
+        /// Sender email for transaction receipt.
+        /// </summary>
+        [JsonPropertyName("fromemail")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? FromEmail { get; set; }
         /// <summary>
         /// If set, this parameter will send an email receipt to the customer's email.
         /// </summary>
@@ -120,7 +132,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("merchemailaddr")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string MerchEmailAddress { get; set; }
+        public string? MerchEmailAddress { get; set; }
         /// <summary>
         /// Total transaction amount (Including tax, tip, shipping, etc.) (Required)
         /// </summary>
@@ -145,63 +157,63 @@ namespace UsaEPay.NET.Models.Classes
         /// <see href="https://help.usaepay.info/developer/reference/currencycodes/#currency-codes"/>
         [JsonPropertyName("currency")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Currency { get; set; }
+        public string? Currency { get; set; }
         /// <summary>
         /// Terminal identifier (i.e. multilane)
         /// </summary>
         [JsonPropertyName("terminal")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Terminal { get; set; }
+        public string? Terminal { get; set; }
         /// <summary>
         /// Clerk/Cashier/Server name
         /// </summary>
         [JsonPropertyName("clerk")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Clerk { get; set; }
+        public string? Clerk { get; set; }
         /// <summary>
         /// IP address of client. Used in conjunction with the Block By Host or IP fraud module.
         /// </summary>
         [JsonPropertyName("clientip")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string ClientIP { get; set; }
+        public string? ClientIp { get; set; }
         /// <summary>
         /// Software name and version (useful for troubleshooting)
         /// </summary>
         [JsonPropertyName("software")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Software { get; set; }
+        public string? Software { get; set; }
         /// <summary>
         /// The name of the receipt template that should be used when sending a customer receipt.
         /// </summary>
         [JsonPropertyName("receipt-custemail")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string ReceiptCustomerEmail { get; set; }
+        public string? ReceiptCustomerEmail { get; set; }
         /// <summary>
         /// The name of the receipt template that should be used when sending a merchant receipt.
         /// </summary>
         [JsonPropertyName("receipt-merchemail")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string ReceiptMerchantEmail { get; set; }
+        public string? ReceiptMerchantEmail { get; set; }
         /// <summary>
         /// Object containing a more detailed breakdown of the amount. Not required if amount is previously set.
         /// </summary>
         [JsonPropertyName("amount_detail")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public AmountDetail AmountDetail { get; set; }
+        public AmountDetail? AmountDetail { get; set; }
 
         /// <summary>
-        /// Object holding credit card/token information for card payments 
+        /// Object holding credit card/token information for card payments
         /// </summary>
         [JsonPropertyName("creditcard")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public CreditCard CreditCard { get; set; }
+        public CreditCard? CreditCard { get; set; }
 
         /// <summary>
         /// Object holding check information for check payments
         /// </summary>
         [JsonPropertyName("check")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Check Check { get; set; }
+        public Check? Check { get; set; }
 
         /// <summary>
         /// Set to true to tokenize the card used to process the transaction.
@@ -215,45 +227,45 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("traits")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Traits Traits { get; set; }
+        public Traits? Traits { get; set; }
 
         /// <summary>
         /// Customer key for a previously saved customer. Unique gateway generated key.
         /// </summary>
         [JsonPropertyName("custkey")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string CustomerKey { get; set; }
+        public string? CustomerKey { get; set; }
 
         /// <summary>
         /// Object which holds the customer's billing address information.
         /// </summary>
         [JsonPropertyName("billing_address")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Address BillingAddress { get; set; }
+        public Address? BillingAddress { get; set; }
 
         /// <summary>
         /// Object which holds the customer's shipping address information.
         /// </summary>
         [JsonPropertyName("shipping_address")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Address ShippingAddress { get; set; }
+        public Address? ShippingAddress { get; set; }
 
         /// <summary>
         /// Array of line items attached to the transaction.
         /// </summary>
         [JsonPropertyName("lineitems")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<LineItem> LineItems { get; set; }
+        public List<LineItem>? LineItems { get; set; }
 
         /// <summary>
         /// Array custom fields attached to the transaction. You may have up to 20 custom fields. You should set up custom fields in the API or through the merchant console prior to using them.
         /// </summary>
         [JsonPropertyName("custom_fields")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Dictionary<string, string> CustomFields { get; set; }
+        public Dictionary<string, string>? CustomFields { get; set; }
     }
 
-    public partial class AmountDetail
+    public class AmountDetail
     {
         /// <summary>
         /// This field is optional, but if it is sent, it must be consistent with the following equation: amount = subtotal - discount + shipping + duty + tax + tip.
@@ -318,75 +330,81 @@ namespace UsaEPay.NET.Models.Classes
         public bool EnablePartialAuth { get; set; }
     }
 
-    public partial class Address
+    public class Address
     {
         /// <summary>
         /// Company or Organization Name
         /// </summary>
         [JsonPropertyName("company")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Company { get; set; }
+        public string? Company { get; set; }
         /// <summary>
         /// First name associated with billing address
         /// </summary>
         [JsonPropertyName("first_name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
         /// <summary>
         /// Last name associated with billing address
         /// </summary>
         [JsonPropertyName("last_name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
         /// <summary>
         /// Primary street number/address information. (i.e. 1234 Main Street)
         /// </summary>
         [JsonPropertyName("street")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Street { get; set; }
+        public string? Street { get; set; }
         /// <summary>
         /// Additional address information such as apartment number, building number, suite information, etc.
         /// </summary>
         [JsonPropertyName("street2")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Street2 { get; set; }
+        public string? Street2 { get; set; }
         /// <summary>
         /// Billing city
         /// </summary>
         [JsonPropertyName("city")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string City { get; set; }
+        public string? City { get; set; }
         /// <summary>
         /// Two-letter State abbreviation or full state name.
         /// </summary>
         [JsonPropertyName("state")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string State { get; set; }
+        public string? State { get; set; }
         /// <summary>
         /// Zip code
         /// </summary>
         [JsonPropertyName("postalcode")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string PostalCode { get; set; }
+        public string? PostalCode { get; set; }
         /// <summary>
-        /// Three-letter country code. 
+        /// Three-letter country code.
         /// </summary>
         /// <see href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"/>
         [JsonPropertyName("country")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Country { get; set; }
+        public string? Country { get; set; }
         /// <summary>
         /// The phone number associated with a billing address. The preferred format is to eliminate all non-numeric characters, but any standard formatting is accepted.
         /// </summary>
         [JsonPropertyName("phone")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
         /// <summary>
         /// The fax number associated with a billing address. The preferred format is to eliminate all non-numeric characters, but any standard formatting is accepted.
         /// </summary>
         [JsonPropertyName("fax")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Fax { get; set; }
+        public string? Fax { get; set; }
+        /// <summary>
+        /// Website URL associated with the address.
+        /// </summary>
+        [JsonPropertyName("website")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? Website { get; set; }
     }
 
     public partial class CreditCard
@@ -396,37 +414,37 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("cardholder")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string CardHolder { get; set; }
+        public string? CardHolder { get; set; }
         /// <summary>
         /// Credit card number or token. (Required)
         /// </summary>
         [JsonPropertyName("number")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Number { get; set; }
+        public string? Number { get; set; }
         /// <summary>
         /// Credit card expiration date. All numbers, and needs to be formatted as MMYY. (Required)
         /// </summary>
         [JsonPropertyName("expiration")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Expiration { get; set; }
+        public string? Expiration { get; set; }
         /// <summary>
         /// Card verification code on back of card. Its format should be ### or ####. When tokenizing a credit card payment, this does NOT get saved and MUST be included with token transactions.
         /// </summary>
         [JsonPropertyName("cvc")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Cvc { get; set; }
+        public string? Cvc { get; set; }
         /// <summary>
         /// Street address for address verification
         /// </summary>
         [JsonPropertyName("avs_street")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string AvsStreet { get; set; }
+        public string? AvsStreet { get; set; }
         /// <summary>
         /// Postal (Zip) code for address verification
         /// </summary>
         [JsonPropertyName("avs_postalcode")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string AvsPostalCode { get; set; }
+        public string? AvsPostalCode { get; set; }
     }
 
     public partial class Check
@@ -436,60 +454,60 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("accountholder")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string AccountHolder { get; set; }
+        public string? AccountHolder { get; set; }
         /// <summary>
         /// Bank Routing Number (Required)
         /// </summary>
         [JsonPropertyName("routing")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Routing { get; set; }
+        public string? Routing { get; set; }
         /// <summary>
         /// Bank Account Number (Required)
         /// </summary>
         [JsonPropertyName("account")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Account { get; set; }
+        public string? Account { get; set; }
         /// <summary>
         /// Checking or Savings
         /// </summary>
         [JsonPropertyName("account_type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string AccountType { get; set; }
+        public string? AccountType { get; set; }
         /// <summary>
         /// Check number
         /// </summary>
         [JsonPropertyName("number")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Number { get; set; }
+        public string? Number { get; set; }
         /// <summary>
         /// SEC Record type
         /// </summary>
         /// <see href="https://help.usaepay.info/developer/reference/checkformat/"/>
         [JsonPropertyName("format")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Format { get; set; }
+        public string? Format { get; set; }
         /// <summary>
         /// Comma delimited list of special check process flags. Not needed for most scenarios. Available flags: prenote, sameday
         /// </summary>
         [JsonPropertyName("flags")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Flags { get; set; }
+        public string? Flags { get; set; }
     }
 
-    public partial class LineItem
+    public class LineItem
     {
         /// <summary>
         /// Gateway generated unique product identifier. Will only be included if the line item is a product from the database.
         /// </summary>
         [JsonPropertyName("product_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string ProductKey { get; set; }
+        public string? ProductKey { get; set; }
         /// <summary>
         /// Product name. (Required)
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         /// <summary>
         /// Cost of line item. (Required)
         /// </summary>
@@ -502,26 +520,26 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("qty")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        [JsonConverter(typeof(ParseStringToLongConverter))]
-        public long Quantity { get; set; }
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
+        public decimal Quantity { get; set; }
         /// <summary>
         /// Line item description.
         /// </summary>
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         /// <summary>
-        /// This is the product’s Stock Keeping Unit number.
+        /// This is the product's Stock Keeping Unit number.
         /// </summary>
         [JsonPropertyName("sku")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string StockKeepingUnitNumber { get; set; }
+        public string? StockKeepingUnitNumber { get; set; }
         /// <summary>
         /// Denotes if line item is taxable.
         /// </summary>
         [JsonPropertyName("taxable")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool Taxable { get; set; }
+        public string? Taxable { get; set; }
         /// <summary>
         /// Tax amount that should be applied to line item price.
         /// </summary>
@@ -534,13 +552,13 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("tax_rate")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string TaxRate { get; set; }
+        public string? TaxRate { get; set; }
         /// <summary>
         /// Discount percentage that should be applied to line item amount.
         /// </summary>
         [JsonPropertyName("discount_rate")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string DiscountRate { get; set; }
+        public string? DiscountRate { get; set; }
         /// <summary>
         /// Discount amount that should be applied to line item amount.
         /// </summary>
@@ -553,22 +571,22 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("location_key")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string LocationKey { get; set; }
+        public string? LocationKey { get; set; }
         /// <summary>
         /// Commodity code for product.
         /// </summary>
         [JsonPropertyName("commodity_code")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string CommodityCode { get; set; }
+        public string? CommodityCode { get; set; }
         /// <summary>
         /// Unit of measure (Required for Level 3 processing)
         /// </summary>
         [JsonPropertyName("um")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string UnitMeasure { get; set; }
+        public string? UnitMeasure { get; set; }
     }
 
-    public partial class Traits
+    public class Traits
     {
         /// <summary>
         /// Set to true if this transaction is to pay an existing debt. Click link in see more for more information. Defaults to false.
@@ -610,11 +628,11 @@ namespace UsaEPay.NET.Models.Classes
 
         public long SecureCollection { get; set; }
         /// <summary>
-        /// This flag indicates either that merchant is about to store the card data for future use or that the current transaction is being run using data from a card stored in the merchant’s system. When the card is being stored this flag indicates what the intended future use will be. Options are available at the provided link.
+        /// This flag indicates either that merchant is about to store the card data for future use or that the current transaction is being run using data from a card stored in the merchant's system. When the card is being stored this flag indicates what the intended future use will be. Options are available at the provided link.
         /// </summary>
         /// <see href="https://help.usaepay.info/api/rest/?#stored-credential"/>
         [JsonPropertyName("stored_credential")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string StoredCredential { get; set; }
+        public string? StoredCredential { get; set; }
     }
 }

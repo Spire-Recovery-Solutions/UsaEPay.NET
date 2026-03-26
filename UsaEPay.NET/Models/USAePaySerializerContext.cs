@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Json.Serialization.Metadata;
-using System.Threading.Tasks;
-using UsaEPay.NET.Converter;
+﻿using System.Text.Json.Serialization;
 using UsaEPay.NET.Models.Classes;
 using UsaEPay.NET.Models.Enumerations.Event;
 using UsaEPay.NET.Models.Events;
@@ -24,8 +16,8 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(Traits))]
     [JsonSerializable(typeof(UsaEPayResponse))]
     [JsonSerializable(typeof(SavedCard))]
-    [JsonSerializable(typeof(AVS))]
-    [JsonSerializable(typeof(CVC))]
+    [JsonSerializable(typeof(Avs))]
+    [JsonSerializable(typeof(Cvc))]
     [JsonSerializable(typeof(Batch))]
     [JsonSerializable(typeof(Bin))]
     [JsonSerializable(typeof(Fraud))]
@@ -34,12 +26,12 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(UsaEPayBatchTransactionResponse))]
     [JsonSerializable(typeof(UsaEPayListTransactionResponse))]
     [JsonSerializable(typeof(UsaEPayTransactionParams))]
-    [JsonSerializable(typeof(ACHStatusEventResponse))]
-    [JsonSerializable(typeof(ACHEventBody))]
-    [JsonSerializable(typeof(ACHChanges))]
-    [JsonSerializable(typeof(ACHChangeDetails))]
-    [JsonSerializable(typeof(ACHObject))]
-    [JsonSerializable(typeof(ACHCheck))]
+    [JsonSerializable(typeof(AchStatusEventResponse))]
+    [JsonSerializable(typeof(AchEventBody))]
+    [JsonSerializable(typeof(AchChanges))]
+    [JsonSerializable(typeof(AchChangeDetails))]
+    [JsonSerializable(typeof(AchObject))]
+    [JsonSerializable(typeof(AchCheck))]
     [JsonSerializable(typeof(BaseEventResponse))]
     [JsonSerializable(typeof(BaseEventBody))]
     [JsonSerializable(typeof(Merchant))]
@@ -63,7 +55,9 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(IUsaEPayRequest))]
     [JsonSerializable(typeof(IUsaEPayResponse))]
     [JsonSerializable(typeof(UsaEPayTokenResponse))]
+    [JsonSerializable(typeof(TokenDetail))]
     [JsonSerializable(typeof(UsaEPayBulkTokenResult))]
+    [JsonSerializable(typeof(Platform))]
     [JsonSerializable(typeof(UsaEPayCustomerRequest))]
     [JsonSerializable(typeof(UsaEPayCustomerResponse))]
     [JsonSerializable(typeof(UsaEPayCustomerListResponse))]
@@ -102,7 +96,8 @@ namespace UsaEPay.NET.Models
     [JsonSerializable(typeof(UsaEPayProductCategoryRequest))]
     [JsonSerializable(typeof(UsaEPayProductCategoryResponse))]
     [JsonSerializable(typeof(UsaEPayProductCategoryListResponse))]
-    public partial class USAePaySerializerContext : JsonSerializerContext
+    [JsonSerializable(typeof(UsaEPayBulkDeleteRequest))]
+    public partial class UsaEPaySerializerContext : JsonSerializerContext
     {
     }
 }

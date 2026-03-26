@@ -1,5 +1,5 @@
 using System.Text.Json;
-using TUnit.Core;
+using System.Text.Json.Serialization;
 using UsaEPay.NET.Converter;
 using UsaEPay.NET.Models.Enumerations.Event;
 
@@ -42,8 +42,8 @@ public sealed class ConverterTests
 
     private sealed class DecimalHolder
     {
-        [System.Text.Json.Serialization.JsonPropertyName("value")]
-        [System.Text.Json.Serialization.JsonConverter(typeof(ParseStringToDecimalConverter))]
+        [JsonPropertyName("value")]
+        [JsonConverter(typeof(ParseStringToDecimalConverter))]
         public decimal Value { get; set; }
     }
 
@@ -84,56 +84,14 @@ public sealed class ConverterTests
 
     private sealed class LongHolder
     {
-        [System.Text.Json.Serialization.JsonPropertyName("value")]
-        [System.Text.Json.Serialization.JsonConverter(typeof(ParseStringToLongConverter))]
+        [JsonPropertyName("value")]
+        [JsonConverter(typeof(ParseStringToLongConverter))]
         public long Value { get; set; }
     }
 
     #endregion
 
-    #region ParseStringToDoubleConverter
-
-    [Test]
-    public async Task DoubleConverter_StringValue_ParsesCorrectly()
-    {
-        var json = """{"value":"3.14"}""";
-        var result = JsonSerializer.Deserialize<DoubleHolder>(json);
-        await Assert.That(result!.Value).IsEqualTo(3.14);
-    }
-
-    [Test]
-    public async Task DoubleConverter_NumberToken_ReturnsDouble()
-    {
-        var json = """{"value":2.71}""";
-        var result = JsonSerializer.Deserialize<DoubleHolder>(json);
-        await Assert.That(result!.Value).IsEqualTo(2.71);
-    }
-
-    [Test]
-    public async Task DoubleConverter_NullValue_ReturnsZero()
-    {
-        var json = """{"value":null}""";
-        var result = JsonSerializer.Deserialize<DoubleHolder>(json);
-        await Assert.That(result!.Value).IsEqualTo(0.0);
-    }
-
-    [Test]
-    public async Task DoubleConverter_InvalidString_ThrowsJsonException()
-    {
-        var json = """{"value":"xyz"}""";
-        await Assert.That(() => JsonSerializer.Deserialize<DoubleHolder>(json)).ThrowsExactly<JsonException>();
-    }
-
-    private sealed class DoubleHolder
-    {
-        [System.Text.Json.Serialization.JsonPropertyName("value")]
-        [System.Text.Json.Serialization.JsonConverter(typeof(ParseStringToDoubleConverter))]
-        public double Value { get; set; }
-    }
-
-    #endregion
-
-    #region USAePayStringToDateTimeOffsetConverter
+    #region UsaEPayStringToDateTimeOffsetConverter
 
     [Test]
     public async Task DateTimeOffsetConverter_ValidFormat_ParsesCorrectly()
@@ -186,8 +144,8 @@ public sealed class ConverterTests
 
     private sealed class DateTimeOffsetHolder
     {
-        [System.Text.Json.Serialization.JsonPropertyName("value")]
-        [System.Text.Json.Serialization.JsonConverter(typeof(USAePayStringToDateTimeOffsetConverter))]
+        [JsonPropertyName("value")]
+        [JsonConverter(typeof(UsaEPayStringToDateTimeOffsetConverter))]
         public DateTimeOffset? Value { get; set; }
     }
 

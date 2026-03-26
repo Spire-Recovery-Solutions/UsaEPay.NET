@@ -1,4 +1,3 @@
-using TUnit.Core;
 using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET.Tests.UnitTests;

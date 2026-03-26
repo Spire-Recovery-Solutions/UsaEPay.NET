@@ -6,7 +6,7 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayDeviceRequest : IUsaEPayRequest
     {
         [JsonIgnore]
-        public string Endpoint { get; set; }
+        public string? Endpoint { get; set; }
         [JsonIgnore]
         public Method RequestType { get; set; }
 
@@ -15,28 +15,28 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("terminal_type")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string TerminalType { get; set; }
+        public string? TerminalType { get; set; }
 
         /// <summary>
         /// A name associated with the terminal. Device name can contain letters, numbers, spaces, and dashes.
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Device settings.
         /// </summary>
         [JsonPropertyName("settings")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DeviceSettings Settings { get; set; }
+        public DeviceSettings? Settings { get; set; }
 
         /// <summary>
         /// Terminal configuration.
         /// </summary>
         [JsonPropertyName("terminal_config")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public TerminalConfig TerminalConfig { get; set; }
+        public TerminalConfig? TerminalConfig { get; set; }
     }
 
     public class DeviceSettings
@@ -143,41 +143,41 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("make")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Make { get; set; }
+        public string? Make { get; set; }
 
         /// <summary>
         /// Terminal model.
         /// </summary>
         [JsonPropertyName("model")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Model { get; set; }
+        public string? Model { get; set; }
 
         /// <summary>
         /// Terminal firmware revision.
         /// </summary>
         [JsonPropertyName("revision")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Revision { get; set; }
+        public string? Revision { get; set; }
 
         /// <summary>
         /// Terminal serial number.
         /// </summary>
         [JsonPropertyName("serial")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Serial { get; set; }
+        public string? Serial { get; set; }
 
         /// <summary>
         /// PIN encryption key identifier.
         /// </summary>
         [JsonPropertyName("key_pin")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string KeyPin { get; set; }
+        public string? KeyPin { get; set; }
 
         /// <summary>
         /// PAN encryption key identifier.
         /// </summary>
         [JsonPropertyName("key_pan")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string KeyPan { get; set; }
+        public string? KeyPan { get; set; }
     }
 }

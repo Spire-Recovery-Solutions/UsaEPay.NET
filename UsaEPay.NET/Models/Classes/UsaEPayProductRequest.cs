@@ -6,7 +6,7 @@ namespace UsaEPay.NET.Models.Classes
     public class UsaEPayProductRequest : IUsaEPayRequest
     {
         [JsonIgnore]
-        public string Endpoint { get; set; }
+        public string? Endpoint { get; set; }
         [JsonIgnore]
         public Method RequestType { get; set; }
 
@@ -15,7 +15,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("name")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Product cost.
@@ -43,21 +43,21 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("categoryid")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; }
 
         /// <summary>
         /// Commodity code for product.
         /// </summary>
         [JsonPropertyName("commodity_code")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string CommodityCode { get; set; }
+        public string? CommodityCode { get; set; }
 
         /// <summary>
         /// Product description.
         /// </summary>
         [JsonPropertyName("description")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Recommended listing price.
@@ -71,14 +71,14 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("manufacturer")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Manufacturer { get; set; }
+        public string? Manufacturer { get; set; }
 
         /// <summary>
         /// Merchant assigned product identifier.
         /// </summary>
         [JsonPropertyName("merch_productid")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string MerchProductId { get; set; }
+        public string? MerchProductId { get; set; }
 
         /// <summary>
         /// When the inventory reaches this quantity, you will see a low inventory flag on this product.
@@ -92,7 +92,7 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("model")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Model { get; set; }
+        public string? Model { get; set; }
 
         /// <summary>
         /// If set to true the product is Physical (eg. a Hard cover book). If set to false the product is Virtual (eg. an eBook). Defaults to false.
@@ -113,35 +113,63 @@ namespace UsaEPay.NET.Models.Classes
         /// </summary>
         [JsonPropertyName("sku")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Sku { get; set; }
+        public string? Sku { get; set; }
 
         /// <summary>
         /// Product tax class.
         /// </summary>
         [JsonPropertyName("taxclass")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string TaxClass { get; set; }
+        public string? TaxClass { get; set; }
 
         /// <summary>
         /// Unit of measure.
         /// </summary>
         [JsonPropertyName("um")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Um { get; set; }
+        public string? Um { get; set; }
 
         /// <summary>
         /// This is the product's Universal Product Code.
         /// </summary>
         [JsonPropertyName("upc")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Upc { get; set; }
+        public string? Upc { get; set; }
 
         /// <summary>
         /// Product URL.
         /// </summary>
         [JsonPropertyName("url")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string Url { get; set; }
+        public string? Url { get; set; }
+
+        /// <summary>
+        /// If set to true, product is available to all locations.
+        /// </summary>
+        [JsonPropertyName("available_all")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool? AvailableAll { get; set; }
+
+        /// <summary>
+        /// Date the product became available to all locations.
+        /// </summary>
+        [JsonPropertyName("available_all_date")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? AvailableAllDate { get; set; }
+
+        /// <summary>
+        /// Date the product becomes available.
+        /// </summary>
+        [JsonPropertyName("date_available")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DateAvailable { get; set; }
+
+        /// <summary>
+        /// If set to true, allows price override on the product.
+        /// </summary>
+        [JsonPropertyName("allow_override")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public bool? AllowOverride { get; set; }
 
         /// <summary>
         /// This is the product's weight.
