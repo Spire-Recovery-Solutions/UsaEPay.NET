@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -51,3 +54,8 @@ jobs:
       run: |
         cd UsaEPay.NET
         dotnet nuget push nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+    - name: Push to GitHub Packages
+      run: |
+        cd UsaEPay.NET
+        dotnet nuget push nupkg/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/Spire-Recovery-Solutions/index.json --skip-duplicate
