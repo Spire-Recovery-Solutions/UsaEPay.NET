@@ -37,6 +37,7 @@ namespace UsaEPay.NET
         public async Task<T?> SendRequest<T>(IUsaEPayRequest request, CancellationToken cancellationToken = default) where T : IUsaEPayResponse
         {
             ObjectDisposedException.ThrowIf(_disposed, this);
+            ArgumentException.ThrowIfNullOrWhiteSpace(request.Endpoint, nameof(request.Endpoint));
 
             var restRequest = new RestRequest(request.Endpoint, request.RequestType);
 

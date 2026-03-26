@@ -10,7 +10,7 @@ namespace UsaEPay.NET.Models.Classes
         [JsonIgnore]
         public Method RequestType { get; set; }
 
-        [JsonPropertyName("Keys")]
+        [JsonPropertyName("keys")]
         public string[]? Keys { get; set; }
     }
 }

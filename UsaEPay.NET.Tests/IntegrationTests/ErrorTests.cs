@@ -55,20 +55,25 @@ public sealed class ErrorTests
         cts.Cancel();
         var cancelledToken = cts.Token;
 
-        var request = UsaEPayRequestFactory.CreditCardSaleRequest(new UsaEPayTransactionParams
+        try
         {
-            Amount = 1,
-            AccountHolder = "Test User",
-            CardNumber = "4000100011112224",
-            Expiration = "0929",
-            Cvc = "123"
-        });
+            var request = UsaEPayRequestFactory.CreditCardSaleRequest(new UsaEPayTransactionParams
+            {
+                Amount = 1,
+                AccountHolder = "Test User",
+                CardNumber = "4000100011112224",
+                Expiration = "0929",
+                Cvc = "123"
+            });
 
-        // ReSharper disable once AccessToDisposedClosure — lambda executes synchronously before Dispose
-        await Assert.That(async () => await client.SendRequest<UsaEPayResponse>(request, cancelledToken))
-            .ThrowsException();
-
-        cts.Dispose();
-        client.Dispose();
+            // ReSharper disable once AccessToDisposedClosure — lambda executes synchronously before Dispose
+            await Assert.That(async () => await client.SendRequest<UsaEPayResponse>(request, cancelledToken))
+                .ThrowsException();
+        }
+        finally
+        {
+            cts.Dispose();
+            client.Dispose();
+        }
     }
 }

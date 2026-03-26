@@ -1,4 +1,5 @@
-﻿using UsaEPay.NET.Models.Classes;
+﻿using UsaEPay.NET.Models;
+using UsaEPay.NET.Models.Classes;
 
 namespace UsaEPay.NET.Factories
 {
@@ -694,7 +695,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for retrieving a filtered list of batches by date.
         /// </summary>
-        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string? openedBefore = null, string? openedAfter = null, string? closedBefore = null, string? closedAfter = null, string? openedGt = null, string? openedLe = null, string? closedGt = null, string? closedLe = null, int limit = 20, int offset = 0)
+        public static UsaEPayGetRequest RetrieveBatchListByDateRequest(string? openedBefore = null, string? openedAfter = null, string? closedBefore = null, string? closedAfter = null, int limit = 20, int offset = 0, string? openedGt = null, string? openedLe = null, string? closedGt = null, string? closedLe = null)
         {
             var queryParams = new List<string>();
             queryParams.Add($"limit={limit}");
@@ -804,7 +805,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for bulk deleting customers by keys.
         /// </summary>
-        public static UsaEPayBulkDeleteRequest BulkDeleteCustomersRequest(string[] custKeys)
+        public static IUsaEPayRequest BulkDeleteCustomersRequest(string[] custKeys)
         {
             return new UsaEPayBulkDeleteRequest
             {
@@ -1011,7 +1012,7 @@ namespace UsaEPay.NET.Factories
         /// <summary>
         /// Creates a request for bulk deleting customer payment methods by keys.
         /// </summary>
-        public static UsaEPayBulkDeleteRequest BulkDeletePaymentMethodsRequest(string custKey, string[] methodKeys)
+        public static IUsaEPayRequest BulkDeletePaymentMethodsRequest(string custKey, string[] methodKeys)
         {
             return new UsaEPayBulkDeleteRequest
             {

@@ -240,7 +240,7 @@
 
 | Category | Total | Curl Probed | SDK Coverage | Tested | Fields Validated |
 |----------|-------|-------------|--------------|--------|------------------|
-| Transaction commands | 27 | 22 | 27 | 21 | 22 |
+| Transaction commands | 27 | 21 | 27 | 21 | 22 |
 | Transaction retrieval | 4 | 2 | 4 | 2 | 2 |
 | Tokens | 3 | 2 | 2 | 0 | 1 |
 | Batches | 6 | 5 | 6 | 4 | 5 |
@@ -254,7 +254,7 @@
 | Bulk Transactions | 9 | 0 | 8 | 8 | 0 |
 | Payment Engine | 10 | 0 (blocked) | 10 | 10 | 0 |
 | Decline/Error | 7 | 7 | 7 | 6 | 7 |
-| Card/AVS/Partial | 12 | 1 | 12 | 12 | 1 |
+| Card/AVS/Partial | 12 | 2 | 12 | 12 | 1 |
 | **TOTAL** | **115** | **54** | **113** | **96** | **53** |
 
 ### Blocked by sandbox configuration:
