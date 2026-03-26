@@ -50,11 +50,6 @@ jobs:
         cd UsaEPay.NET
         dotnet pack --configuration Release --no-restore --output nupkg /p:Version=1.0.0.${{ github.run_number }}${{ env.version_postfix }}
 
-    - name: Push to NuGet
-      run: |
-        cd UsaEPay.NET
-        dotnet nuget push nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-
     - name: Push to GitHub Packages
       run: |
         cd UsaEPay.NET
