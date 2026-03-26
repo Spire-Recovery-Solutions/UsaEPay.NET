@@ -25,6 +25,12 @@ public sealed class DeclineTests
             true);
     }
 
+    [After(Test)]
+    public void Teardown()
+    {
+        _client?.Dispose();
+    }
+
     [Test, Category("Decline")]
     [Arguments("4000300011112220", "999", "Generic decline")]
     [Arguments("4000300211112228", "999", "Do not Honor (code 05)")]

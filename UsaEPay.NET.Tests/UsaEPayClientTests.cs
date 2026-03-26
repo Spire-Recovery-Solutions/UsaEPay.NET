@@ -33,6 +33,12 @@ public sealed class UsaEPayClientTests
             true);
     }
 
+    [After(Test)]
+    public void Teardown()
+    {
+        _client?.Dispose();
+    }
+
     // ── Tokenization ────────────────────────────────────────────────
 
     [Test, Category("Token")]
@@ -447,12 +453,10 @@ public sealed class UsaEPayClientTests
         var response = await _client.SendRequest<UsaEPayBatchListResponse>(request);
 
         await Assert.That(response).IsNotNull();
+        await Assert.That(response!.Data).IsNotNull();
+        await Assert.That(response.Data.Length).IsGreaterThan(0);
 
-        if (response!.Data != null)
-        {
-            var batchItem = response.Data.First();
-            s_batchKey = batchItem.Key;
-        }
+        s_batchKey = response.Data.First().Key;
     }
 
     [Test, Category("BatchListByDate")]

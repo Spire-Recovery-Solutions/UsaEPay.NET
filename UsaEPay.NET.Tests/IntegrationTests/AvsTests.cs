@@ -25,6 +25,12 @@ public sealed class AvsTests
             true);
     }
 
+    [After(Test)]
+    public void Teardown()
+    {
+        _client?.Dispose();
+    }
+
     [Test, Category("AVS")]
     [Arguments("4000100011112224", "123", "YYY")]
     [Arguments("4000100211112222", "999", "NYZ")]

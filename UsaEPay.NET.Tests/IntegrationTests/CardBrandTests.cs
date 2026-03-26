@@ -25,6 +25,12 @@ public sealed class CardBrandTests
             true);
     }
 
+    [After(Test)]
+    public void Teardown()
+    {
+        _client?.Dispose();
+    }
+
     [Test, Category("CardBrand")]
     public async Task Sale_Visa_Approved_WithAvsAndCvv()
     {

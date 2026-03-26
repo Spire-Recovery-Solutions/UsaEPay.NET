@@ -25,6 +25,12 @@ public sealed class PartialAuthTests
             true);
     }
 
+    [After(Test)]
+    public void Teardown()
+    {
+        _client?.Dispose();
+    }
+
     [Test, Category("PartialAuth")]
     public async Task Sale_PartialAuth50Percent_ReturnsPartialApproval()
     {
@@ -50,7 +56,7 @@ public sealed class PartialAuthTests
         await Assert.That(response!.ResultCode).IsEqualTo("P");
         await Assert.That(response.AmountAuthorized).IsNotNull();
 
-        var authAmount = decimal.Parse(response.AmountAuthorized!);
+        var authAmount = decimal.Parse(response.AmountAuthorized!, System.Globalization.CultureInfo.InvariantCulture);
         await Assert.That(authAmount).IsEqualTo(50.00m);
     }
 
@@ -79,7 +85,7 @@ public sealed class PartialAuthTests
         await Assert.That(response!.ResultCode).IsEqualTo("P");
         await Assert.That(response.AmountAuthorized).IsNotNull();
 
-        var authAmount = decimal.Parse(response.AmountAuthorized!);
+        var authAmount = decimal.Parse(response.AmountAuthorized!, System.Globalization.CultureInfo.InvariantCulture);
         await Assert.That(authAmount).IsEqualTo(75.00m);
     }
 }

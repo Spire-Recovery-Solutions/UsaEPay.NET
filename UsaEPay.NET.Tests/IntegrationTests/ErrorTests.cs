@@ -14,7 +14,7 @@ public sealed class ErrorTests
             .AddUserSecrets<ErrorTests>()
             .Build();
 
-        var client = new UsaEPayClient(
+        using var client = new UsaEPayClient(
             config["API_URL"]!,
             config["API_KEY"]!,
             config["API_PIN"]!,
@@ -44,7 +44,7 @@ public sealed class ErrorTests
             .AddUserSecrets<ErrorTests>()
             .Build();
 
-        var client = new UsaEPayClient(
+        using var client = new UsaEPayClient(
             config["API_URL"]!,
             config["API_KEY"]!,
             config["API_PIN"]!,
