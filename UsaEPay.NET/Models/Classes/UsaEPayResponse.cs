@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using UsaEPay.NET.Converter;
+using UsaEPay.NET.Models.Enumerations;
 
 namespace UsaEPay.NET.Models.Classes
 {
@@ -549,69 +550,121 @@ namespace UsaEPay.NET.Models.Classes
         public string? CreditsCount { get; set; }
     }
 
+    /// <summary>
+    /// Card BIN detail. Only returned when the transaction is looked up with the <c>return_bin</c>
+    /// flag (see <c>UsaEPayRequestFactory.RetrieveTransactionDetailsRequest</c>); the flag has no
+    /// effect on a sale or save-card request. Every member can be null or empty.
+    /// </summary>
     public class Bin
     {
         /// <summary>
-        /// Six digit credit card bin.
+        /// Six digit card BIN, kept as a string to preserve leading zeros. USAePay documents it as a
+        /// string (for example "444455") but the sandbox returns JSON null; a numeric or empty value
+        /// is also tolerated. A null, empty or unusable value is read as null.
         /// </summary>
         [JsonPropertyName("bin")]
-        public int CardBin { get; set; }
+        [JsonConverter(typeof(CardBinConverter))]
+        public string? CardBin { get; set; }
         /// <summary>
         /// Masked credit card number.
         /// </summary>
         [JsonPropertyName("number")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? Number { get; set; }
         /// <summary>
-        /// Card brand type (Visa, MasterCard, Discover, etc.)
+        /// Card funding type: credit, debit or prepaid. This is NOT the card brand (Visa,
+        /// MasterCard, ...), despite USAePay's own field table. The casing is inconsistent across
+        /// responses (for example DEBIT, Debit and debit all occur); use <see cref="FundingType"/>
+        /// instead of comparing this value directly.
         /// </summary>
         [JsonPropertyName("type")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? Type { get; set; }
         /// <summary>
-        /// Card Issuer
+        /// Card issuer name. May be null.
         /// </summary>
         [JsonPropertyName("issuer")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? Issuer { get; set; }
         /// <summary>
-        /// Card issuing bank.
+        /// Card issuing bank. May be null or empty.
         /// </summary>
         [JsonPropertyName("bank")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? Bank { get; set; }
         /// <summary>
         /// Country abbreviation of issuing bank.
         /// </summary>
         [JsonPropertyName("country")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? Country { get; set; }
         /// <summary>
         /// Country name of issuing bank.
         /// </summary>
         [JsonPropertyName("country_name")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? CountryName { get; set; }
         /// <summary>
         /// Country code of issuing bank.
         /// </summary>
         [JsonPropertyName("country_iso")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? CountryIso { get; set; }
         /// <summary>
         /// Bank location information
         /// </summary>
         [JsonPropertyName("location")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? Location { get; set; }
         /// <summary>
         /// Bank contact information
         /// </summary>
         [JsonPropertyName("phone")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? Phone { get; set; }
         /// <summary>
-        /// Category level code returned from card brand.
+        /// Category level code returned from card brand. May be an empty string.
         /// </summary>
         /// <see href="https://help.usaepay.info/developer/reference/cardlevelcodes/"/>
         [JsonPropertyName("category")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? Category { get; set; }
         /// <summary>
-        /// Bin info source.
+        /// Bin info source. May be null.
         /// </summary>
         [JsonPropertyName("data_source")]
+        [JsonConverter(typeof(LenientStringConverter))]
         public string? DataSource { get; set; }
+
+        /// <summary>
+        /// <see cref="Type"/> as a <see cref="CardFundingType"/>. Matching is case-insensitive and
+        /// ignores surrounding whitespace. A null, blank or unrecognized value (for example a card
+        /// brand name) is <see cref="CardFundingType.Unknown"/>. Not part of the API payload.
+        /// </summary>
+        [JsonIgnore]
+        public CardFundingType FundingType => ParseFundingType(Type);
+
+        private static CardFundingType ParseFundingType(string? value)
+        {
+            var trimmed = value?.Trim();
+
+            if (string.Equals(trimmed, "credit", StringComparison.OrdinalIgnoreCase))
+            {
+                return CardFundingType.Credit;
+            }
+
+            if (string.Equals(trimmed, "debit", StringComparison.OrdinalIgnoreCase))
+            {
+                return CardFundingType.Debit;
+            }
+
+            if (string.Equals(trimmed, "prepaid", StringComparison.OrdinalIgnoreCase))
+            {
+                return CardFundingType.Prepaid;
+            }
+
+            return CardFundingType.Unknown;
+        }
     }
 
     public class Fraud

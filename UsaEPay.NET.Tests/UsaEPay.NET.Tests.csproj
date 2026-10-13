@@ -21,4 +21,9 @@
     <ProjectReference Include="..\UsaEPay.NET\UsaEPay.NET.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Real sandbox responses used as test data; read from AppContext.BaseDirectory\TestData at run time. -->
+    <None Update="TestData\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

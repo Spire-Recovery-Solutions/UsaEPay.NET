@@ -11,6 +11,15 @@ namespace UsaEPay.NET
         private bool _disposed;
 
         public UsaEPayClient(string apiUrl, string apiKey, string apiPin, string randomSeed, bool useSandbox = false, int maxTimeout = 20000)
+            : this(apiUrl, apiKey, apiPin, randomSeed, useSandbox, maxTimeout, messageHandler: null)
+        {
+        }
+
+        /// <summary>
+        /// Test seam: lets a test substitute the HTTP message handler so the exact request that
+        /// <see cref="SendRequest{T}"/> puts on the wire can be captured without a network call.
+        /// </summary>
+        internal UsaEPayClient(string apiUrl, string apiKey, string apiPin, string randomSeed, bool useSandbox, int maxTimeout, HttpMessageHandler? messageHandler)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(apiUrl);
             ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
@@ -29,6 +38,11 @@ namespace UsaEPay.NET
                 ThrowOnAnyError = true,
                 BaseUrl = baseUrl
             };
+
+            if (messageHandler is not null)
+            {
+                restClientOptions.ConfigureMessageHandler = _ => messageHandler;
+            }
 
             _restClient = new RestClient(restClientOptions);
             _restClient.AddDefaultHeader("Authorization", authInfo.AuthKey);

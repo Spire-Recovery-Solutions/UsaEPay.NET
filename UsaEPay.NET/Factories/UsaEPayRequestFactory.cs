@@ -645,9 +645,28 @@ namespace UsaEPay.NET.Factories
         /// </summary>
         public static UsaEPayGetRequest RetrieveTransactionDetailsRequest(UsaEPayTransactionParams tranParams)
         {
+            return RetrieveTransactionDetailsRequest(tranParams, returnBin: false);
+        }
+
+        /// <summary>
+        /// Creates a request for retrieving details of a specific transaction, optionally asking
+        /// USAePay to include the card BIN detail (<c>return_bin=true</c>) in the response.
+        /// </summary>
+        /// <remarks>
+        /// <c>return_bin</c> only works on this lookup. USAePay ignores it on a sale or save-card POST,
+        /// so there is no way to get the BIN back from the original request. With the flag the response
+        /// carries a <see cref="Bin"/> (including <see cref="Bin.FundingType"/>) for approved and declined
+        /// transactions alike; without it <see cref="UsaEPayResponse.Bin"/> is null.
+        /// </remarks>
+        /// <param name="tranParams">Parameters holding the <see cref="UsaEPayTransactionParams.TransactionKey"/>.</param>
+        /// <param name="returnBin">True to append <c>?return_bin=true</c> to the request.</param>
+        public static UsaEPayGetRequest RetrieveTransactionDetailsRequest(UsaEPayTransactionParams tranParams, bool returnBin)
+        {
+            var endpoint = $"{UsaEPayEndpoints.Transactions}/{tranParams.TransactionKey}";
+
             return new UsaEPayGetRequest
             {
-                Endpoint = $"{UsaEPayEndpoints.Transactions}/{tranParams.TransactionKey}"
+                Endpoint = returnBin ? $"{endpoint}?return_bin=true" : endpoint
             };
         }
 
