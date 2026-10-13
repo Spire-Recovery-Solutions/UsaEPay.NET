@@ -10,4 +10,8 @@
     <PackageReference Include="RestSharp" Version="112.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="UsaEPay.NET.Tests" />
+  </ItemGroup>
+
 </Project>

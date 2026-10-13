@@ -1,0 +1,71 @@
+{
+  "type": "transaction",
+  "key": "anf4mkmdjg7bsj4",
+  "refnum": "3241242846",
+  "created": "2026-10-13 15:38:07",
+  "trantype_code": "S",
+  "trantype": "Credit Card Sale",
+  "result_code": "A",
+  "result": "Approved",
+  "authcode": "657972",
+  "status_code": "P",
+  "status": "Authorized (Pending Settlement)",
+  "creditcard": {
+    "cardholder": "Test Holder",
+    "number": "4000xxxxxxxx2224",
+    "avs_street": "1 Main St",
+    "avs_postalcode": "90036",
+    "category_code": "A",
+    "type": "V",
+    "entry_mode": "Card Not Present, Manually Keyed"
+  },
+  "avs": {
+    "result_code": "YYY",
+    "result": "Address: Match & 5 Digit Zip: Match"
+  },
+  "cvc": {
+    "result_code": "M",
+    "result": "Match"
+  },
+  "batch": {
+    "type": "batch",
+    "key": "ct1w0nxz7rgx9vj",
+    "batchrefnum": "583998",
+    "sequence": "4"
+  },
+  "bin": {
+    "bin": null,
+    "number": "4000xxxxxxxx2224",
+    "type": "credit",
+    "issuer": null,
+    "bank": null,
+    "country": "US",
+    "country_name": "UNITED STATES",
+    "country_iso": "840",
+    "location": null,
+    "phone": null,
+    "category": "",
+    "data_source": "merch"
+  },
+  "amount": "1.02",
+  "amount_detail": {
+    "tip": "0.00",
+    "tax": "0.00",
+    "shipping": "0.00",
+    "discount": "0.00",
+    "subtotal": "1.02"
+  },
+  "merchant_email": "tech@spirerecoverysolutions.com",
+  "source_name": "portal",
+  "platform": {
+    "name": "Test Bed"
+  },
+  "available_actions": [
+    "void",
+    "void:release",
+    "queue",
+    "quicksale",
+    "quickrefund",
+    "addtip"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "type": "transaction",
+  "key": "dnfb2j57n4gqnfk",
+  "refnum": "3241242849",
+  "created": "2026-10-13 15:38:09",
+  "trantype_code": "S",
+  "trantype": "Credit Card Sale",
+  "result_code": "D",
+  "result": "Declined",
+  "error": "Card Declined (00)",
+  "error_code": "10127",
+  "status_code": "P",
+  "status": "Declined (Card Declined (00))",
+  "creditcard": {
+    "cardholder": "Test Holder",
+    "number": "4000xxxxxxxx2220",
+    "avs_street": "1 Main St",
+    "avs_postalcode": "90036",
+    "category_code": "",
+    "type": "V",
+    "entry_mode": "Card Not Present, Manually Keyed"
+  },
+  "avs": {
+    "result_code": "YYY",
+    "result": "Address: Match & 5 Digit Zip: Match"
+  },
+  "cvc": {
+    "result_code": "P",
+    "result": "Not Processed"
+  },
+  "batch": {
+    "type": "batch",
+    "key": "ct1w0nxz7rgx9vj",
+    "batchrefnum": "583998",
+    "sequence": "4"
+  },
+  "bin": {
+    "bin": null,
+    "number": "4000xxxxxxxx2220",
+    "type": "CREDIT",
+    "issuer": null,
+    "bank": null,
+    "country": "US",
+    "country_name": "UNITED STATES",
+    "country_iso": "840",
+    "location": null,
+    "phone": null,
+    "category": "",
+    "data_source": null
+  },
+  "amount": "1.03",
+  "amount_detail": {
+    "tip": "0.00",
+    "tax": "0.00",
+    "shipping": "0.00",
+    "discount": "0.00",
+    "subtotal": "1.03"
+  },
+  "merchant_email": "tech@spirerecoverysolutions.com",
+  "source_name": "portal",
+  "platform": {
+    "name": "Test Bed"
+  },
+  "available_actions": [
+    "quicksale",
+    "quickrefund"
+  ]
+}
