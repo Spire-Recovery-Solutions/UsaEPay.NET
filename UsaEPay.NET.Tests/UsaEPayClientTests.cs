@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using UsaEPay.NET.Factories;
 using UsaEPay.NET.Models.Classes;
@@ -118,7 +119,10 @@ public sealed class UsaEPayClientTests
         }
     }
 
-    [Test, Category("Sale"), DependsOn(nameof(CardSale_ReturnsApproved))]
+    // Ordered after the capture/adjust chain, which acts on the same sale (ordering only).
+    [Test, Category("Sale"),
+     DependsOn(nameof(CardSale_ReturnsApproved)),
+     DependsOn(nameof(AdjustPayment_ReturnsApproved), ProceedOnFailure = true)]
     public async Task QuickSale_ReturnsApproved()
     {
         var request = UsaEPayRequestFactory.QuickSaleRequest(new UsaEPayTransactionParams
@@ -236,7 +240,10 @@ public sealed class UsaEPayClientTests
         await Assert.That(response!.ResultCode).IsEqualTo("A");
     }
 
-    [Test, Category("Refund"), DependsOn(nameof(CardSale_ReturnsApproved))]
+    // Ordered after the capture/adjust chain, which acts on the same sale (ordering only).
+    [Test, Category("Refund"),
+     DependsOn(nameof(CardSale_ReturnsApproved)),
+     DependsOn(nameof(AdjustPayment_ReturnsApproved), ProceedOnFailure = true)]
     public async Task QuickRefund_ReturnsApproved()
     {
         var request = UsaEPayRequestFactory.QuickRefundRequest(new UsaEPayTransactionParams
@@ -375,7 +382,13 @@ public sealed class UsaEPayClientTests
 
     // ── Void ────────────────────────────────────────────────────────
 
-    [Test, Category("Void"), DependsOn(nameof(RetrieveTransactionDetails_ReturnsApproved))]
+    // creditvoid voids a sale only while its batch is open; once the batch is closed the sale is
+    // "Settled" and creditvoid turns into a refund (or fails). QuickSale and QuickRefund also act on the
+    // same sale, so they are ordered before the void chain (ordering only, their result is not required).
+    [Test, Category("Void"),
+     DependsOn(nameof(RetrieveTransactionDetails_ReturnsApproved)),
+     DependsOn(nameof(QuickSale_ReturnsApproved), ProceedOnFailure = true),
+     DependsOn(nameof(QuickRefund_ReturnsApproved), ProceedOnFailure = true)]
     public async Task CreditVoid_ReturnsApproved()
     {
         var request = UsaEPayRequestFactory.CreditVoidRequest(new UsaEPayTransactionParams
@@ -389,7 +402,11 @@ public sealed class UsaEPayClientTests
         await Assert.That(response!.ResultCode).IsEqualTo("A");
     }
 
-    [Test, Category("Void"), DependsOn(nameof(CheckSale_ReturnsApproved))]
+    // A voided check can no longer be refund-adjusted ("Transaction already voided", error 24), so the
+    // refund adjustment on the same check sale must run first (ordering only).
+    [Test, Category("Void"),
+     DependsOn(nameof(CheckSale_ReturnsApproved)),
+     DependsOn(nameof(AdjustPaymentRefund_ReturnsApproved), ProceedOnFailure = true)]
     public async Task VoidPayment_ReturnsApproved()
     {
         var request = UsaEPayRequestFactory.VoidPaymentRequest(new UsaEPayTransactionParams
@@ -445,7 +462,8 @@ public sealed class UsaEPayClientTests
 
     // ── Batch ───────────────────────────────────────────────────────
 
-    [Test, Category("BatchList")]
+    // _sBatchKey is later asserted to be "open", so it must be taken while a batch is open (see above).
+    [Test, Category("BatchList"), DependsOn(nameof(CardSale_ReturnsApproved), ProceedOnFailure = true)]
     public async Task BatchList_ReturnsData()
     {
         var request = UsaEPayRequestFactory.RetrieveBatchListRequest();
@@ -483,7 +501,9 @@ public sealed class UsaEPayClientTests
         await Assert.That(response!.Status).IsEqualTo("open");
     }
 
-    [Test, Category("RetrieveCurrentBatch")]
+    // The sandbox only has a current (open) batch while it holds a transaction: closing a batch
+    // leaves none until the next sale opens one. Ordering-only dependency on a sale.
+    [Test, Category("RetrieveCurrentBatch"), DependsOn(nameof(CardSale_ReturnsApproved), ProceedOnFailure = true)]
     public async Task RetrieveCurrentBatch_ReturnsOpen()
     {
         var request = UsaEPayRequestFactory.RetrieveCurrentBatchRequest();
@@ -494,18 +514,50 @@ public sealed class UsaEPayClientTests
         await Assert.That(response!.Status).IsEqualTo("open");
     }
 
+    // Closing the batch settles every transaction in it immediately on the sandbox, so this must run after
+    // every test that still needs one of this class's transactions to be unsettled (the void chain on the
+    // sale, the check refund-adjust and void, the connected refund). The last three edges are ordering only.
     [Test, Category("CloseCurrentBatch"),
      DependsOn(nameof(RetrieveCurrentBatch_ReturnsOpen)),
      DependsOn(nameof(RetrieveSpecificBatch_ReturnsOpen)),
-     DependsOn(nameof(RetrieveBatchTransactionsById_ReturnsData))]
+     DependsOn(nameof(RetrieveBatchTransactionsById_ReturnsData)),
+     DependsOn(nameof(TransactionList_ReturnsData), ProceedOnFailure = true),
+     DependsOn(nameof(VoidPayment_ReturnsApproved), ProceedOnFailure = true),
+     DependsOn(nameof(ConnectedRefund_ReturnsApproved), ProceedOnFailure = true)]
     public async Task CloseCurrentBatch_ReturnsClosing()
     {
-        var request = UsaEPayRequestFactory.CloseCurrentBatchRequest();
+        var current = await _client.SendRequest<Batch>(UsaEPayRequestFactory.RetrieveCurrentBatchRequest());
 
-        var response = await _client.SendRequest<Batch>(request);
+        await Assert.That(current).IsNotNull();
+        await Assert.That(current!.Status).IsEqualTo("open");
+        await Assert.That(current.Key).IsNotNull();
 
-        await Assert.That(response).IsNotNull();
-        await Assert.That(response!.Status).IsEqualTo("closing");
+        Batch? response = null;
+        try
+        {
+            response = await _client.SendRequest<Batch>(UsaEPayRequestFactory.CloseCurrentBatchRequest());
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.InternalServerError)
+        {
+            // Sandbox behaviour observed 2026-10-13 (this test used to get the documented "closing" reply): the
+            // batch is closed at once (GET batches/{key} shows "closed" within a second) but the close call
+            // itself answers HTTP 500 {"error":"Unable to find requested batch.","errorcode":40027}; GET
+            // batches/current fails the same way until the next sale opens a batch. That is a sandbox defect,
+            // not an SDK one (same result with no request body). Only this 500 is tolerated, and only because
+            // the outcome is verified below; any other failure, or a 500 that did not close the batch, fails.
+        }
+
+        // The documented reply is the batch with status "closing"; the sandbox now closes it at once.
+        if (response is not null)
+        {
+            await Assert.That(response.Status).IsIn("closing", "closed");
+        }
+
+        // The outcome that matters, whatever the reply was: the batch that was open is no longer open.
+        var closed = await _client.SendRequest<Batch>(UsaEPayRequestFactory.RetrieveSpecificBatchRequest(current.Key!));
+
+        await Assert.That(closed).IsNotNull();
+        await Assert.That(closed!.Status).IsIn("closing", "closed");
     }
 
     [Test, Category("BatchTransactions"), DependsOn(nameof(BatchList_ReturnsData))]
