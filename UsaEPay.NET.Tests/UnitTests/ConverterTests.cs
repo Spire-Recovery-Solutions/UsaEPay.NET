@@ -76,6 +76,15 @@ public sealed class ConverterTests
     }
 
     [Test]
+    [Arguments("""{"value":""}""")]
+    [Arguments("""{"value":"  "}""")]
+    public async Task LongConverter_EmptyString_ReturnsZero(string json)
+    {
+        var result = JsonSerializer.Deserialize<LongHolder>(json);
+        await Assert.That(result!.Value).IsEqualTo(0L);
+    }
+
+    [Test]
     public async Task LongConverter_InvalidString_ThrowsJsonException()
     {
         var json = """{"value":"abc"}""";
