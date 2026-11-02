@@ -14,7 +14,11 @@ namespace UsaEPay.NET.Converter
                     return 0; // or throw an exception if null should not be treated as a default value
 
                 case JsonTokenType.String:
-                    if (long.TryParse(reader.GetString(), NumberStyles.Any, CultureInfo.InvariantCulture, out long result))
+                    var text = reader.GetString();
+                    // USAePay sends "" for an absent number (e.g. error_code on an approval); read it the way null is read.
+                    if (string.IsNullOrWhiteSpace(text))
+                        return 0;
+                    if (long.TryParse(text, NumberStyles.Any, CultureInfo.InvariantCulture, out long result))
                         return result;
                     break;
 
